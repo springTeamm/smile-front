@@ -1,12 +1,3 @@
----
-name: "\U0001F31FFeature issue"
-about: "기능 구현 이슈 템플릿"
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## 💭 작업 브랜치
 > 브랜치를 적어주세요
 
