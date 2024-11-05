@@ -24,7 +24,7 @@ const Layout = ({ userStatus = "guest" }) => {
     <>
       {renderHeader()}
       <Outlet />
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };
