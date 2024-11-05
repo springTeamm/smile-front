@@ -1,12 +1,3 @@
----
-name: 🐛bug-report
-about: "버그 리포트 이슈 템플릿"
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## 💭 작업 브랜치
 > 브랜치를 적어주세요
 
