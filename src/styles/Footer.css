@@ -1,45 +1,50 @@
+@font-face {
+  font-family: 'Pretendard-SemiBold';
+  font-weight: 600;
+  src: url('../assets/fonts/Pretendard-SemiBold.woff2') format('woff2');
+}
 .container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-  }
-  
-  .content {
+}
+ 
+.content {
     flex: 1;
-  }
+}
   
-  .footer {
+.footer {
     background-color: #f1f1f1;
     padding: 45px 20px;
     text-align: center;
-  }
+}
   
-  .footer-links {
+.footer-links {
     display: flex;
     justify-content: center;
     gap: 20px;
     margin-bottom: 10px;
     padding-bottom: 10px;
-  }
+}
   
-  .footer a {
+.footer a {
     font-size: 13px;
     color: #4d5159;
     text-decoration: none;
-  }
-  .footer a:hover {
+}
+.footer a:hover {
     text-decoration: underline;
-  }
+}
   
-  .footer-disclaimer {
+.footer-disclaimer {
     font-size: 13px;
     color: #767a83;
-  }
+}
   
-  .footer-copyright {
+.footer-copyright {
     padding-top: 10px;
     font-size: 12px;
     color: #999;
     margin-top: 10px;
-  }
+}
   

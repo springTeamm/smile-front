@@ -1,12 +1,10 @@
 import React from 'react';
-import './Footer.css';
+import '../styles/Footer.css';
+
 
 const Footer = () => {
   return (
-    <div className="container">
-      <div className="content">
-        {/* Main content goes here */}
-      </div>
+
       <footer className="footer">
         <div className="footer-links">
           <a href="#terms">이용약관</a>
@@ -23,7 +21,6 @@ const Footer = () => {
           Copyright © ??????. All rights reserved.
         </div>
       </footer>
-    </div>
   );
 };
 

@@ -1,16 +1,26 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './layouts/Layout';
 import MainPage from './pages/mainpage/MainPage';
+import SignupPage from './pages/signup/Signup';
+import UserSignup from './pages/signup/UserSignup';
+import SignupComplete from './pages/signup/SignupComplete';
+import Header from './components/Header'; 
+import Footer from './components/Footer'; 
+import Category from './pages/userpage/Category';
 
 function Main() {
   return (
     <Router>
+      <Header />
       <Routes>
-        <Route path="/" element={<Layout userStatus="guest" />}>
-          <Route index element={<MainPage />} />
-        </Route>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/UserSignup" element={<UserSignup />} />
+        <Route path="/signup-complete" element={<SignupComplete />} />
+        <Route path="/category" element={<Category />} />
+
       </Routes>
+      <Footer />
     </Router>
   );
 }
