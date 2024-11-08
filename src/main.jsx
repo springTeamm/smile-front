@@ -1,16 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './layouts/Layout';
-import MainPage from './pages/mainpage/MainPage';
+import Header from './components/Header'; 
+import Footer from './components/Footer'; 
 
 function Main() {
   return (
     <Router>
+      <Header />
       <Routes>
-        <Route path="/" element={<Layout userStatus="guest" />}>
-          <Route index element={<MainPage />} />
-        </Route>
+        {/* <Route path="/" element={<MainPage />} /> */}
       </Routes>
+      <Footer />
     </Router>
   );
 }
