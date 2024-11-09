@@ -6,7 +6,8 @@ import UserSignup from './pages/signup/UserSignup';
 import SignupComplete from './pages/signup/SignupComplete';
 import Header from './components/Header'; 
 import Footer from './components/Footer'; 
-import Category from './pages/userpage/Category';
+import Search from './pages/userpage/Search';
+import Booking from './pages/userpage/BookingPage';
 
 function Main() {
   return (
@@ -17,8 +18,8 @@ function Main() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/UserSignup" element={<UserSignup />} />
         <Route path="/signup-complete" element={<SignupComplete />} />
-        <Route path="/category" element={<Category />} />
-
+        <Route path="/search" element={<Search />} />
+        <Route path="/booking" element={<Booking />} />
       </Routes>
       <Footer />
     </Router>

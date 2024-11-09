@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../styles/UserSignup.css';
+import styles from '../../styles/UserSignup.module.css'; // 모듈 CSS import
 
 const UserSignup = () => {
   const [form, setForm] = useState({
@@ -77,15 +77,15 @@ const UserSignup = () => {
   };
 
   return (
-    <div className="user-signup-container">
+    <div className={styles.userSignupContainer}>
       <h1>회원가입</h1>
-      <div className="progress-steps">
-        <span className="inactive-step">1. 회원 유형 선택</span>
-        <span className="active-step">2. 정보입력</span>
-        <span className="inactive-step">3. 가입완료</span>
+      <div className={styles.progressSteps}>
+        <span className={styles.inactiveStep}>1. 회원 유형 선택</span>
+        <span className={styles.activeStep}>2. 정보입력</span>
+        <span className={styles.inactiveStep}>3. 가입완료</span>
       </div>
 
-      <form onSubmit={handleSubmit} className="signup-form">
+      <form onSubmit={handleSubmit} className={styles.signupForm}>
         <label>이름</label>
         <input
           type="text"
@@ -93,7 +93,7 @@ const UserSignup = () => {
           value={form.name}
           onChange={handleChange}
         />
-        {errors.name && <span className="error">{errors.name}</span>}
+        {errors.name && <span className={styles.error}>{errors.name}</span>}
 
         <label>로그인ID</label>
         <input
@@ -102,12 +102,12 @@ const UserSignup = () => {
           value={form.username}
           onChange={handleChange}
         />
-        <p className={`rule ${errors.username ? 'rule-error' : ''}`}>
+        <p className={`${styles.rule} ${errors.username ? styles.ruleError : ''}`}>
           {errors.username || '아이디: 5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.'}
         </p>
 
         <label>이메일 주소</label>
-        <div className="email-input">
+        <div className={styles.emailInput}>
           <input
             type="text"
             name="emailLocal"
@@ -122,7 +122,7 @@ const UserSignup = () => {
             onChange={handleChange}
           />
         </div>
-        {errors.email && <span className="error">{errors.email}</span>}
+        {errors.email && <span className={styles.error}>{errors.email}</span>}
 
         <label>휴대폰 번호</label>
         <input
@@ -131,7 +131,7 @@ const UserSignup = () => {
           value={form.phone}
           onChange={handleChange}
         />
-        <p className={`rule ${errors.phone ? 'rule-error' : ''}`}>
+        <p className={`${styles.rule} ${errors.phone ? styles.ruleError : ''}`}>
           {errors.phone || '휴대전화번호: 필수 정보입니다.'}
         </p>
 
@@ -142,7 +142,7 @@ const UserSignup = () => {
           value={form.password}
           onChange={handleChange}
         />
-        <p className={`rule ${errors.password ? 'rule-error' : ''}`}>
+        <p className={`${styles.rule} ${errors.password ? styles.ruleError : ''}`}>
           {errors.password || '비밀번호: 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.'}
         </p>
 
@@ -153,10 +153,10 @@ const UserSignup = () => {
           value={form.confirmPassword}
           onChange={handleChange}
         />
-        {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+        {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword}</span>}
 
-        <div className="agreement-box">
-          <div className="agreement-item all-agree">
+        <div className={styles.agreementBox}>
+          <div className={`${styles.agreementItem} ${styles.allAgree}`}>
             <input
               type="checkbox"
               name="allAgree"
@@ -165,9 +165,9 @@ const UserSignup = () => {
             />
             <label>모두 동의</label>
           </div>
-          {errors.allAgree && <span className="terms-error">{errors.allAgree}</span>}
+          {errors.allAgree && <span className={styles.termsError}>{errors.allAgree}</span>}
 
-          <div className="agreement-item">
+          <div className={styles.agreementItem}>
             <input
               type="checkbox"
               name="termsAgree"
@@ -177,7 +177,7 @@ const UserSignup = () => {
             <label>이용약관 동의 (필수)</label>
           </div>
 
-          <div className="agreement-item">
+          <div className={styles.agreementItem}>
             <input
               type="checkbox"
               name="privacyAgree"
@@ -188,7 +188,7 @@ const UserSignup = () => {
           </div>
         </div>
 
-        <button type="submit" className="submit-button">
+        <button type="submit" className={styles.submitButton}>
           다음
         </button>
       </form>

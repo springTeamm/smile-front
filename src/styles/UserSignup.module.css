@@ -1,4 +1,15 @@
-.user-signup-container {
+@font-face {
+  font-family: 'Pretendard-SemiBold';
+  font-weight: 600;
+  src: url('../assets/fonts/Pretendard-SemiBold.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('../assets/fonts/Pretendard-Medium.woff2') format('woff2'); 
+    font-weight: 400; 
+    font-style: normal;
+}
+.userSignupContainer {
   text-align: center;
   padding: 20px;
   font-family: 'Pretendard-SemiBold', sans-serif;
@@ -9,7 +20,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.progress-steps {
+.progressSteps {
   display: flex;
   justify-content: center;
   gap: 30px;
@@ -17,29 +28,29 @@ h1 {
   font-size: 14px;
 }
 
-.progress-steps .inactive-step {
+.inactiveStep {
   color: #888;
 }
 
-.progress-steps .active-step {
+.activeStep {
   font-weight: bold;
   color: #000;
 }
 
-.signup-form {
+.signupForm {
   width: 60%;
   margin: 0 auto;
   text-align: left;
 }
 
-.signup-form label {
+.signupForm label {
   display: block;
   margin-bottom: 5px;
   margin-top: 20px;
   font-weight: bold;
 }
 
-.signup-form input {
+.signupForm input {
   width: 100%;
   padding: 10px;
   margin-bottom: 5px;
@@ -61,21 +72,21 @@ h1 {
   margin-bottom: 15px;
 }
 
-.rule-error {
+.ruleError {
   color: red;
 }
 
-.email-input {
+.emailInput {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
 }
 
-.email-input span {
+.emailInput span {
   margin: 0 5px;
 }
 
-.agreement-box {
+.agreementBox {
   border: 1px solid #ddd;
   padding: 20px;
   background-color: #f9f9f9;
@@ -87,37 +98,37 @@ h1 {
   gap: 10px;
 }
 
-.agreement-item {
+.agreementItem {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.agreement-item label {
+.agreementItem label {
   font-size: 14px;
   font-weight: bold;
   margin: 0;
 }
 
-.agreement-item input {
+.agreementItem input {
   margin: 0;
   width: 20px;
   height: 20px;
 }
 
-.all-agree {
+.allAgree {
   font-size: 16px;
   font-weight: bold;
 }
 
-.terms-error {
+.termsError {
   display: block;
   color: red;
   font-size: 12px;
   margin-top: 0px;
 }
 
-.submit-button {
+.submitButton {
   width: 100%;
   padding: 12px;
   background-color: #4a3aff;
@@ -128,6 +139,6 @@ h1 {
   font-size: 16px;
 }
 
-.submit-button:hover {
+.submitButton:hover {
   background-color: #372bd8;
 }

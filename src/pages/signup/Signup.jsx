@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/Signup.css'; 
+import styles from '../../styles/Signup.module.css'; 
 import normaluserIcon from './images/normal.png';
 import hostuserIcon from './images/host.png';
 
@@ -22,20 +22,20 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="signup-container">
+    <div className={styles.signupContainer}>
       <h1>회원가입</h1>
-      <div className="progress-steps">
-        <span className="active-step">1. 회원 유형 선택</span>
+      <div className={styles.progressSteps}>
+        <span>1. 회원 유형 선택</span>
         <span>2. 정보입력</span>
         <span>3. 가입완료</span>
       </div>
 
-      <div className="signup-box">
+      <div className={styles.signupBox}>
         <h1>회원 유형을 선택해주세요</h1>
 
-        <div className="signup-options">
+        <div className={styles.signupOptions}>
           <div
-            className={`option-card ${selectedType === '일반 회원' ? 'selected' : ''}`}
+            className={`${styles.optionCard} ${selectedType === '일반 회원' ? styles.selected : ''}`}
             onClick={() => handleSelection('일반 회원')}
           >
             <img src={normaluserIcon} alt="일반 회원 아이콘" />
@@ -44,7 +44,7 @@ const SignupPage = () => {
           </div>
 
           <div
-            className={`option-card ${selectedType === '호스트 회원' ? 'selected' : ''}`}
+            className={`${styles.optionCard} ${selectedType === '호스트 회원' ? styles.selected : ''}`}
             onClick={() => handleSelection('호스트 회원')}
           >
             <img src={hostuserIcon} alt="호스트 회원 아이콘" />
@@ -53,7 +53,7 @@ const SignupPage = () => {
           </div>
         </div>
 
-        <button className="before-button" onClick={handlePrevious}>
+        <button className={styles.beforeButton} onClick={handlePrevious}>
           이전
         </button>
       </div>

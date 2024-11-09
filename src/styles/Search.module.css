@@ -1,41 +1,57 @@
-.page-container {
+@font-face {
+  font-family: 'Pretendard-SemiBold';
+  font-weight: 600;
+  src: url('../assets/fonts/Pretendard-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Pretendard-Medium';
+  src: url('../assets/fonts/Pretendard-Medium.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pageContainer {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch; 
+  background-color: white;
   padding: 20px;
 }
 
-.image-container {
-  width: 40%; /* 화면의 약 40% 차지 */
+.imageContainer {
+  width: 40%;
   margin-left: 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.image-container img {
+.imageContainer img {
   width: 100%;
   height: auto;
 }
 
-.filter-container {
+.filterContainer {
   padding: 20px;
   width: 30%;
+  gap: 20px;
   margin-right: 8%;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   z-index: 1000;
-}
+  display: flex;
+  flex-direction: column;
+  justify-content: center;}
 
-.filter-item {
-  margin-bottom: 20px;
-}
 
-label {
+.label {
   display: block;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.search-bar {
+.searchBar {
   display: flex;
   align-items: center;
   background-color: #f0f0f0;
@@ -43,12 +59,12 @@ label {
   border-radius: 5px;
 }
 
-.search-icon {
+.searchIcon {
   margin-right: 10px;
   font-size: 18px;
 }
 
-.search-bar input {
+.searchBar input {
   border: none;
   background: none;
   flex: 1;
@@ -56,12 +72,12 @@ label {
   outline: none;
 }
 
-.price-range {
+.priceRange {
   position: relative;
   height: 30px;
 }
 
-.price-range input[type="range"] {
+.priceRange input[type="range"] {
   -webkit-appearance: none;
   width: 100%;
   position: absolute;
@@ -71,20 +87,20 @@ label {
   pointer-events: none;
 }
 
-.price-range input[type="range"]:nth-child(1) {
+.priceRange input[type="range"]:nth-child(1) {
   z-index: 2;
 }
 
-.price-range input[type="range"]:nth-child(2) {
+.priceRange input[type="range"]:nth-child(2) {
   z-index: 1;
 }
 
-.price-range input[type="range"]::-webkit-slider-runnable-track {
+.priceRange input[type="range"]::-webkit-slider-runnable-track {
   height: 8px;
   background: transparent;
 }
 
-.price-range input[type="range"]::-webkit-slider-thumb {
+.priceRange input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 16px;
   height: 16px;
@@ -94,7 +110,7 @@ label {
   pointer-events: auto;
 }
 
-.price-range .range-bar {
+.rangeBar {
   position: absolute;
   height: 8px;
   background-color: #6a1b9a;
@@ -103,11 +119,21 @@ label {
   z-index: 0;
 }
 
-.price-labels {
+.priceLabels {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
   margin-top: 10px;
+}
+
+.filterItem label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.filterItem:not(:last-child) {
+  margin-bottom: 20px;
 }
 
 .dropdown {
@@ -119,4 +145,8 @@ label {
   background-color: #f9f9f9;
   outline: none;
   cursor: pointer;
+}
+
+.filterItem:last-of-type {
+  margin-bottom: 30px; 
 }
