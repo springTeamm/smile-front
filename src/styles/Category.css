@@ -1,103 +1,122 @@
+.page-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.image-container {
+  width: 40%; /* 화면의 약 40% 차지 */
+  margin-left: 8%;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+}
+
 .filter-container {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-  }
-  
-  .filter-item {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .search-icon {
-    margin-right: 10px;
-    font-size: 18px;
-  }
-  
-  .search-bar input {
-    border: none;
-    background: none;
-    flex: 1;
-    font-size: 14px;
-    outline: none;
-  }
-  
-  .price-range {
-    position: relative;
-    height: 30px;
-  }
-  
-  .price-range input[type="range"] {
-    -webkit-appearance: none;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    pointer-events: none;
-  }
-  
-  .price-range input[type="range"]:nth-child(1) {
-    z-index: 2;
-  }
-  
-  .price-range input[type="range"]:nth-child(2) {
-    z-index: 1;
-  }
-  
-  .price-range input[type="range"]::-webkit-slider-runnable-track {
-    height: 8px;
-    background: transparent;
-  }
-  
-  .price-range input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    background: #6a1b9a;
-    border-radius: 50%;
-    cursor: pointer;
-    pointer-events: auto;
-  }
-  
-  .price-range .range-bar {
-    position: absolute;
-    height: 8px;
-    background-color: #6a1b9a;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 0;
-  }
-  
-  .price-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    margin-top: 10px;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .dropdown {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    outline: none;
-    cursor: pointer;
-  }
-  
+  padding: 20px;
+  width: 30%;
+  margin-right: 8%;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.filter-item {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.search-icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.search-bar input {
+  border: none;
+  background: none;
+  flex: 1;
+  font-size: 14px;
+  outline: none;
+}
+
+.price-range {
+  position: relative;
+  height: 30px;
+}
+
+.price-range input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  pointer-events: none;
+}
+
+.price-range input[type="range"]:nth-child(1) {
+  z-index: 2;
+}
+
+.price-range input[type="range"]:nth-child(2) {
+  z-index: 1;
+}
+
+.price-range input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: transparent;
+}
+
+.price-range input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #6a1b9a;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.price-range .range-bar {
+  position: absolute;
+  height: 8px;
+  background-color: #6a1b9a;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.price-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.dropdown {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  outline: none;
+  cursor: pointer;
+}
