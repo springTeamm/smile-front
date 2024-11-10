@@ -1,0 +1,130 @@
+/* 모달을 화면 중앙에 표시하고 다른 요소 위에 배치 */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    flex-direction: column;
+    position: fixed; /* 화면에 고정 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    z-index: 1000; /* 다른 요소 위에 위치 */
+}
+
+
+.modal_content {
+
+    max-width: 700px;
+    width: 100%;
+    z-index: 1001;
+    margin-bottom: 10px;
+    background-color: white;
+    padding: 0px 20px;
+    padding-bottom: 20px;
+
+}
+.modaltitle{
+    background-color: orange;
+    width: 100%;
+    max-width: 700px;
+    padding: 0px 20px;
+
+}
+
+
+.modaldetailcontent{
+    text-align: center;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    background-color: white;
+}
+.modalnumber{
+    display: flex;
+    padding:0px 20px;
+    border: 1px solid #ccc;
+    align-items: center;
+    margin-bottom: 10px;
+
+
+}
+.realnumber{
+    padding-left: 10px;
+    color: #000080;
+
+}
+
+.room_table_container {
+    width: 100%;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.room_table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    background-color: white;
+
+
+}
+
+.room_table th,
+.room_table td {
+
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+
+.room_table th {
+
+    font-weight: bold;
+    width: 25%;
+}
+
+.room-table td {
+    width: 25%;
+}
+
+.room_table button{
+    background-color: #000080;
+    color: white;
+    border-radius: 5px;
+    width: auto;
+    padding:5px 20px;
+
+}
+.closemodal{
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: white;
+}
+.banktable{
+    max-width: 700px;
+    width: 100%;
+    z-index: 1001;
+    margin-bottom: 10px;
+    background-color: white;
+    padding: 0px 20px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    gap:20px;
+
+
+}
+.bank_table_container{
+    display: flex;
+    gap:20px;
+}
