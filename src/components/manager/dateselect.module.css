@@ -1,0 +1,91 @@
+.container {
+    display: flex;
+    background-color: white;
+    height: auto;
+    width: 100%;
+    justify-content: center;
+
+}
+
+.title {
+    width: 30%;
+    min-width: 200px; /* 작은 화면에서도 최소 너비 유지 */
+}
+
+.filter_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-wrap: wrap; /* 요소가 줄을 넘어가도록 함 */
+    width: 100%; /* 화면에 꽉 차도록 설정 */
+
+}
+
+.range_buttons {
+    display: flex;
+    height: auto;
+    text-align: center;
+    margin-right: 10px;
+
+}
+
+
+.range_buttons button {
+
+    background-color: #ffffff;
+    color: #000000;
+    border: #ccc solid 1px;
+    cursor: pointer;
+    border-radius: 1px;
+    height: auto;
+    margin:0px;
+
+}
+
+.range_buttons button:hover {
+    background-color: #e6b092;
+    border-color: #ea7130;
+    color:#ea7130 ;
+}
+
+.date_picker {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* 줄을 넘어가도록 함 */
+
+
+}
+
+.date_picker label {
+    font-weight: bold;
+    margin-left: 10px;
+
+}
+
+.date_picker input {
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    gap:10px;
+    margin-right: 10px;
+
+}
+
+/* 작은 화면일 때 레이아웃 조정 */
+@media (max-width: 768px) {
+    .title {
+        width: 100%; /* 화면을 차지하도록 */
+        text-align: center; /* 가운데 정렬 */
+    }
+
+    .filter_container {
+        flex-direction: column; /* 수직 정렬로 전환 */
+    }
+
+    .range_buttons {
+        flex-direction: column; /* 버튼들이 세로로 쌓이도록 */
+        width: 100%;
+        align-items: center;
+    }
+}

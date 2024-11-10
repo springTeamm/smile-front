@@ -1,0 +1,77 @@
+.search_component {
+
+    display: flex; /* Flexbox를 사용하여 세로로 배치 */
+    flex-direction: column; /* 세로로 배열 */
+    align-items: center;
+    gap:15px;
+    width: 100%;
+    background-color: #FAFAFA;
+    margin:15px 15px;
+    height: auto;
+
+
+
+}
+
+
+
+.input_group {
+
+    display: flex; /* Flexbox를 사용하여 가로로 배열 */
+    justify-content: space-between; /* 요소 간 간격 조정 */
+
+    gap:90px;
+    margin:auto;
+}
+
+.room_info {
+    display: flex;
+    flex-direction: column; /* 세로로 배열 */
+    justify-content: space-between;
+    gap:10px
+
+}
+
+.input_container {
+
+    justify-content: space-between;
+
+    width: 80%;
+}
+
+.select_box {
+
+    display: flex;
+
+    gap:5px
+}
+
+.checkbox_group {
+    display: flex;
+    flex-direction: column;
+
+    gap:10px;
+
+
+}
+
+label {
+    display: flex;
+    align-items: center;
+
+}
+.search_button{
+    background-color: navy;
+    color: white;
+    font-family: 'Pretendard-SemiBold';
+    padding: 5px;
+    border-radius: 5px;
+
+}
+.reset_button{
+    border:#000080FF solid 1px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
