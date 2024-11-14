@@ -13,7 +13,7 @@ const SignupPage = () => {
     if (type === '일반 회원') {
       navigate('/UserSignup');
     } else if (type === '호스트 회원') {
-      navigate('/host-signup');
+      navigate('/HostSignup');
     }
   };
 

@@ -1,3 +1,15 @@
+@font-face {
+  font-family: 'Pretendard-SemiBold';
+  font-weight: 600;
+  src: url('../assets/fonts/Pretendard-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pretendard-Medium';
+  src: url('../assets/fonts/Pretendard-Medium.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
 .container {
   font-family: 'Noto Sans KR', sans-serif;
   margin: 20px auto;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../../styles/MainPage.module.css'; // CSS 모듈 import
+import styles from '../../styles/MainPage.module.css';
 import musicIcon from './images/music.png';
 import seoulIcon from './images/서울.png';
 import gyeonggiIcon from './images/경기도.png';
@@ -22,7 +22,6 @@ const MainPage = () => {
       </header>
 
       <main className={styles.mainContent}>
-        {/* 공간 별 카테고리 섹션 */}
         <section className={styles.categorySection}>
           <button 
             className={styles.sectionHeadingButton} 
@@ -58,7 +57,6 @@ const MainPage = () => {
           </div>
         </section>
 
-        {/* 장소 별 카테고리 섹션 */}
         <section className={styles.categorySection}>
           <button 
             className={styles.sectionHeadingButton} 

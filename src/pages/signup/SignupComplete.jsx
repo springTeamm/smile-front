@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/Signup.module.css'; // CSS 모듈 import
+import styles from '../../styles/Signup.module.css'; 
 import { useNavigate } from 'react-router-dom'; 
 import thanksIcon from './images/thanks.png'; 
 

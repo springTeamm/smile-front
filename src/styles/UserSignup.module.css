@@ -9,12 +9,18 @@
     font-weight: 400; 
     font-style: normal;
 }
+
 .userSignupContainer {
   text-align: center;
   padding: 20px;
   font-family: 'Pretendard-SemiBold', sans-serif;
 }
 
+.hostSignupContainer {
+  text-align: center;
+  padding: 20px;
+  font-family: 'Pretendard-SemiBold', sans-serif;
+}
 h1 {
   font-size: 24px;
   margin-bottom: 20px;
@@ -81,6 +87,38 @@ h1 {
   align-items: center;
   margin-bottom: 5px;
 }
+input, select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+}
+.businessNumberContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.checkButton {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  padding: 10px 20px;
+  background-color: #000080;
+  color: white;
+  border: none;
+  font-family: 'Pretendard-Medium';
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px; 
+  text-align: center; 
+  white-space: nowrap; 
+  line-height: normal; 
+}
+
+.checkButton:hover {
+  background-color: #372bd8; /* 버튼 호버시 색상 */
+}
 
 .emailInput span {
   margin: 0 5px;
@@ -131,7 +169,8 @@ h1 {
 .submitButton {
   width: 100%;
   padding: 12px;
-  background-color: #4a3aff;
+  background-color: #000080;
+  font-family: 'Pretendard-Medium';
   color: white;
   border: none;
   border-radius: 4px;
