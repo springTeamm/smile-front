@@ -179,5 +179,15 @@
     margin-left: 10px;
     height: 30px;
 }
+.su{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* 버튼을 가로 중앙에 정렬 */
+    height: 100%; /* 버튼 높이를 셀에 맞춤 */
+    width: 50px;
+    background-color: orange;
+    color: white;
+}
 
 

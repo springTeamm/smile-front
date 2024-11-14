@@ -5,7 +5,7 @@ import Managertitle from "../../components/manager/managertitle";
 import Dateselect from "../../components/manager/dateselect";
 import Searchservation from "../../components/manager/Selectreservation";
 import roomstyles from "../managerpagecss/Roomstyle.module.css";
-import SearchModal from "./SearchModal";
+
 
 const Reservationinfo = () => {
     const [rooms, setRooms] = useState([]);
