@@ -1,7 +1,7 @@
 
 import {Outlet} from "react-router-dom";
-import Sidebar from "../../components/manager/Sidebar";
-import styles from "../managerpagecss/Cancellmanagement.module.css"
+import Sidebar from "../../components/host/Sidebar";
+import styles from "../hostpagecss/Cancellmanagement.module.css"
 const ManagerPage = () => {
     return (
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import styles from "../managerpagecss/Cancellmanagement.module.css";
-import Managertitle from "../../components/manager/managertitle";
-import Dateselect from "../../components/manager/dateselect";
-import Searchservation from "../../components/manager/Selectreservation";
-import roomstyles from "../managerpagecss/Roomstyle.module.css";
+import styles from "../hostpagecss/Cancellmanagement.module.css";
+import Managertitle from "../../components/host/managertitle";
+import Dateselect from "../../components/host/dateselect";
+import Searchservation from "../../components/host/Selectreservation";
+import roomstyles from "../hostpagecss/Roomstyle.module.css";
 
 
 const Reservationinfo = () => {

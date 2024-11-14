@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Select from "../../components/manager/Select";
-import Sidebar from "../../components/manager/Sidebar";
+import Select from "../../components/host/Select";
+import Sidebar from "../../components/host/Sidebar";
 
-import Managericon from "../../components/manager/managericon";
-import Managertitle from "../../components/manager/managertitle";
-import "../managerpagecss/SpaceSelect.css"
+import Managericon from "../../components/host/managericon";
+import Managertitle from "../../components/host/managertitle";
+import "../hostpagecss/SpaceSelect.css"
 const SpaceSelect = () => {
     const [rooms, setRooms] = useState([]);  // 방 목록 전체 데이터
     const [filteredRooms, setFilteredRooms] = useState([]);  // 필터링된 방 목록

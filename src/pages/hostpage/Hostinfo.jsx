@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import styles from '../managerpagecss/Cancellmanagement.module.css';
+import styles from '../hostpagecss/Cancellmanagement.module.css';
 
-import Managertitle from '../../components/manager/managertitle';
-import Hostdetail from '../../components/manager/Hostdetail';
-import roomstyles from '../managerpagecss/Roomstyle.module.css';
+import Managertitle from '../../components/host/managertitle';
+import Hostdetail from '../../components/host/Hostdetail';
+import roomstyles from '../hostpagecss/Roomstyle.module.css';
 
 const Hostinfo = () => {
     const [isOpen, setIsOpen] = useState(false);

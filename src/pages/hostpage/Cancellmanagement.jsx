@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import Select from '../../components/manager/Select';
-import Sidebar from "../../components/manager/Sidebar";
-import Managertitle from "../../components/manager/managertitle";
-import styles from "../managerpagecss/Cancellmanagement.module.css"
-import Managericon from "../../components/manager/managericon";
-import Dateselect from "../../components/manager/dateselect";
+import Select from '../../components/host/Select';
+import Sidebar from "../../components/host/Sidebar";
+import Managertitle from "../../components/host/managertitle";
+import styles from "../hostpagecss/Cancellmanagement.module.css"
+import Managericon from "../../components/host/managericon";
+import Dateselect from "../../components/host/dateselect";
 
 const Cancellmanagement = () => {
     const rooms = [

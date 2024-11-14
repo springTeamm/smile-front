@@ -2,14 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header'; 
 import Footer from './components/Footer';
-import ManagerPage from "./pages/managerpage/ManagerPage";
-import SpaceSelect from "./pages/managerpage/SpaceSelect";
-import Cancellmanagement from "./pages/managerpage/Cancellmanagement";
-import Chat from "./pages/managerpage/Chat";
-import Hostinfo from "./pages/managerpage/Hostinfo";
-import Review from "./pages/managerpage/Review";
-import Clubmanagement from "./pages/managerpage/Clubmanagement";
-import Reservationinfo from "./pages/managerpage/Reservationinfo";
+import ManagerPage from "./pages/hostpage/ManagerPage";
+import SpaceSelect from "./pages/hostpage/SpaceSelect";
+import Cancellmanagement from "./pages/hostpage/Cancellmanagement";
+import Chat from "./pages/hostpage/Chat";
+import Hostinfo from "./pages/hostpage/Hostinfo";
+import Review from "./pages/hostpage/Review";
+import Clubmanagement from "./pages/hostpage/Clubmanagement";
+import Reservationinfo from "./pages/hostpage/Reservationinfo";
 
 
 

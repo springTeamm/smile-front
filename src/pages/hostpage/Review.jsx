@@ -1,8 +1,8 @@
 import React from 'react';
-import Select from "../../components/manager/Select";
+import Select from "../../components/host/Select";
 
-import styles from "../managerpagecss/Cancellmanagement.module.css";
-import Managertitle from "../../components/manager/managertitle";
+import styles from "../hostpagecss/Cancellmanagement.module.css";
+import Managertitle from "../../components/host/managertitle";
 
 const review = () => {
     const reviews=[
