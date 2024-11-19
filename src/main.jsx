@@ -19,6 +19,7 @@ import BusinessApproval from "./pages/managerpage/BusinessApproval";
 import ReservationManagement from "./pages/managerpage/ReservationManagement";
 import Moneymanager from "./pages/hostpage/Moneymanager";
 import ClubManager from "./pages/managerpage/ClubManager";
+import Dashboard from "./pages/hostpage/Dashboard";
 
 
 
@@ -30,16 +31,18 @@ function Main() {
       <Routes>
         {/* <Route path="/" element={<MainPage />} /> */}
 
-        <Route path="HostPage/*" element={<HostPage />}>
-            <Route path="SpaceSelect" element={<SpaceSelect />} />
-            <Route path="cancellmanagement" element={<Cancellmanagement />} />
-            <Route path="Reservationinfo" element={<Reservationinfo />} />
-            <Route path="Chat" element={<Chat />} />
-            <Route path="Hostinfo" element={<Hostinfo/>} />
-            <Route path="clubmanagement" element={<Clubmanagement />} />
-            <Route path="Review" element={<Review />} />
-            <Route path="Moneymanager" element={<Moneymanager/>}/>
-        </Route>
+          <Route path="HostPage/*" element={<HostPage />}>
+              <Route index element={<Dashboard />} />
+              <Route path="SpaceSelect" element={<SpaceSelect />} />
+              <Route path="cancellmanagement" element={<Cancellmanagement />} />
+              <Route path="Reservationinfo" element={<Reservationinfo />} />
+              <Route path="Chat" element={<Chat />} />
+              <Route path="Hostinfo" element={<Hostinfo />} />
+              <Route path="clubmanagement" element={<Clubmanagement />} />
+              <Route path="Review" element={<Review />} />
+              <Route path="Moneymanager" element={<Moneymanager />} />
+          </Route>
+
           <Route path="admin/*" element={<AdminDashboard />}>
               <Route path="UserManager" element={<UserManager />} />
               <Route path="RoomManagement" element={<RoomManagement />} />
