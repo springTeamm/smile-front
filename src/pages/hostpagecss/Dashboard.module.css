@@ -1,0 +1,102 @@
+.dashboardContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 두 개의 열로 구성 */
+    gap: 10px;
+    padding: 20px;
+    background-color: #EAEAEA;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.section {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 3px;
+}
+
+
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333333;
+
+    display: flex;
+    width: 100%;
+
+
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+}
+
+.list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.list li:last-child {
+    border-bottom: none;
+}
+
+.noticeList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.noticeList li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.noticeList li:last-child {
+    border-bottom: none;
+}
+
+.claimSection {
+    grid-column: span 2;
+    background-color: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: left;
+}
+
+.claimTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #222222;
+}
+
+.claimContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.claimItem {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    color: #444444;
+}
+
+.claimItem span {
+    font-weight: bold;
+    color: #333333;
+}
+
+.claimItem strong {
+    color: #0056b3;
+    font-weight: 600;
+}
