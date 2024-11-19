@@ -1,4 +1,4 @@
-/* 모달을 화면 중앙에 표시하고 다른 요소 위에 배치 */
+
 .modal {
     display: flex;
     justify-content: center;
@@ -14,10 +14,10 @@
     z-index: 1000; /* 다른 요소 위에 위치 */
 }
 
-
 .modal_content {
 
     max-width: 700px;
+    min-width: 500px;
     width: 100%;
     z-index: 1001;
     margin-bottom: 10px;

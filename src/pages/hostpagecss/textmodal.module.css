@@ -1,0 +1,131 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    flex-direction: column;
+    position: fixed; /* 화면에 고정 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    z-index: 1000; /* 다른 요소 위에 위치 */
+    padding: 10px;
+}
+
+
+.modalTitle {
+
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
+    background-color: white;
+}
+.modaltotal{
+    max-width: 700px;
+    min-width: 500px;
+    width: 100%;
+    z-index: 1001;
+    margin-bottom: 10px;
+    background-color: white;
+    padding: 0px 20px;
+    padding-bottom: 20px;
+}
+
+
+
+.modalContent {
+    text-align: center;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    background-color: white;
+}
+
+.modalTitle{
+    padding-top: 10px;
+}
+
+.modalTitle h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* 추가 텍스트 */
+.modalContent p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+
+.modalContent select {
+    width: auto;
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+
+.modalContent textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px;
+    margin-bottom: 15px;
+    resize: none;
+    font-size: 14px;
+}
+
+
+.buttonGroup {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+}
+.buttonGroup button{
+
+    color: white;
+    border-radius: 5px;
+    width: auto;
+    padding:5px 15px;
+
+}
+
+
+.savebutton {
+    background-color: navy;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.savebutton:hover {
+    background-color: #003366;
+}
+
+
+
+
+.cancelbutton{
+    background-color: #a8a4a4;
+    color: #000000;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+
+}

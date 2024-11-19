@@ -1,3 +1,9 @@
+.totalcontain{
+    min-height: 71.5lvh;
+    height: auto;
+    background-color: #EAEAEA;
+
+}
 .container {
     display: flex;
     background-color: #EAEAEA;
@@ -7,6 +13,7 @@
     justify-content: center;
     align-items: center;
     overflow-x:hidden;
+
 
 }
 button{
@@ -71,7 +78,7 @@ select{
     padding: 10px;
     width: 95%;
     align-items: center;
-
+    margin-bottom: 10px;
 
 
 
@@ -93,7 +100,7 @@ select{
 .table_container table {
     width: 100%;
     border-collapse: collapse;
-    overflow-x: auto;  /* 가로 스크롤 */
+    overflow-x: auto;
     overflow-y: auto;
 
 
@@ -136,8 +143,8 @@ select{
     border-radius: 50%;
 }
 .totaluserHighlight {
-    color: #ea7130; /* 원하는 색상으로 변경 */
-    font-weight: bold; /* 강조 효과 추가 (선택 사항) */
+    color: #ea7130;
+    font-weight: bold;
 }
 
 
