@@ -1,0 +1,43 @@
+.sidebar {
+    display: flex;
+    padding: 10px;
+    width: 100%;
+
+
+}
+
+.title {
+    display: flex;
+    text-align: left;
+    font-size: 20px;
+    width: 60%;
+    justify-content: flex-start;
+    align-items: center;
+
+
+
+
+}
+
+.menu_container {
+    display: flex;
+    text-align: right;
+    justify-content: flex-end;
+    gap: 15px;
+
+
+
+}
+
+.menu_box {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px;
+}
+
+.menu_box:hover {
+    color: gray;
+}
+
+
