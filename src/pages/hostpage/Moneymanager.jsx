@@ -1,25 +1,49 @@
-import React from 'react';
-import Select from "../../components/host/Select";
-
+import React, { useEffect, useState } from 'react';
 import styles from "../hostpagecss/Cancellmanagement.module.css"
 import Managertitle from "../../components/host/managertitle";
+import Searchcomponent from "../../components/host/Selectcomponent";
 
 const Moneymanager = () => {
-    const moneymenu = [
-        { id: 1, name: '음악 동아리', visitCount: 5, leader: '김철수', leaderPhone: '010-1234-5678', lastVisit: '2023-09-01' },
-        { id: 2, name: '댄스 동아리', visitCount: 3, leader: '이영희', leaderPhone: '010-2345-6789', lastVisit: '2023-09-15' },
-        { id: 3, name: '연극 동아리', visitCount: 8, leader: '박지훈', leaderPhone: '010-3456-7890', lastVisit: '2023-10-05' },
-        { id: 4, name: '사진 동아리', visitCount: 2, leader: '최지우', leaderPhone: '010-4567-8901', lastVisit: '2023-10-20' },
-    ]
-    const totalmoney = moneymenu.length;
+    const initialSalesData = [
+        { id: 1, month: '2023-01', salesItem: '연습실 대여', salesAmount: '1,000,000원', accumulatedSales: '5,000,000원', note: '정상' },
+        { id: 2, month: '2023-02', salesItem: '장비 대여', salesAmount: '500,000원', accumulatedSales: '5,500,000원', note: '정상' },
+        { id: 3, month: '2023-03', salesItem: '연습실 대여', salesAmount: '1,200,000원', accumulatedSales: '6,700,000원', note: '정상' },
+    ];
+
+    const [filteredSales, setFilteredSales] = useState(initialSalesData);
+
+    const searchFields = [
+        { name: 'id', label: '매출 항목 번호', type: 'text' },
+    ];
+
+    const handleSearch = (searchData) => {
+        const filtered = initialSalesData.filter(sale =>
+            searchData.id ? String(sale.id).includes(searchData.id) : true
+        );
+        setFilteredSales(filtered);
+    };
+
+    const handleReset = () => {
+        setFilteredSales(initialSalesData);
+    };
+
+    const totalSales = filteredSales.length;
 
     return (
         <div className={styles.allcontain}>
-            <div className={styles.title}><Managertitle title={"매출 관리"}></Managertitle> </div>
-            <div className={styles.search_section}><Select/></div>
-            <div className={styles.selecttotal}><h3>월 별 매출 관리 목록 (총 {totalmoney}개)</h3></div>
-            <div className={styles.table}>
+            <div className={styles.title}><Managertitle title={"매출 관리"} /></div>
 
+            <div className={styles.search_section}>
+                <Searchcomponent
+                    fields={searchFields}
+                    onSearch={handleSearch}
+                    onReset={handleReset}
+                />
+            </div>
+
+            <div className={styles.selecttotal}><h3>매출 목록 (총 {totalSales}개)</h3></div>
+
+            <div className={styles.table}>
                 <div className={styles.table_container}>
                     <table>
                         <thead>
@@ -30,24 +54,21 @@ const Moneymanager = () => {
                             <th>매출액</th>
                             <th>누적 매출</th>
                             <th>비고</th>
-
                         </tr>
                         </thead>
                         <tbody>
-                        {moneymenu.map((money) => (
-                            <tr key={money.id}>
-                                <td><input type="checkbox"/></td>
-                                <td>{club.id}</td>
-                                <td>{club.name}</td>
-                                <td>{club.visitCount}</td>
-                                <td>{club.leader}</td>
-                                <td>{club.leaderPhone}</td>
-                                <td>{club.lastVisit}</td>
+                        {filteredSales.map((sale) => (
+                            <tr key={sale.id}>
+                                <td><input type="checkbox" /></td>
+                                <td>{sale.month}</td>
+                                <td>{sale.salesItem}</td>
+                                <td>{sale.salesAmount}</td>
+                                <td>{sale.accumulatedSales}</td>
+                                <td>{sale.note}</td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

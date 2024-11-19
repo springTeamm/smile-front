@@ -191,3 +191,25 @@
 }
 
 
+button{
+    background-color: white ;
+    border:1px solid #a8a4a4;
+    color:black;
+    width:70px;
+    margin-right: 50px;
+    font-family: 'Pretendard-SemiBold';
+
+}
+
+select{
+    font-family: 'Pretendard-SemiBold'
+}
+.save_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+

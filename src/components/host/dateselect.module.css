@@ -9,7 +9,7 @@
 
 .title {
     width: 30%;
-    min-width: 200px; /* 작은 화면에서도 최소 너비 유지 */
+    min-width: 200px;
 }
 
 .filter_container {
@@ -17,8 +17,8 @@
     justify-content: center;
     align-items: center;
 
-    flex-wrap: wrap; /* 요소가 줄을 넘어가도록 함 */
-    width: 100%; /* 화면에 꽉 차도록 설정 */
+    flex-wrap: wrap;
+    width: 100%;
 
 }
 
@@ -26,7 +26,9 @@
     display: flex;
     height: auto;
     text-align: center;
-    margin-right: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+
 
 }
 
@@ -40,6 +42,7 @@
     border-radius: 1px;
     height: auto;
     margin:0px;
+    padding: 5px;
 
 }
 
@@ -52,14 +55,15 @@
 .date_picker {
     display: flex;
     align-items: center;
-    flex-wrap: wrap; /* 줄을 넘어가도록 함 */
+    flex-wrap: wrap;
+    gap: 5px;
 
 
 }
 
 .date_picker label {
     font-weight: bold;
-    margin-left: 10px;
+    margin-left: 20px;
 
 }
 
@@ -70,22 +74,27 @@
     gap:10px;
     margin-right: 10px;
 
+
 }
 
-/* 작은 화면일 때 레이아웃 조정 */
+
 @media (max-width: 768px) {
     .title {
-        width: 100%; /* 화면을 차지하도록 */
-        text-align: center; /* 가운데 정렬 */
+        width: 100%;
+        text-align: center;
     }
 
     .filter_container {
-        flex-direction: column; /* 수직 정렬로 전환 */
+        flex-direction: column;
     }
 
     .range_buttons {
-        flex-direction: column; /* 버튼들이 세로로 쌓이도록 */
+        flex-direction: column;
         width: 100%;
         align-items: center;
     }
+}
+.totaluserHighlight {
+    color: #ea7130;
+    font-weight: bold;
 }

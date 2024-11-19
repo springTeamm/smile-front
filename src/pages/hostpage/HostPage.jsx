@@ -2,7 +2,7 @@
 import {Outlet} from "react-router-dom";
 import Sidebar from "../../components/host/Sidebar";
 import styles from "../hostpagecss/Cancellmanagement.module.css"
-const ManagerPage = () => {
+const HostPage = () => {
     return (
 
         <div className={styles.cancellcontainer}>
@@ -18,4 +18,4 @@ const ManagerPage = () => {
     );
 };
 
-export default ManagerPage;
+export default HostPage;

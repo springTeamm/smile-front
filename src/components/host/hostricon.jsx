@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './managericon.module.css';
+import styles from '../host/hosticon.module.css';
 
-const ManagerIcon = ({ totalRooms, waitingApproval, rentingNow, rentalStopped, handleRegisterRoom }) => {
+const Hostricon = ({ totalRooms, waitingApproval, rentingNow, rentalStopped, handleRegisterRoom }) => {
     return (
         <div className={styles.status_container}>
             <div className={styles.status_summary}>
@@ -34,4 +34,4 @@ const ManagerIcon = ({ totalRooms, waitingApproval, rentingNow, rentalStopped, h
     );
 };
 
-export default ManagerIcon;
+export default Hostricon;

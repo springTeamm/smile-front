@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import Select from '../../components/host/Select';
-import Sidebar from "../../components/host/Sidebar";
+
 import Managertitle from "../../components/host/managertitle";
 import styles from "../hostpagecss/Cancellmanagement.module.css"
-import Managericon from "../../components/host/managericon";
+import Managericon from "../../components/host/hostricon";
 import Dateselect from "../../components/host/dateselect";
+import Selectcomponent from "../../components/host/Selectcomponent";
 
 const Cancellmanagement = () => {
     const rooms = [
@@ -18,6 +18,31 @@ const Cancellmanagement = () => {
         alert("수정 항목");
 
     };
+    const searchFields = [
+        { name: 'roomName', label: '방 이름', type: 'text' },
+        { name: 'roomNumber', label: '방 번호 ', type: 'text' },
+        {
+            name: 'status',
+            label: '방 상태',
+            type: 'checkbox',
+            options: [
+                { value: '대여 가능', label: '대여 가능' },
+                { value: '대여 중', label: '대여 중' },
+                { value: '대여 중지', label: '대여 중지' },
+                { value: '승인 대기', label: '승인 대기' }
+            ]
+        },
+        {
+            name: 'sectopm',
+            label: '방 유형',
+            type: 'checkbox',
+            options: [
+                { value: '00 연습실', label: '00 연습실' },
+                { value: '00 연습실', label: '00 연습실' }
+
+            ]
+        },
+    ];
     const [filteredData, setFilteredData] = useState(rooms);
 
 
@@ -40,7 +65,7 @@ const Cancellmanagement = () => {
                     <div className={styles.title}> <Managertitle title={"취소 관리"} /></div>
                     <div className={styles.icon}><Managericon totalRooms={totalRooms} waitingApproval={cancellApproval} rentalStopped={cancellStopped}/></div>
                     <div className={styles.search_section}>
-                        <Select onFilterChange={handleFilterChange} />
+                        <Selectcomponent fields={searchFields} onFilterChange={handleFilterChange} />
                     </div>
                     <div className={styles.selecttotal}><Dateselect text={"취소 목록"} totalnum={totalRooms}/></div>
 

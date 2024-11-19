@@ -12,56 +12,59 @@ const Dateselect = ({text,totalnum}) => {
     const [selectedDate, setSelectedDate] = useState(null)
     const handleRangeClick = (range) => {
         setSelectedRange(range);
-        console.log(`Selected range: ${range}`);
+
     };
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
-        console.log(`Start date selected: ${date}`);
+
     };
 
     const handleEndDateChange = (date) => {
         setEndDate(date);
-        console.log(`End date selected: ${date}`);
+
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.title}>
-    <h3>{text}(총 {totalnum}개)</h3></div>
-        <div className={styles.filter_container}>
-            기간 :
-            <div className={styles.range_buttons}>
-                <button onClick={() => handleRangeClick('today')}>오늘</button>
-                <button onClick={() => handleRangeClick('1week')}>1주</button>
-                <button onClick={() => handleRangeClick('1month')}>1개월</button>
-                <button onClick={() => handleRangeClick('3months')}>3개월</button>
-            </div>
+    <h3>{text}(총 <span className={styles.totaluserHighlight}>{totalnum}</span>개)</h3></div>
+            <div className={styles.filter_container}>
+                기간 :
+                <div className={styles.range_buttons}>
+                    <button onClick={() => handleRangeClick('today')}>오늘</button>
+                    <button onClick={() => handleRangeClick('1week')}>1주</button>
+                    <button onClick={() => handleRangeClick('1month')}>1개월</button>
+                    <button onClick={() => handleRangeClick('3months')}>3개월</button>
+                </div>
 
-            <div className={styles.date_picker}>
+                <div className={styles.date_picker}>
 
-                <DatePicker
-                    selected={startDate}
-                    onChange={handleStartDateChange}
-                    dateFormat="yyyy-MM-dd"
-                    placeholderText="날짜 선택"
 
-                />
+                    <input
+                        type="date"
+                        value={startDate}
+                        onChange={handleStartDateChange}
+                        placeholder="날짜 선택"
+                    />
+- &nbsp;
 
-                <DatePicker
-                    selected={endDate}
-                    onChange={handleEndDateChange}
-                    dateFormat="yyyy-MM-dd"
-                    placeholderText="날짜 선택"
+                    <input
+                        type="date"
+                        value={endDate}
+                        onChange={handleEndDateChange}
+                        placeholder="날짜 선택"
+                    />
+                </div>
 
-                />
-            </div>
+
+
 
 
         </div>
 
-        </div>
-    );
+</div>
+);
 };
 
 export default Dateselect;
