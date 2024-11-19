@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import styles from "../hostpagecss/Cancellmanagement.module.css"
 import Managertitle from "../../components/host/managertitle";
 import Searchcomponent from "../../components/host/Selectcomponent";
@@ -41,7 +41,7 @@ const Moneymanager = () => {
                 />
             </div>
 
-            <div className={styles.selecttotal}><h3>매출 목록 (총 {totalSales}개)</h3></div>
+            <div className={styles.selecttotal}><h3>매출 목록 (총 <span className={styles.totaluserHighlight}>{totalSales}</span>개)</h3></div>
 
             <div className={styles.table}>
                 <div className={styles.table_container}>

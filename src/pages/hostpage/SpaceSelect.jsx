@@ -107,7 +107,7 @@ const SpaceSelect = () => {
                 <Selectcomponent fields={searchFields} onFilterChange={handleFilterChange} />
             </div>
             <div className={styles.selecttotal}>
-                <h3>방 목록 (총 {totalRooms}개)</h3>
+                <h3>방 목록 (총 <span className={styles.totaluserHighlight}>{totalRooms}</span>개)</h3>
             </div>
             <div className={styles.table}>
                 <button onClick={handleDeleteSelectedRooms} disabled={selectedRooms.length === 0}>

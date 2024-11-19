@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from "./UserManager.module.css";
 import Pagecontroll from "../../components/manager/Pagecontroll";
-import Managericon from "../../components/manager/managericon";
+
 import Selectcomponent from "../../components/host/Selectcomponent";
 import Dateselect from "../../components/host/dateselect";
 

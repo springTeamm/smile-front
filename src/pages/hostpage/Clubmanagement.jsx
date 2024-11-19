@@ -48,7 +48,7 @@ const Clubmanagement = () => {
             </div>
 
             <div className={styles.selecttotal}>
-               <h3>동아리 목록(총 {totalclub}개)</h3>
+               <h3>동아리 목록(총 <span className={styles.totaluserHighlight}>{totalclub}</span>개)</h3>
             </div>
 
             <div className={styles.table}>

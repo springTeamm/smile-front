@@ -26,7 +26,9 @@ const Hostinfo = () => {
     const closeModal = () => {
         setIsOpen(false);
     };
-
+    const locationselect = ()=>{
+        //주소 찾기 이건 api써야하나
+    }
     return (
         <div className={styles.hostcontain}>
             <div className={styles.title}>
@@ -57,14 +59,14 @@ const Hostinfo = () => {
             <div className={styles.hostdetailscroll}>
                 <div className={styles.titledetail}><Managertitle title="정산 정보" /></div>
                 <div className={styles.titledetail}><Hostdetail hosttitle="정산대금 입금계좌" hostcontent="농협은행 654****321321" />
-                    <button className={styles.button} onClick={handlechangemoney}>변경</button>
+                    <button className={styles.button} onClick={openModal}>변경</button>
                 </div>
             </div>
             <div className={styles.hostdetailscroll}>
                 <div className={styles.titledetail}><Managertitle title="연습실 정보" /></div>
                 <div className={styles.titledetail}><Hostdetail hosttitle="연습실 주소" hostcontent={<input />} />
 
-                        <button className={styles.button} onClick={openModal}>찾기</button>
+                        <button className={styles.button} onClick={locationselect}>찾기</button>
                         {isOpen && (
                             <div className={roomstyles.modal}>
                                 <div className={roomstyles.modaltitle}><h2>정산 정보 변경</h2></div>
@@ -96,7 +98,7 @@ const Hostinfo = () => {
 
 
 
-                                {/* 모달 내용을 추가하세요 */}
+
                             </div>
                         )}
 
@@ -104,7 +106,7 @@ const Hostinfo = () => {
                 <div className={styles.titledetail}><Hostdetail hosttitle="연습실 전화번호" hostcontent={<input/>}/></div>
             </div>
             <div className={styles.totalbutton}>
-                <button className={styles.cancellbutton} onClick={handlecancell}>취소</button>
+                <button  className={styles.button} onClick={handlecancell}>취소</button>
                 <button className={styles.button} onClick={handlesubmit}>확인</button>
             </div>
         </div>
