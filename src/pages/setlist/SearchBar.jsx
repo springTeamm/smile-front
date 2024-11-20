@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '../../styles/SetListPage.module.css'; 
 
 const SearchBar = ({ onSearch, searchFilter, setSearchFilter }) => {
     const [keyword, setKeyword] = useState('');
@@ -15,13 +16,13 @@ const SearchBar = ({ onSearch, searchFilter, setSearchFilter }) => {
     };
 
     return (
-        <div className="search-container">
+        <div className={styles.searchContainer}>
             <form onSubmit={handleSubmit}>
-                <div className="search-filters">
+                <div className={styles.searchFilters}>
                     <select
                         value={searchFilter}
                         onChange={(e) => setSearchFilter(e.target.value)}
-                        className="filter-select"
+                        className={styles.filterSelect}
                     >
                         <option value="정렬별">정렬별</option>
                         <option value="공연명">공연명</option>
@@ -32,10 +33,10 @@ const SearchBar = ({ onSearch, searchFilter, setSearchFilter }) => {
                         value={keyword}
                         onChange={(e) => setKeyword(e.target.value)}
                         placeholder="찾고 있는 공연이 있나요?"
-                        className="search-input"
+                        className={styles.searchInput}
                     />
-                    <button type="submit" className="search-button">검색</button>
-                    <button type="button" className="reset-button" onClick={handleReset}>초기화</button>
+                    <button type="submit" className={styles.searchButton}>검색</button>
+                    <button type="button" className={styles.resetButton} onClick={handleReset}>초기화</button>
                 </div>
             </form>
         </div>
