@@ -1,0 +1,134 @@
+@font-face {
+    font-family: 'Pretendard-SemiBold';
+    font-weight: 600;
+    src: url('../assets/fonts/Pretendard-SemiBold.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('../assets/fonts/Pretendard-Medium.woff2') format('woff2'); 
+    font-weight: 400; 
+    font-style: normal;
+  }
+  
+  body {
+    font-family: 'Pretendard-SemiBold';
+  }
+  
+  .signupContainer {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+  
+  .progressSteps {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    font-size: 14px;
+  }
+  
+  .progressSteps span {
+    color: #888;
+  }
+  
+  .signupBox {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 40px;
+    width: 70%;
+    margin: 0 auto 50px auto; 
+  }
+  
+  .signupOptions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+  }
+  
+  .optionCard {
+    width: 220px;
+    height: 280px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    transition: transform 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .optionCard:hover {
+    transform: translateY(-5px);
+    border-color: #555;
+  }
+  
+  .optionCard img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+  }
+  
+  .optionCard h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+  
+  .optionCard p {
+    font-size: 15px;
+    color: #666;
+    text-align: center;
+  }
+  
+  .selected {
+    border-color: #000;
+    background-color: #e6e6e6;
+  }
+  
+  .beforeButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #000080;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .beforeButton:hover {
+    background-color: #0000b0;
+  }
+  
+  .signupCompleteContainer img {
+    width: 100px;
+    margin: 80px 0;
+  }
+  
+  .loginButton {
+    background-color: #000080;
+    padding: 8px 25px;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    border: none;
+    font-family: 'Pretendard-Medium';
+    color: white;
+  }
+  
+  .loginButton:hover {
+    background-color: #0000b0;
+  }
+  

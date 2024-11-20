@@ -1,0 +1,138 @@
+@font-face {
+    font-family: 'Pretendard-SemiBold';
+    font-weight: 600;
+    src: url('../assets/fonts/Pretendard-SemiBold.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('../assets/fonts/Pretendard-Medium.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+  .container {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Pretendard-Medium', sans-serif;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+  }
+  
+  .profile {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .profileImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .username {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  .nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .nav li {
+    margin: 10px 0;
+  }
+  
+  .nav a {
+    text-decoration: none;
+    color: #000;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+  }
+  
+  .nav a:hover {
+    background-color: #e0e7ff;
+  }
+  
+  .nav .active {
+    font-family: 'Pretendard-SemiBold';
+    background-color: #f1f3f5;
+  }
+  
+  .mainContent {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .pageTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tabs a {
+    text-decoration: none;
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #f1f3f5;
+  }
+  
+  .tabs .activeTab {
+    background-color: #E07912;
+    color: white;
+  }
+  
+  .reservationTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .reservationTable th, 
+  .reservationTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .reservationTable th {
+    background-color: #f1f3f5;
+    font-weight: bold;
+  }
+  
+  .reservationTable tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .pagination {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .pagination button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #E07912;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #C86410;
+  }
+  
