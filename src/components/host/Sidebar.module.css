@@ -4,26 +4,26 @@
     background-color: #EAEAEA;
     width: 200px;
     height: 100%;
+    padding: 10px 0;
 }
 
-.menu-container {
+.menuContainer {
     display: flex;
     flex-direction: column;
 }
 
-.menu-box {
+.menuBox {
     display: flex;
-    margin: 10px 10px;
+    margin: 10px;
     height: 50px;
     align-items: center;
     justify-content: center;
     background-color: #ffffff;
-
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.menu-box:hover {
+.menuBox:hover {
     background-color: #e9ecef;
 }
