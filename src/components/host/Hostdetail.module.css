@@ -1,0 +1,11 @@
+.hostdetailcontent{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+.detailtitle{
+    color:gray;
+    min-width: 100px;
+}

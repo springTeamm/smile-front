@@ -1,0 +1,152 @@
+@font-face {
+  font-family: 'Pretendard-SemiBold';
+  font-weight: 600;
+  src: url('../assets/fonts/Pretendard-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Pretendard-Medium';
+  src: url('../assets/fonts/Pretendard-Medium.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pageContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; 
+  background-color: white;
+  padding: 20px;
+}
+
+.imageContainer {
+  width: 40%;
+  margin-left: 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.imageContainer img {
+  width: 100%;
+  height: auto;
+}
+
+.filterContainer {
+  padding: 20px;
+  width: 30%;
+  gap: 20px;
+  margin-right: 8%;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;}
+
+
+.label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.searchIcon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.searchBar input {
+  border: none;
+  background: none;
+  flex: 1;
+  font-size: 14px;
+  outline: none;
+}
+
+.priceRange {
+  position: relative;
+  height: 30px;
+}
+
+.priceRange input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  pointer-events: none;
+}
+
+.priceRange input[type="range"]:nth-child(1) {
+  z-index: 2;
+}
+
+.priceRange input[type="range"]:nth-child(2) {
+  z-index: 1;
+}
+
+.priceRange input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: transparent;
+}
+
+.priceRange input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #6a1b9a;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.rangeBar {
+  position: absolute;
+  height: 8px;
+  background-color: #6a1b9a;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.priceLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.filterItem label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.filterItem:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.dropdown {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  outline: none;
+  cursor: pointer;
+}
+
+.filterItem:last-of-type {
+  margin-bottom: 30px; 
+}
