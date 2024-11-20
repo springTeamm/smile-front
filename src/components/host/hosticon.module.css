@@ -1,0 +1,59 @@
+.status_container {
+    display: flex;
+
+
+    width: 100%;
+    height: auto; /* 내용에 따라 높이 자동 조정 */
+    justify-content: center;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 20px;
+    flex-wrap: wrap;
+
+
+}
+
+
+.status_summary {
+    background-color: white;
+    display: flex;
+    width: 95%;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-direction: row;
+
+
+
+
+}
+.icon {
+    width: 40px;
+    height: 40px;
+    background-color: #EAEAEA;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.status_item{
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+.button{
+    background-color: #000080;
+    color: white;
+    font-family: 'Pretendard-SemiBold';
+    height: 30px;
+    border-radius: 5px;
+}
+
+.title{
+    padding-left: 20px;
+    width: 95%;
+    margin-top: 10px;
+    background-color: white;
+    margin-bottom: 10px;
+}
