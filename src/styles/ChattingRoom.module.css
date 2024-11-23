@@ -11,15 +11,16 @@
     padding: 16px; /* 내부 여백 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 */
     z-index: 1000; /* 다른 요소보다 위에 표시 */
-    overflow-y: auto; /* 스크롤 */
-    height: auto; /* 자동 높이 */
+    overflow-y:hidden; /* 스크롤 */
+    height: 270px; /* 자동 높이 */
     max-height: 400px; /* 최대 높이 */
+    
   }
   
   h3 {
     text-align: center;
     color: #333;
-    font-size: 24px;
+    font-size: 22px;
     margin-bottom: 20px;
   }
   
@@ -29,6 +30,7 @@
     margin: 0;
     max-height: 400px;
     overflow-y: auto;
+    height: 230px;
   }
   
   .chatTextItem {

@@ -32,6 +32,9 @@ const ChatBox = () => {
     setSelectedRoom(roomNum);
   }
 
+  const handleBack = () => {
+    setSelectedRoom(null);
+  }
 
   if (loading) return <div className={styles.loading}>로딩 중...</div>;
   if (error) return <div className={styles.error}>{error}</div>;
@@ -60,7 +63,7 @@ const ChatBox = () => {
         </ul>
       ) : (
         // 선택된 채팅방의 대화 내역 컴포넌트
-        <ChattingRoom roomNum={selectedRoom} />
+        <ChattingRoom roomNum={selectedRoom} onBack={handleBack} />
       )}
     </div>
   );

@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Client, Stomp } from "@stomp/stompjs";
 import styles from "../../styles/ChattingRoom.module.css";
 import ChattingText from "./ChattingText";
+import BackButton from "./BackButton";
 import SockJS from "sockjs-client";
 
-const ChattingRoom = ({ roomNum }) => {
+const ChattingRoom = ({ roomNum, onBack }) => {
     const [chatText, setChatText] = useState([]); // 채팅 내역 상태
     const [loading, setLoading] = useState(true); // 로딩 상태
     const [error, setError] = useState(null); // 에러 상태
     const [stompClient, setStompClient] = useState(null); //stomp
-    
+
 
     useEffect(() => {
         //채팅내역 api 호출(비동기 방식)
@@ -34,7 +35,7 @@ const ChattingRoom = ({ roomNum }) => {
         console.log("url 확인")
         const socket = new SockJS('http://192.168.123.106:5000/chatrooms');
         const client = Stomp.over(socket);
-        
+
         client.connect({}, (frame) => {
             console.log("연결 성공: " + frame);
 
@@ -52,7 +53,7 @@ const ChattingRoom = ({ roomNum }) => {
         setStompClient(client);
 
         return () => {
-            if(client){
+            if (client) {
                 client.disconnect(() => {
                     console.log("STOMP 연결 해제");
                 });
@@ -65,24 +66,26 @@ const ChattingRoom = ({ roomNum }) => {
     };
 
     return (
-        <div className={styles.chatRoomDetailContainer}>
-            <h3>채팅방 {roomNum}</h3>
-            <div>
-                <ul className={styles.chatTextList}>
-                    {chatText.length > 0 ? (
-                        chatText.map((chat, index) => (
-                            <li key={index} className={styles.chatTextItem}>
-                                <strong>{chat.userNum}:</strong> {chat.logText}
-                            </li>
-                        ))
-                    ) : (
-                        <p className={styles.noChats}>채팅 내역이 없습니다.</p>
-                    )}
-                </ul>
+        <div className ={styles.chatContainer}>
+            <div className={styles.chatRoomDetailContainer}>
+                <BackButton roomNum={roomNum} onBack={onBack}/>
+                <div>
+                    <ul className={styles.chatTextList}>
+                        {chatText.length > 0 ? (
+                            chatText.map((chat, index) => (
+                                <li key={index} className={styles.chatTextItem}>
+                                    <strong>{chat.userNum}:</strong> {chat.logText}
+                                </li>
+                            ))
+                        ) : (
+                            <p className={styles.noChats}>채팅 내역이 없습니다.</p>
+                        )}
+                    </ul>
+                </div>
             </div>
             {stompClient && ( // client가 초기화된 후에만 ChattingText 렌더링
-            <ChattingText roomNum={roomNum} stompClient={stompClient} onMessageSent={handleTextSent} />
-        )}
+                    <ChattingText roomNum={roomNum} stompClient={stompClient} onMessageSent={handleTextSent} />
+                )}
         </div>
     );
 };
