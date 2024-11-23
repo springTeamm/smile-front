@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import styles from '../styles/MessageButton.module.css';  // 스타일 import
+import styles from '../../styles/MessageButton.module.css';  // 스타일 import
+import ChatBox from './ChatBox'
 
 const MessageButton = () => {
   const [showMessages, setShowMessages] = useState(false);
@@ -19,9 +20,7 @@ const MessageButton = () => {
       </button>
 
       {/* 쪽지함 */}
-      <div className={`${styles.messagesContainer} ${showMessages ? styles.show : ''}`}>
-        <p>여기서 쪽지 내용이 표기됩니다!</p>
-      </div>
+      {showMessages && <ChatBox />}
     </>
   );
 };
