@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../../styles/MessageButton.module.css';  // 스타일 import
+import styles from '../css/MessageButton.module.css';  // 스타일 import
 import ChatBox from './ChatBox'
 
 const MessageButton = () => {

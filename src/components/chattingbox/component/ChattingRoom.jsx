@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Client, Stomp } from "@stomp/stompjs";
-import styles from "../../styles/ChattingRoom.module.css";
+import styles from "../css/ChattingRoom.module.css";
 import ChattingText from "./ChattingText";
 import BackButton from "./BackButton";
 import SockJS from "sockjs-client";

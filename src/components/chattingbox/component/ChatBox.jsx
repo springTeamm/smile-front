@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "../../styles/ChatBox.module.css"; // 스타일 import
+import styles from "../css/ChatBox.module.css"; // 스타일 import
 import ChattingRoom from "./ChattingRoom"
 
 const ChatBox = () => {

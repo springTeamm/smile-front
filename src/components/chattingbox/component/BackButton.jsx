@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/BackButton.module.css"; // 스타일 파일도 추가합니다.
+import styles from "../css/BackButton.module.css"; // 스타일 파일도 추가합니다.
 
 const BackButton = ({ onBack, roomNum }) => {
     return (

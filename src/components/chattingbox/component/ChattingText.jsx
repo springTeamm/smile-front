@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../../styles/ChattingText.module.css";
+import styles from "../css/ChattingText.module.css";
 
 const ChattingText = ({ roomNum, stompClient, onMessageSent }) => {
     const [message, setMessage] = useState(""); // 입력 중인 메시지 상태
