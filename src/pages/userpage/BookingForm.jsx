@@ -86,12 +86,11 @@ const BookingForm = () => {
 
       const paymentData = response.data;
 
-      // Toss Payments 리다이렉트 처리
       const paymentRequest = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Basic ${btoa('test_sk_LlDJaYngroGanNWaXDRGrezGdRpX:')}`, // Toss Secret Key 필요
+          Authorization: `Basic ${btoa('api키:')}`, 
         },
         body: JSON.stringify({
           amount: totalPrice,
@@ -106,7 +105,7 @@ const BookingForm = () => {
       const tossData = await tossResponse.json();
 
       if (tossData.paymentKey) {
-        window.location.href = tossData.paymentUrl; // Toss 결제 페이지로 리다이렉트
+        window.location.href = tossData.paymentUrl; 
       } else {
         setError('결제 요청 실패. 다시 시도해주세요.');
       }
