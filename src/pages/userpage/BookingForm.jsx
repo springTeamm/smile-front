@@ -97,7 +97,7 @@ const BookingForm = () => {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Basic ${btoa('api key:')}`, 
+            Authorization: `Basic ${btoa('test_sk_LlDJaYngroGanNWaXDRGrezGdRpX:')}`, 
           },
         }
       );

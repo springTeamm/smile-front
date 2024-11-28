@@ -6,22 +6,21 @@ import styles from '../../styles/BookingPage.module.css';
 const BookingPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const hostNum = location.state?.hostNum || 1; // 전달된 HostNum
-  const locationName = location.state?.locationName || ''; // 전달된 locationName
+  const hostNum = location.state?.hostNum || 1; 
+  const locationName = location.state?.locationName || '';
 
-  const [allRooms, setAllRooms] = useState([]); // 모든 연습실 데이터
-  const [practiceRooms, setPracticeRooms] = useState([]); // 필터링된 연습실 목록
-  const [selectedRoom, setSelectedRoom] = useState(null); // 선택된 연습실
-  const [bookedTimes, setBookedTimes] = useState([]); // 예약된 시간
-  const [selectedDate, setSelectedDate] = useState(''); // 선택된 날짜
-  const [selectedHour, setSelectedHour] = useState(''); // 선택된 시간
-  const today = new Date().toISOString().split('T')[0]; // 오늘 날짜
+  const [allRooms, setAllRooms] = useState([]);
+  const [practiceRooms, setPracticeRooms] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null); 
+  const [bookedTimes, setBookedTimes] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(''); 
+  const [selectedHour, setSelectedHour] = useState(''); 
+  const today = new Date().toISOString().split('T')[0]; 
 
-  // 모든 연습실 데이터를 가져오기
   useEffect(() => {
     const fetchAllRooms = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/prdetails`);
+        const response = await axios.get(`http://localhost:5000/prdetails`);
         setAllRooms(response.data);
       } catch (err) {
         console.error('연습실 데이터를 가져오는 중 오류가 발생했습니다.', err);
@@ -31,14 +30,13 @@ const BookingPage = () => {
     fetchAllRooms();
   }, []);
 
-  // 데이터를 필터링
   useEffect(() => {
     if (allRooms.length > 0) {
       const filteredRooms = allRooms.filter(
         (room) => room.hostNum === hostNum && room.locationName === locationName
       );
       setPracticeRooms(filteredRooms);
-      setSelectedRoom(filteredRooms[0] || null); // 첫 번째 방을 선택하거나 null
+      setSelectedRoom(filteredRooms[0] || null); 
     }
   }, [allRooms, hostNum, locationName]);
 
@@ -46,10 +44,10 @@ const BookingPage = () => {
     const fetchBookedTimes = async () => {
       if (selectedDate && selectedRoom) {
         try {
-          const response = await axios.get(`http://localhost:8080/booking/room/${selectedRoom.prNum}`, {
+          const response = await axios.get(`http://localhost:5000/booking/room/${selectedRoom.prNum}`, {
             params: { date: selectedDate },
           });
-          setBookedTimes(response.data); // 예약된 시간 설정
+          setBookedTimes(response.data); 
         } catch (err) {
           console.error('예약된 시간 목록을 가져오는 중 오류가 발생했습니다.', err);
         }
