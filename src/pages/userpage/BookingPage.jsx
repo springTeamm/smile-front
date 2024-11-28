@@ -1,58 +1,185 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styles from '../../styles/BookingPage.module.css';
 
 const BookingPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const hostNum = location.state?.hostNum || 1; // 전달된 HostNum
+  const locationName = location.state?.locationName || ''; // 전달된 locationName
+
+  const [allRooms, setAllRooms] = useState([]); // 모든 연습실 데이터
+  const [practiceRooms, setPracticeRooms] = useState([]); // 필터링된 연습실 목록
+  const [selectedRoom, setSelectedRoom] = useState(null); // 선택된 연습실
+  const [bookedTimes, setBookedTimes] = useState([]); // 예약된 시간
+  const [selectedDate, setSelectedDate] = useState(''); // 선택된 날짜
+  const [selectedHour, setSelectedHour] = useState(''); // 선택된 시간
+  const today = new Date().toISOString().split('T')[0]; // 오늘 날짜
+
+  // 모든 연습실 데이터를 가져오기
+  useEffect(() => {
+    const fetchAllRooms = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/prdetails`);
+        setAllRooms(response.data);
+      } catch (err) {
+        console.error('연습실 데이터를 가져오는 중 오류가 발생했습니다.', err);
+      }
+    };
+
+    fetchAllRooms();
+  }, []);
+
+  // 데이터를 필터링
+  useEffect(() => {
+    if (allRooms.length > 0) {
+      const filteredRooms = allRooms.filter(
+        (room) => room.hostNum === hostNum && room.locationName === locationName
+      );
+      setPracticeRooms(filteredRooms);
+      setSelectedRoom(filteredRooms[0] || null); // 첫 번째 방을 선택하거나 null
+    }
+  }, [allRooms, hostNum, locationName]);
+
+  useEffect(() => {
+    const fetchBookedTimes = async () => {
+      if (selectedDate && selectedRoom) {
+        try {
+          const response = await axios.get(`http://localhost:8080/booking/room/${selectedRoom.prNum}`, {
+            params: { date: selectedDate },
+          });
+          setBookedTimes(response.data); // 예약된 시간 설정
+        } catch (err) {
+          console.error('예약된 시간 목록을 가져오는 중 오류가 발생했습니다.', err);
+        }
+      }
+    };
+
+    fetchBookedTimes();
+  }, [selectedDate, selectedRoom]);
+
+  const handleBookingClick = () => {
+    if (!selectedDate || !selectedHour) {
+      alert('예약 날짜와 시간을 선택해주세요.');
+      return;
+    }
+
+    navigate('/bookingform', { state: { selectedDate, selectedHour, selectedRoom } });
+  };
+
+  const handleRoomChange = (prNum) => {
+    const room = practiceRooms.find((room) => room.prNum === parseInt(prNum, 10));
+    setSelectedRoom(room);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.imageSection}>
-          <div className={styles.imagePlaceholder}>업소의 대표 이미지</div>
-          <div className={styles.storeName}>상호명: 예시업소</div>
+          {selectedRoom && (
+            <>
+              <div className={styles.imagePlaceholder}>
+                <img src={selectedRoom.prImageUrl || '/placeholder.jpg'} alt="연습실 대표 이미지" />
+              </div>
+              <div className={styles.storeName}>{selectedRoom.prName}</div>
+            </>
+          )}
         </div>
         <div className={styles.details}>
-          <div className={styles.price}>10,000원 / 시간</div>
           <label>
-            일시
-            <input type="date" className={styles.input} />
-          </label>
-          <label>
-            이용 시간 입력
-            <input type="time" className={styles.input} />
-          </label>
-          <label>
-            이용 인원
-            <select className={styles.input}>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10명 이상</option>
+            연습실 선택
+            <select
+              className={styles.input}
+              onChange={(e) => handleRoomChange(e.target.value)}
+              value={selectedRoom?.prNum || ''}
+            >
+              {practiceRooms.length > 0 ? (
+                practiceRooms.map((room) => (
+                  <option key={room.prNum} value={room.prNum}>
+                    {room.prName} - {room.prPrice.toLocaleString()}원
+                  </option>
+                ))
+              ) : (
+                <option>조건에 맞는 연습실이 없습니다</option>
+              )}
             </select>
           </label>
-          <button className={styles.primaryButton}>신청하기</button>
+
+          {selectedRoom && (
+            <div className={styles.price}>
+              {selectedRoom.prPrice ? `${selectedRoom.prPrice.toLocaleString()}원/시간` : '가격 정보 없음'}
+            </div>
+          )}
+
+          <label>
+            날짜 선택
+            <input
+              type="date"
+              className={styles.input}
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              min={today}
+            />
+          </label>
+
+          <label>
+            시간 선택
+            <select
+              className={styles.input}
+              value={selectedHour}
+              onChange={(e) => setSelectedHour(e.target.value)}
+            >
+              <option value="">시간을 선택해주세요</option>
+              {selectedRoom &&
+                selectedRoom.prOpenTime &&
+                selectedRoom.prCloseTime &&
+                Array.from(
+                  {
+                    length:
+                      parseInt(selectedRoom.prCloseTime.split(':')[0], 10) -
+                      parseInt(selectedRoom.prOpenTime.split(':')[0], 10),
+                  },
+                  (_, i) => parseInt(selectedRoom.prOpenTime.split(':')[0], 10) + i
+                ).map((hour) => (
+                  <option
+                    key={hour}
+                    value={hour}
+                    disabled={bookedTimes.includes(`${hour}:00`)}
+                  >
+                    {hour}:00
+                  </option>
+                ))}
+            </select>
+          </label>
+
+          <button className={styles.primaryButton} onClick={handleBookingClick}>
+            예약 신청
+          </button>
+
           <button className={styles.secondaryButton}>문의하기</button>
         </div>
       </div>
 
       <div className={styles.textNav}>
-        <span>장소소개</span> |
-        <span>이용 규칙</span> |
-        <span>리뷰</span>
+        <span>장소소개</span> | <span>이용 규칙</span> | <span>리뷰</span>
       </div>
 
       <div className={styles.content}>
         <section>
           <h2>장소 소개</h2>
-          <p>공석 내용</p>
+          {selectedRoom && (
+            <ul>
+              <li><strong>주소:</strong> {selectedRoom.prAddress}</li>
+              <li><strong>주차 가능 여부:</strong> {selectedRoom.prParking}</li>
+              <li><strong>최대 인원:</strong> {selectedRoom.prMaxPerson}명</li>
+              <li><strong>설명:</strong> {selectedRoom.prDescription || '설명 없음'}</li>
+            </ul>
+          )}
         </section>
         <section>
           <h2>이용 규칙</h2>
-          <p>관련 내용</p>
+          <p>{selectedRoom ? selectedRoom.prWarnings : '이용 규칙 없음'}</p>
         </section>
         <section>
           <h2>리뷰</h2>
