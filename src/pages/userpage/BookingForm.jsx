@@ -8,29 +8,27 @@ const BookingForm = () => {
     phone: '',
     date: '',
     startTime: '',
-    duration: 1, // 기본 사용 시간 (1시간)
+    duration: 1,
     totalPerson: 1,
   });
 
-  const [availableTimes, setAvailableTimes] = useState([]); // 예약 가능한 시간
-  const [bookedTimes, setBookedTimes] = useState([]); // 예약된 시간 목록
+  const [availableTimes, setAvailableTimes] = useState([]); 
+  const [bookedTimes, setBookedTimes] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // 오늘 날짜를 YYYY-MM-DD 형식으로 계산
   const today = new Date().toISOString().split('T')[0];
 
-  // 예약된 시간 목록 가져오기
+  
   useEffect(() => {
     if (formData.date) {
       axios
         .get('http://localhost:8080/booking/room/1', {
-          params: { date: formData.date }, // 선택된 날짜에 따라 예약된 시간 요청
+          params: { date: formData.date },
         })
         .then((response) => {
           const rawBookedTimes = response.data;
 
-          // 예약된 시간과 사용 시간을 바탕으로 차단된 시간 목록 생성
           const blockedTimes = [];
           rawBookedTimes.forEach((booking) => {
             const startHour = parseInt(booking.startTime.split(':')[0], 10);
@@ -48,19 +46,17 @@ const BookingForm = () => {
     }
   }, [formData.date]);
 
-  // 가능한 시간 목록 생성 (예약된 시간 제외)
   useEffect(() => {
     const times = [];
     for (let hour = 9; hour <= 21; hour++) {
       const timeString = `${hour < 10 ? '0' : ''}${hour}:00`;
       if (!bookedTimes.includes(timeString)) {
-        times.push(timeString); // 예약되지 않은 시간만 추가
+        times.push(timeString); 
       }
     }
     setAvailableTimes(times);
   }, [bookedTimes]);
 
-  // 입력 값 변경 핸들러
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -69,12 +65,13 @@ const BookingForm = () => {
     });
   };
 
-  // 예약 및 결제 요청
   const handleBookingAndPayment = async () => {
     try {
-      const totalPrice = formData.duration * 50000; // 사용 시간 * 시간당 가격 (테스트용 가격)
-      const response = await axios.post('http://localhost:8080/booking/reserve', {
-        prNum: 1, // 테스트용 연습실 번호
+      const totalPrice = formData.duration * 50000; 
+      
+
+      const response = await axios.post('http://localhost:5000/booking/reserve', {
+        prNum: 1, 
         bookingDate: formData.date,
         bookingStartTime: formData.startTime,
         bookingDuration: parseInt(formData.duration, 10),
@@ -86,26 +83,27 @@ const BookingForm = () => {
 
       const paymentData = response.data;
 
-      const paymentRequest = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Basic ${btoa('api키:')}`, 
-        },
-        body: JSON.stringify({
-          amount: totalPrice,
-          orderId: `order-${Date.now()}`,
-          orderName: `Booking for ${formData.name}`,
-          successUrl: 'http://localhost:3000/payment-success',
-          failUrl: 'http://localhost:3000/payment-fail',
-        }),
+      const tossPaymentRequest = {
+        amount: totalPrice,
+        orderId: `order-${paymentData.bookingNum}`, 
+        orderName: `Booking for ${formData.name}`, 
+        successUrl: 'http://localhost:3000/payment-success', 
+        failUrl: 'http://localhost:3000/payment-fail',
       };
 
-      const tossResponse = await fetch('https://api.tosspayments.com/v1/payments', paymentRequest);
-      const tossData = await tossResponse.json();
+      const tossResponse = await axios.post(
+        'https://api.tosspayments.com/v1/payments',
+        tossPaymentRequest,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${btoa('api key:')}`, 
+          },
+        }
+      );
 
-      if (tossData.paymentKey) {
-        window.location.href = tossData.paymentUrl; 
+      if (tossResponse.data.paymentUrl) {
+        window.location.href = tossResponse.data.paymentUrl;  
       } else {
         setError('결제 요청 실패. 다시 시도해주세요.');
       }
@@ -153,7 +151,7 @@ const BookingForm = () => {
             name="date"
             value={formData.date}
             onChange={handleChange}
-            min={today} // 오늘 날짜 이전 선택 불가
+            min={today}
             required
           />
         </div>
