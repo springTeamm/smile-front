@@ -55,13 +55,13 @@ function Main() {
           <Route path="/UserSignup" element={<UserSignup />} /> {/* 유저 회원가입 */}
           <Route path="/HostSignup" element={<HostSignup />} /> {/* 유저 회원가입 */}
           <Route path="/login" element={<LoginPage />} />
-
           <Route path="/signup-complete" element={<SignupComplete />} /> {/* 회원가입 완료 */}
           <Route path="/search" element={<Search />} /> {/* 장소 검색 */}
-          <Route path="/booking" element={<Booking />} /> {/* 장소 예약 */}
+          <Route path="/" element={<Search />} />
+          <Route path="/booking/:id" element={<Booking />} />
           <Route path="/bookingform" element={<BookingForm />} /> {/* 예약 폼 */}
           <Route path="/board-performance" element={<PerformanceBoard />} /> {/* 공연 홍보 게시판 */}
-          <Route path="/board-all" element={<AllBoard />} /> {/* 전체 글 */}
+          <Route path="/community" element={<AllBoard />} /> {/* 전체 글 */}
           <Route path="/board-promotion" element={<PromotionBoard />} /> {/* 장소 홍보 게시판 */}
           <Route path="/board-recruit" element={<RecruitBoard />} /> {/* 모집 게시판 */}
           <Route path="/board-post" element={<PostForm />} /> {/* 게시글작성 */}

@@ -1,39 +1,65 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/Card.module.css';
 
-function Card() {
-    const cards = [
-      {
-        title: '연습실 A',
-        description: '쾌적한 연습실',
-        price: '12,000원/시간',
+function Card({ prDetails }) {
+  const navigate = useNavigate();
+
+  // locationName이 없거나 중복된 데이터를 필터링
+  const uniqueLocationPrDetails = prDetails.reduce((acc, current) => {
+    if (
+      current.locationName && 
+      current.locationName.trim() !== '' && // locationName이 없는 데이터를 제외
+      !acc.some(detail => detail.locationName === current.locationName) // locationName이 중복된 데이터를 제외
+    ) {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
+
+  const handleCardClick = (detail) => {
+    // 동적 라우팅으로 /booking/:id로 이동하며 데이터 전달
+    navigate(`/booking/${detail.prNum}`, {
+      state: { 
+        hostNum: detail.hostNum,
+        locationName: detail.locationName,
+        prName: detail.prName,
       },
-      {
-        title: '연습실 B',
-        description: '넓은 공간과 좋은 시설',
-        price: '15,000원/시간',
-      },
-      {
-        title: '연습실 C',
-        description: '합리적인 가격dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd의 연습실',
-        price: '10,000원/시간',
-      },
-      
-    ];
-  
-    return (
-      <div className={styles.spaceCardList}>
-        {cards.map((card, index) => (
-          <div key={index} className={styles.spaceCard}>
+    });
+  };
+
+  return (
+    <div className={styles.spaceCardList}>
+      {uniqueLocationPrDetails.length > 0 ? (
+        uniqueLocationPrDetails.map((detail, index) => (
+          <div
+            key={index}
+            className={styles.spaceCard}
+            onClick={() => handleCardClick(detail)}
+            style={{ cursor: 'pointer' }}
+          >
             <div className={styles.cardImagePlaceholder}></div>
             <div className={styles.cardContent}>
-              <div className={styles.cardTitle}>{card.title}</div>
-              <div className={styles.cardDescription}>{card.description}</div>
-              <div className={styles.cardPrice}>{card.price}</div>
+              <div className={styles.cardTitle}>
+                {detail.locationName || '장소명 없음'}
+              </div>
+              <div className={styles.cardAddress}>
+                {detail.prAddress}
+              </div>
+              <div className={styles.cardDescription}>
+                {detail.prWarnings}
+              </div>
+              <div className={styles.cardPrice}>
+                {detail.prPrice.toLocaleString()}원/시간
+              </div>
             </div>
           </div>
-        ))}
-      </div>
-    );
-  }
+        ))
+      ) : (
+        <p>데이터가 없습니다.</p>
+      )}
+    </div>
+  );
+}
+
 export default Card;
