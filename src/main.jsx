@@ -28,17 +28,18 @@ import SignupComplete from './pages/signup/SignupComplete';
 import Search from './pages/userpage/Search';
 import Booking from './pages/userpage/BookingPage';
 import BookingForm from './pages/userpage/BookingForm';
-import PerformanceBoard from './pages/Board/PerformanceBoard';
-import AllBoard from './pages/Board/AllBoard';
-import PromotionBoard from './pages/Board/PromotionBoard';
-import RecruitBoard from './pages/Board/RecruitBoard';
-import PostForm from './pages/Board/PostForm';
-import PromotionDetails from './pages/Board/PromotionDetails';
-import PerformanceDetails from './pages/Board/PerformanceDetails';
+import AllBoard from "./pages/Board/AllBoard";
+import PerformanceBoard from "./pages/Board/PerformanceBoard";
+import PromotionBoard from "./pages/Board/PromotionBoard";
+import RecruitBoard from "./pages/Board/RecruitBoard";
+import PerformanceDetails from "./pages/Board/PerformanceDetails";
+import PerformancePostForm from "./pages/Board/PerformanceBoardPostForm";
+import PromotionPostForm from "./pages/Board/PromotionBoardPostForm";
+import RecruitPostForm from "./pages/Board/RecruitBoardPostForm";
 import ReservationList from './pages/mypage/ReservationList';
 import ChatRoom from './pages/mypage/ChatRoom';
 import ProfileEdit from './pages/mypage/ProfileEdit';
-import RecruitDetails from './pages/Board/RecruitDetails';
+
 
 import LoginPage from './pages/mainpage/LoginPage';
 
@@ -60,14 +61,15 @@ function Main() {
           <Route path="/" element={<Search />} />
           <Route path="/booking/:id" element={<Booking />} />
           <Route path="/bookingform" element={<BookingForm />} /> {/* 예약 폼 */}
-          <Route path="/board-performance" element={<PerformanceBoard />} /> {/* 공연 홍보 게시판 */}
-          <Route path="/community" element={<AllBoard />} /> {/* 전체 글 */}
-          <Route path="/board-promotion" element={<PromotionBoard />} /> {/* 장소 홍보 게시판 */}
-          <Route path="/board-recruit" element={<RecruitBoard />} /> {/* 모집 게시판 */}
-          <Route path="/board-post" element={<PostForm />} /> {/* 게시글작성 */}
-          <Route path="/performance-detail" element={<PerformanceDetails />} /> {/* 공연 홍보 상세내용 */}
-          <Route path="/promotion-detail" element={<PromotionDetails />} /> {/* 장소 홍보 상세내용 */} 
-          <Route path="/recruit-detail" element={<RecruitDetails />} />{/* 모집 상세내용 */}
+      
+          <Route path="/community" element={<AllBoard />} />
+        <Route path="/board-performance" element={<PerformanceBoard />} />
+        <Route path="/board-promotion" element={<PromotionBoard />} />
+        <Route path="/board-recruit" element={<RecruitBoard />} />
+        <Route path="/posts/:id" element={<PerformanceDetails />} /> {/* 라우팅 확인 */}
+        <Route path="/create-post/performance" element={<PerformancePostForm />} />
+        <Route path="/create-post/promotion" element={<PromotionPostForm />} />
+        <Route path="/create-post/recruit" element={<RecruitPostForm />} />
           <Route path="/reservationList" element={<ReservationList />} />{/*예약정보 */}
           <Route path="/chatroom" element={<ChatRoom />} />{/* 채팅방 */}
         <Route path="/profile-edit" element={<ProfileEdit />} />{/* 개인정보수정 */}

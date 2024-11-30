@@ -1,7 +1,27 @@
-import React from 'react';
-import styles from '../../styles/PerformanceBoard.module.css';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import styles from "../../styles/PerformanceBoard.module.css";
+import { Link } from "react-router-dom";
+
 const RecruitBoard = () => {
+  const [posts, setPosts] = useState([]); // 게시글 데이터를 저장하는 상태
+
+  // 모집 공고 게시글 데이터를 가져오기 (categoryNum: 2)
+  useEffect(() => {
+    const fetchRecruitPosts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/community/category/2" // 카테고리 2: 모집 공고
+        );
+        setPosts(response.data);
+      } catch (error) {
+        console.error("모집 공고 게시글을 가져오는 중 에러 발생:", error);
+      }
+    };
+
+    fetchRecruitPosts();
+  }, []);
+
   return (
     <div className={styles.container}>
       <aside className={styles.sidebar}>
@@ -15,17 +35,17 @@ const RecruitBoard = () => {
         </div>
         <nav className={styles.nav}>
           <ul>
-          <li>
-              <Link to="/board-all">전체 글</Link>
+            <li>
+              <Link to="/community">전체 글</Link>
             </li>
             <li>
               <Link to="/board-performance">공연 홍보</Link>
             </li>
             <li className={styles.active}>
-              <Link to="/board-promotion">모집 공고</Link>
+              <Link to="/board-recruit">모집 공고</Link>
             </li>
             <li>
-              <Link to="/board-recruit">장소 홍보</Link>
+              <Link to="/board-promotion">장소 홍보</Link>
             </li>
           </ul>
         </nav>
@@ -34,7 +54,9 @@ const RecruitBoard = () => {
       <main className={styles.mainContent}>
         <header className={styles.header}>
           <h1>모집 공고</h1>
-          <button className={styles.createButton}>글 작성</button>
+          <Link to="/create-post/recruit">
+            <button className={styles.createButton}>글 작성</button>
+          </Link>
         </header>
         <table className={styles.table}>
           <thead>
@@ -47,27 +69,17 @@ const RecruitBoard = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>3</td>
-              <td>(예시 제목)</td>
-              <td>작성자 이름3</td>
-              <td>24/10/23</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>(예시 제목)</td>
-              <td>작성자 이름2</td>
-              <td>24/10/23</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>(예시 제목)</td>
-              <td>작성자 이름1</td>
-              <td>24/10/23</td>
-              <td>0</td>
-            </tr>
+            {posts.map((post) => (
+              <tr key={post.cNum}>
+                <td>{post.cNum}</td>
+                <td>
+                  <Link to={`/post/${post.cNum}`}>{post.title}</Link>
+                </td>
+                <td>{post.userNum}</td>
+                <td>{new Date(post.date).toLocaleDateString()}</td>
+                <td>0</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </main>

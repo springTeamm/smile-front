@@ -1,101 +1,100 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styles from '../../styles/PerformanceDetails.module.css';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import styles from "../../styles/PerformanceDetails.module.css";
 
 const PerformanceDetails = () => {
-  const [mainImage, setMainImage] = useState('https://via.placeholder.com/800x400');
+  const { id } = useParams(); 
+  const [post, setPost] = useState(null);
+  const [images, setImages] = useState([]); 
+  const [error, setError] = useState(null);
 
-  const smallImages = [
-    'https://via.placeholder.com/150',
-    'https://via.placeholder.com/150',
-    'https://via.placeholder.com/150',
-    'https://via.placeholder.com/150',
-  ];
+  useEffect(() => {
+    console.log("URL에서 추출된 id 값:", id);
 
-  const handleImageClick = (src) => {
-    setMainImage(src);
-  };
+    if (!id) {
+      setError("잘못된 요청: id가 정의되지 않았습니다.");
+      return;
+    }
+
+  
+    const fetchPostDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/community/${id}`);
+        console.log("받아온 데이터:", response.data);
+        setPost(response.data);
+      } catch (err) {
+        console.error("게시글 데이터를 가져오는 데 실패했습니다:", err.message);
+      }
+    };
+
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/community/${id}/images`);
+        console.log("받아온 이미지 데이터:", response.data);
+        setImages(response.data); 
+      } catch (err) {
+        console.error("이미지 데이터를 가져오는 데 실패했습니다:", err.message);
+      }
+    };
+
+    fetchPostDetails();
+    fetchImages();
+  }, [id]);
+
+  if (!post) {
+    return <div className={styles.loading}>Loading...</div>;
+  }
 
   return (
     <div className={styles.container}>
-      <aside className={styles.sidebar}>
-        <div className={styles.profile}>
-          <img
-            src="https://via.placeholder.com/80"
-            alt="Profile"
-            className={styles.profileImage}
-          />
-          <p className={styles.username}>이재혁</p>
-        </div>
-        <nav className={styles.nav}>
-          <ul>
-            <li>
-              <Link to="/board-all">전체 글</Link>
-            </li>
-            <li>
-              <Link to="/board-performance">공연 홍보</Link>
-            </li>
-            <li>
-              <Link to="/board-promotion">모집 공고</Link>
-            </li>
-            <li>
-              <Link to="/board-recruit">장소 홍보</Link>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-
       <main className={styles.content}>
-      <div className="board-header">
-    <span>박박박</span> | <span>예시 제목</span> | <span>2024.10.16</span> | <span>ㅁㅁ</span>
-  </div>
-          <div className={styles.imageSection}>
-          <img src={mainImage} alt="Main" className={styles.mainImage} />
-          <div className={styles.smallImages}>
-            {smallImages.map((src, index) => (
-              <img
-                key={index}
-                src={src}
-                alt={`Thumbnail ${index + 1}`}
-                onClick={() => handleImageClick(src)}
-                className={styles.thumbnail}
-              />
-            ))}
+        <div className={styles.header}>
+          <h1>{post.title || "제목 없음"}</h1>
+          <p>
+            작성자: {post.userNum || "익명"} | 게시 날짜: {new Date(post.date).toLocaleDateString()}
+          </p>
+        </div>
+        <div className={styles.details}>
+          <h2>내용</h2>
+          <p>{post.text}</p>
+        </div>
+        <div className={styles.details}>
+          <h2>일정</h2>
+          <p>{post.schedule ? new Date(post.schedule).toLocaleString() : "없음"}</p>
+        </div>
+        <div className={styles.details}>
+          <h2>위치</h2>
+          <p>{post.location || "위치 정보 없음"}</p>
+        </div>
+        <div className={styles.details}>
+          <h2>멤버</h2>
+          <p>{post.members || "멤버 정보 없음"}</p>
+        </div>
+        <div className={styles.details}>
+          <h2>그룹 링크</h2>
+          <a href={post.links || "#"} target="_blank" rel="noopener noreferrer">
+            {post.links || "링크 없음"}
+          </a>
+        </div>
+        <div className={styles.details}>
+  <h2>이미지</h2>
+  <div className={styles.imageContainer}>
+    {images.length > 0 ? (
+      images.map((image, index) => (
+        <img
+          key={index}
+          src={`http://localhost:5000${image.cJpgPath}`} 
+          alt={image.cJpgOriginName || `image-${index}`}
+          className={styles.image}
+        />
+
+              ))
+            ) : (
+              <p>이미지가 없습니다.</p>
+            )}
           </div>
         </div>
-
-        <div className={styles.textSection}>
-          <p>텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 </p>
-        </div>
-        <br />
-        <div className={styles.when}>
-        <h2>일정</h2>
-        <p>2024.12.12(일)</p>
-        <p>15:00</p>
-        </div>
-        <br></br>
-        <div className={styles.member}>
-        <h2>멤버</h2>
-        <p>ㅇㅇㅇ,ㅇㅇㅇ,ㅇㅇㅇ,ㅇㅇㅇ</p>
-        </div>
-        <div className={styles.groupLink}>
-          <Link to="/group-set-list">그룹 셋 리스트</Link>
-        </div>
-
-        <div className={styles.footer}>
-        <div className={styles.authorSection}>
-          <img
-            src="https://via.placeholder.com/80"
-            alt="작성자 프로필"
-            className={styles.profileImage}
-          />
-          <span className={styles.username}>작성자 닉네임</span>
-          <div className={styles.iconButtons}>
-            <button className={styles.chatButton} title="채팅">💬</button>
-          </div>
-        </div>
-        <button className={styles.likeButton}>👍 좋아요</button>
-      </div>
 
       </main>
     </div>
