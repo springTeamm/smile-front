@@ -1,37 +1,50 @@
-import React, {  useState } from 'react';
-import styles from "../hostpagecss/Cancellmanagement.module.css"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styles from "../hostpagecss/Cancellmanagement.module.css";
 import Managertitle from "../../components/host/managertitle";
 import Searchcomponent from "../../components/host/Selectcomponent";
 
 const Moneymanager = () => {
-    const initialSalesData = [
-        { id: 1, month: '2023-01', salesItem: '연습실 대여', salesAmount: '1,000,000원', accumulatedSales: '5,000,000원', note: '정상' },
-        { id: 2, month: '2023-02', salesItem: '장비 대여', salesAmount: '500,000원', accumulatedSales: '5,500,000원', note: '정상' },
-        { id: 3, month: '2023-03', salesItem: '연습실 대여', salesAmount: '1,200,000원', accumulatedSales: '6,700,000원', note: '정상' },
-    ];
+    const [salesData, setSalesData] = useState([]); // 전체 매출 데이터
+    const [filteredSales, setFilteredSales] = useState([]); // 필터링된 데이터
 
-    const [filteredSales, setFilteredSales] = useState(initialSalesData);
+    useEffect(() => {
+        const fetchSalesData = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/api/hostpage/Moneymanager");
+                setSalesData(response.data);
+                setFilteredSales(response.data);
+            } catch (error) {
+                console.error("Failed to fetch sales data:", error);
+            }
+        };
+        fetchSalesData();
+    }, []);
 
     const searchFields = [
-        { name: 'id', label: '매출 항목 번호', type: 'text' },
+        { name: 'salesItem', label: '매출 항목', type: 'text' },
+        { name: 'month', label: '월', type: 'text' },
     ];
 
     const handleSearch = (searchData) => {
-        const filtered = initialSalesData.filter(sale =>
-            searchData.id ? String(sale.id).includes(searchData.id) : true
+        const filtered = salesData.filter(sale =>
+            (searchData.salesItem ? sale.salesItem.includes(searchData.salesItem) : true) &&
+            (searchData.month ? sale.month.includes(searchData.month) : true)
         );
         setFilteredSales(filtered);
     };
 
     const handleReset = () => {
-        setFilteredSales(initialSalesData);
+        setFilteredSales(salesData);
     };
 
     const totalSales = filteredSales.length;
 
     return (
         <div className={styles.allcontain}>
-            <div className={styles.title}><Managertitle title={"매출 관리"} /></div>
+            <div className={styles.title}>
+                <Managertitle title={"매출 관리"} />
+            </div>
 
             <div className={styles.search_section}>
                 <Searchcomponent
@@ -41,7 +54,9 @@ const Moneymanager = () => {
                 />
             </div>
 
-            <div className={styles.selecttotal}><h3>매출 목록 (총 <span className={styles.totaluserHighlight}>{totalSales}</span>개)</h3></div>
+            <div className={styles.selecttotal}>
+                <h3>매출 목록 (총 <span className={styles.totaluserHighlight}>{totalSales}</span>개)</h3>
+            </div>
 
             <div className={styles.table}>
                 <div className={styles.table_container}>
@@ -57,13 +72,13 @@ const Moneymanager = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {filteredSales.map((sale) => (
-                            <tr key={sale.id}>
+                        {filteredSales.map((sale, index) => (
+                            <tr key={index}>
                                 <td><input type="checkbox" /></td>
                                 <td>{sale.month}</td>
                                 <td>{sale.salesItem}</td>
-                                <td>{sale.salesAmount}</td>
-                                <td>{sale.accumulatedSales}</td>
+                                <td>{sale.salesAmount.toLocaleString()}원</td>
+                                <td>{sale.accumulatedSales.toLocaleString()}원</td>
                                 <td>{sale.note}</td>
                             </tr>
                         ))}
@@ -74,4 +89,5 @@ const Moneymanager = () => {
         </div>
     );
 };
+
 export default Moneymanager;

@@ -11,7 +11,7 @@ import jeollaIcon from './images/전라도.png';
 import ChungcheongIcon from './images/충청.png';
 import jejuIcon from './images/제주.png';
 import gyeongsangIcon from './images/경상.png';
-import MessageButton from '../../components/chattingbox/component/MessageButton';
+// import MessageButton from '../../components/chattingbox/component/MessageButton';
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -123,9 +123,9 @@ const MainPage = () => {
           </div>
         </section>
       </main>
-      <MessageButton>
+      {/*<MessageButton>*/}
 
-      </MessageButton>
+      {/*</MessageButton>*/}
     </div>
   );
 };

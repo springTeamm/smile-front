@@ -56,12 +56,7 @@ const Hostinfo = () => {
                 <div className={styles.titledetail}><Hostdetail hosttitle="비밀번호" hostcontent={<input type="password" />} /></div>
                 <div className={styles.titledetail}><Hostdetail hosttitle="비밀번호 확인" hostcontent={<input type="password" />} /></div>
             </div>
-            <div className={styles.hostdetailscroll}>
-                <div className={styles.titledetail}><Managertitle title="정산 정보" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="정산대금 입금계좌" hostcontent="농협은행 654****321321" />
-                    <button className={styles.button} onClick={openModal}>변경</button>
-                </div>
-            </div>
+
             <div className={styles.hostdetailscroll}>
                 <div className={styles.titledetail}><Managertitle title="연습실 정보" /></div>
                 <div className={styles.titledetail}><Hostdetail hosttitle="연습실 주소" hostcontent={<input />} />

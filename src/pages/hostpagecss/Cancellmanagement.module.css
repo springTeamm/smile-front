@@ -6,6 +6,7 @@
     height: auto;
     overflow-x: hidden;
     min-height: 71.5lvh;
+    overflow-y:hidden;
 
 }
 
