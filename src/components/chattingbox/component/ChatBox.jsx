@@ -12,7 +12,7 @@ const ChatBox = () => {
   useEffect(() => {
     const fetchChatRooms = async () => {
       try {
-        const response = await fetch("http://192.168.123.106:5000/api/chatrooms");
+        const response = await fetch("http://localhost:5000/api/chatrooms");
         if (!response.ok) {
           throw new Error("데이터를 가져오는데 실패했습니다.");
         }
