@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Pagecontroll from "../../components/manager/Pagecontroll";
 
@@ -7,6 +7,26 @@ import Selectcomponent from "../../components/host/Selectcomponent";
 import Managericon from "../../components/manager/managericon";
 
 const UserManager = () => {
+    //api 호출 코드
+    const [fields, setFields] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchUserData = async ( ) => {
+        try{
+            const response = await fetch('http://localhost:5000/api/users');
+            const data = await response.json();
+            setFields(data);
+            setLoading(false);
+        } catch (error){
+            console.log("fetch error", error);
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
     const text=[
         {
             name: 'userid',
@@ -14,6 +34,8 @@ const UserManager = () => {
             type: 'text',
         }
     ]
+    //프론트 예시 코드
+/*    
     const fields = [
         {
             id: 1,
@@ -49,10 +71,10 @@ const UserManager = () => {
             registeredRooms: 2
         }
     ] || [];
-
+*/
 
     const totaluser= fields.length
-    const hostuser = fields.filter(field => field.hostsave === "Y").length;
+    const hostuser = fields.filter(field => field.hostsave === "HOST").length;
 
     const saveroom = fields.reduce((total, field) => total + field.registeredRooms, 0);
 
@@ -111,17 +133,17 @@ const UserManager = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {Array.isArray(fields) && fields.map((field, index) => (
+                        {fields.map((field, index) => (
                             <tr key={field.id}>
                                 <td>{index + 1}</td>
-                                <td>{field.usernumber}</td>
-                                <td>{field.username}</td>
-                                <td>{field.userid}</td>
-                                <td>{field.hostsave}</td>
-                                <td>{field.createdDate}</td>
-                                <td>{field.usageCount}</td>
-                                <td>{field.reservationStatus}</td>
-                                <td>{field.registeredRooms}</td>
+                                <td>{field.userNum}</td>
+                                <td>{field.userId}</td>
+                                <td>{field.userNickname}</td>
+                                <td>{field.userRights}</td>
+                                <td>{field.userMakingTime}</td>
+                                <td>{field.usingNum}</td>
+                                <td>{field.registState}</td>
+                                <td>{field.registRoom}</td>
 
                                 <td>
 
