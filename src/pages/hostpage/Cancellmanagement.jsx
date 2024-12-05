@@ -13,13 +13,6 @@ const Cancellmanagement = () => {
     const [selectedIds, setSelectedIds] = useState([]); // 선택된 항목 ID
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // 검색 필드 정의
-    const searchFields = [
-        { name: 'roomName', label: '방 이름', type: 'text' },
-        { name: 'roomNumber', label: '방 번호', type: 'text' },
-    ];
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -31,26 +24,37 @@ const Cancellmanagement = () => {
             }
         };
         fetchData();
-    }, [filteredData]);
+    }, []);
 
-    // 검색 필터 처리
-    const handleFilterChange = (searchData) => {
-        const filtered = rooms.filter(item => {
-            const matchRoomName = searchData.roomName ? item.roomName.includes(searchData.roomName) : true;
-            const matchRoomNumber = searchData.roomNumber ? item.roomNumber.includes(searchData.roomNumber) : true;
-            return matchRoomName && matchRoomNumber;
-        });
-        setFilteredData(filtered);
+    const handleSearch = (searchData) => {
+        const { locationName, prName } = searchData;
+        let filtered = [...rooms];
+
+        if (locationName) {
+            filtered = filtered.filter((room) =>
+                room.locationName.toLowerCase().includes(locationName.toLowerCase())
+            );
+        }
+
+        if (prName) {
+            filtered = filtered.filter((room) =>
+                room.prName.toString().includes(prName)
+            );
+        }
+
+        setFilteredData(filtered); // 필터링된 결과 업데이트
     };
 
-    // 체크박스 선택 처리
+    const handleReset = () => {
+        setFilteredData(rooms); // 초기 목록으로 복원
+    };
+
     const handleCheckboxChange = (id) => {
         setSelectedIds((prev) =>
             prev.includes(id) ? prev.filter(selectedId => selectedId !== id) : [...prev, id]
         );
     };
 
-    // 취소 승인 버튼 클릭 처리
     const handleSaveRoomChanges = () => {
         if (selectedIds.length === 0) {
             alert('취소 승인할 항목을 선택하세요.');
@@ -59,11 +63,15 @@ const Cancellmanagement = () => {
         setIsModalOpen(true);
     };
 
-    // 모달에서 승인 확인 처리
     const handleModalConfirm = async () => {
         try {
-            await axios.post('/api/cancellations/approve', { ids: selectedIds }); // API 호출로 승인 처리
-            setFilteredData(filteredData.filter(item => !selectedIds.includes(item.id))); // 필터링된 데이터 업데이트
+            await axios.post('/api/cancellations/approve', { ids: selectedIds });
+            const updatedRooms = filteredData.map(item =>
+                selectedIds.includes(item.payNum)
+                    ? { ...item, bookingCancel: '취소 승인' }
+                    : item
+            );
+            setFilteredData(updatedRooms); // 업데이트된 데이터 반영
             setSelectedIds([]); // 선택 초기화
             setIsModalOpen(false); // 모달 닫기
         } catch (error) {
@@ -71,24 +79,53 @@ const Cancellmanagement = () => {
         }
     };
 
-    // 모달 닫기
     const handleModalClose = () => {
         setIsModalOpen(false);
     };
 
-    // 총 방 개수
+    const handleDateFilter = (startDate, endDate) => {
+        if (startDate && endDate) {
+            const filtered = rooms.filter((room) => {
+                const payDate = new Date(room.payDate);
+                return payDate >= new Date(startDate) && payDate <= new Date(endDate);
+            });
+            setFilteredData(filtered);
+        } else {
+            setFilteredData(rooms); // 입력이 없으면 전체 데이터
+        }
+    };
+
     const totalRooms = filteredData.length;
+    const pendingCancellations = filteredData.filter(room => room.bookingCancel === '취소 대기').length;
 
     return (
         <div className={styles.allcontain}>
             <div className={styles.title}> <Managertitle title={"취소 관리"} /></div>
             <div className={styles.icon}>
-                <Managericon totalRooms={totalRooms} waitingApproval={totalRooms} rentalStopped={1} />
+                <Managericon
+                    totalRooms={totalRooms}
+                    waitingApproval={totalRooms - pendingCancellations}
+                    rentalStopped={pendingCancellations}
+                    labels={{
+                        total: "전체",
+                        waiting: "취소 승인 대기",
+                        available: "취소 승인 완료",
+                    }}
+                />
             </div>
             <div className={styles.search_section}>
-                <Selectcomponent fields={searchFields} onSearch={handleFilterChange} />
+                <Selectcomponent
+                    fields={[
+                        { name: "locationName", label: "방 이름", type: "text" },
+                        { name: "prName", label: "방 번호", type: "text" },
+                    ]}
+                    onSearch={handleSearch}
+                    onReset={handleReset}
+                />
             </div>
-            <div className={styles.selecttotal}><Dateselect text={"취소 목록"} totalnum={totalRooms} /></div>
+            <div className={styles.selecttotal}>
+                <Dateselect text={"취소 목록"} totalnum={totalRooms} onDateFilter={handleDateFilter} />
+            </div>
             <div className={styles.table}>
                 <button onClick={handleSaveRoomChanges} className={styles.savebutton}>취소 승인 처리</button>
                 <div className={styles.table_container}>
@@ -117,7 +154,6 @@ const Cancellmanagement = () => {
                                             onChange={() => handleCheckboxChange(item.payNum)}
                                         />
                                     </td>
-
                                     <td>{item.prName}</td>
                                     <td>{item.payNum}</td>
                                     <td>{item.bookingCancel ? item.bookingCancel : '취소되지 않음'}</td>
@@ -126,7 +162,6 @@ const Cancellmanagement = () => {
                                     <td>{item.payPrice}</td>
                                     <td>{item.userName}</td>
                                     <td>{item.bookingDate}</td>
-                                    <td>{item.refundDate}</td>
                                 </tr>
                             ))
                         ) : (

@@ -8,7 +8,7 @@ import Cancellmanagement from "./pages/hostpage/Cancellmanagement";
 import Chat from "./pages/hostpage/Chat";
 import Hostinfo from "./pages/hostpage/Hostinfo";
 import Review from "./pages/hostpage/Review";
-import Clubmanagement from "./pages/hostpage/Clubmanagement";
+
 import Reservationinfo from "./pages/hostpage/Reservationinfo";
 import UserManager from "./pages/managerpage/UserManager";
 import AdminDashboard from "./pages/managerpage/AdminDashboard";
@@ -79,7 +79,7 @@ function Main() {
               <Route path="Reservationinfo" element={<Reservationinfo />} />
               <Route path="Chat" element={<Chat />} />
               <Route path="Hostinfo" element={<Hostinfo />} />
-              <Route path="clubmanagement" element={<Clubmanagement />} />
+
               <Route path="Review" element={<Review />} />
               <Route path="Moneymanager" element={<Moneymanager />} />
           </Route>

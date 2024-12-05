@@ -22,9 +22,7 @@ const Sidebar = () => {
                 <div className={styles.menuBox} onClick={() => navigate('/HostPage/Hostinfo')}>
                     호스트 정보
                 </div>
-                <div className={styles.menuBox} onClick={() => navigate('/HostPage/Clubmanagement')}>
-                    동아리 관리
-                </div>
+
                 <div className={styles.menuBox} onClick={() => navigate('/HostPage/Review')}>
                     리뷰 관리
                 </div>

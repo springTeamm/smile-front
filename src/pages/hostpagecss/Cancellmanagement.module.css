@@ -81,13 +81,14 @@
     margin-bottom: 10px;
 
 
+
 }
 
 .table_container{
 
     margin: 10px;
     width: 95%;
-    overflow-x:auto;
+
     overflow-y: auto;
     max-width: 100%;
 
@@ -97,8 +98,9 @@
 .table_container table {
     width: 100%;
     border-collapse: collapse;
-    overflow-x: auto;  /* 가로 스크롤 */
+    overflow-x: scroll;  /* 가로 스크롤 */
     overflow-y: auto;
+
 
 }
 
@@ -182,6 +184,8 @@
 }
 .totalbutton{
     display: flex;
+    align-items: center;
+
 }
 .cancellbutton{
     background-color: white;
@@ -213,7 +217,9 @@ button{
 }
 
 select{
-    font-family: 'Pretendard-SemiBold'
+    font-family: 'Pretendard-SemiBold';
+    margin-top:10px;
+
 }
 .save_container{
     width: 100%;
