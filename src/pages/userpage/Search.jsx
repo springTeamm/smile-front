@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../../styles/Search.module.css';
 import Card from './Card';
-import imagee from './images/공간 사진.jpg';
 
 function Search() {
   const [prDetails, setPrDetails] = useState([]);
@@ -12,6 +12,17 @@ function Search() {
   const [spaceType, setSpaceType] = useState(null);
   const [error, setError] = useState(null);
 
+  // Get initial filters from URL query parameters
+  const [searchParams] = useSearchParams();
+  const initialRegion = searchParams.get('region');
+  const initialSpaceType = searchParams.get('spaceType');
+
+  useEffect(() => {
+    if (initialRegion) setRegion(initialRegion);
+    if (initialSpaceType) setSpaceType(parseInt(initialSpaceType, 10));
+  }, [initialRegion, initialSpaceType]);
+
+  // Fetch filtered data
   const fetchFilteredData = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:5000/prdetails', {
@@ -31,11 +42,11 @@ function Search() {
       console.error('API 요청 오류:', err);
       setError('데이터를 가져오는 중 오류가 발생했습니다.');
     }
-  }, [minPrice, maxPrice, region, spaceType]);  
+  }, [minPrice, maxPrice, region, spaceType]);
 
   useEffect(() => {
     fetchFilteredData();
-  }, [fetchFilteredData]); 
+  }, [fetchFilteredData]);
 
   const handlePriceChange = (e) => {
     const value = Number(e.target.value);
@@ -49,11 +60,8 @@ function Search() {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.pageContainer}>
-        <div className={styles.imageContainer}>
-          <img src={imagee} alt="Placeholder" />
-        </div>
-
         <div className={styles.filterContainer}>
+          {/* Region Filter */}
           <div className={styles.filterItem}>
             <label>위치</label>
             <div className={styles.searchBar}>
@@ -67,6 +75,7 @@ function Search() {
             </div>
           </div>
 
+          {/* Price Filter */}
           <div className={styles.filterItem}>
             <label>비용</label>
             <div className={styles.priceRange}>
@@ -103,11 +112,12 @@ function Search() {
             </div>
           </div>
 
+          {/* Space Type Filter */}
           <div className={styles.filterItem}>
             <label>공간 별</label>
             <select
               value={spaceType || ''}
-              onChange={(e) => setSpaceType(e.target.value ? parseInt(e.target.value) : null)}
+              onChange={(e) => setSpaceType(e.target.value ? parseInt(e.target.value, 10) : null)}
               className={styles.dropdown}
             >
               <option value="">전체</option>

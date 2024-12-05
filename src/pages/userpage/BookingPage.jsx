@@ -6,16 +6,16 @@ import styles from '../../styles/BookingPage.module.css';
 const BookingPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const hostNum = location.state?.hostNum || 1; 
+  const hostNum = location.state?.hostNum || 1;
   const locationName = location.state?.locationName || '';
 
   const [allRooms, setAllRooms] = useState([]);
   const [practiceRooms, setPracticeRooms] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState(null); 
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const [bookedTimes, setBookedTimes] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(''); 
-  const [selectedHour, setSelectedHour] = useState(''); 
-  const today = new Date().toISOString().split('T')[0]; 
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedHour, setSelectedHour] = useState('');
+  const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     const fetchAllRooms = async () => {
@@ -36,7 +36,7 @@ const BookingPage = () => {
         (room) => room.hostNum === hostNum && room.locationName === locationName
       );
       setPracticeRooms(filteredRooms);
-      setSelectedRoom(filteredRooms[0] || null); 
+      setSelectedRoom(filteredRooms[0] || null);
     }
   }, [allRooms, hostNum, locationName]);
 
@@ -47,7 +47,7 @@ const BookingPage = () => {
           const response = await axios.get(`http://localhost:5000/booking/room/${selectedRoom.prNum}`, {
             params: { date: selectedDate },
           });
-          setBookedTimes(response.data); 
+          setBookedTimes(response.data);
         } catch (err) {
           console.error('예약된 시간 목록을 가져오는 중 오류가 발생했습니다.', err);
         }
@@ -57,18 +57,13 @@ const BookingPage = () => {
     fetchBookedTimes();
   }, [selectedDate, selectedRoom]);
 
-  const handleBookingClick = () => {
-    if (!selectedDate || !selectedHour) {
-      alert('예약 날짜와 시간을 선택해주세요.');
-      return;
-    }
-
-    navigate('/bookingform', { state: { selectedDate, selectedHour, selectedRoom } });
-  };
-
   const handleRoomChange = (prNum) => {
     const room = practiceRooms.find((room) => room.prNum === parseInt(prNum, 10));
     setSelectedRoom(room);
+  };
+
+  const handleInquiryClick = () => {
+    navigate('/chatroom');
   };
 
   return (
@@ -151,16 +146,14 @@ const BookingPage = () => {
             </select>
           </label>
 
-          <button className={styles.primaryButton} onClick={handleBookingClick}>
-            예약 신청
+          <button className={styles.secondaryButton} onClick={handleInquiryClick}>
+            문의하기
           </button>
-
-          <button className={styles.secondaryButton}>문의하기</button>
         </div>
       </div>
 
       <div className={styles.textNav}>
-        <span>장소소개</span> | <span>이용 규칙</span> | <span>리뷰</span>
+        <span>장소소개</span> | <span>이용 규칙</span>
       </div>
 
       <div className={styles.content}>
@@ -178,23 +171,6 @@ const BookingPage = () => {
         <section>
           <h2>이용 규칙</h2>
           <p>{selectedRoom ? selectedRoom.prWarnings : '이용 규칙 없음'}</p>
-        </section>
-        <section>
-          <h2>리뷰</h2>
-          <div className={styles.review}>
-            <p>
-              <strong>닉네임1</strong> <span className={styles.reviewDate}>2023-10-10</span>
-            </p>
-            <p>★★★★★</p>
-            <p>리뷰 내용 1</p>
-          </div>
-          <div className={styles.review}>
-            <p>
-              <strong>닉네임2</strong> <span className={styles.reviewDate}>2023-11-09</span>
-            </p>
-            <p>★★★★☆</p>
-            <p>리뷰 내용 2</p>
-          </div>
         </section>
       </div>
     </div>

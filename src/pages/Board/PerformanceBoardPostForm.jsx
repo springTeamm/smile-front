@@ -75,9 +75,7 @@ const PerformanceBoardPostForm = () => {
         </div>
         <nav className={styles.nav}>
           <ul>
-            <li>
-              <Link to="/community">전체 글</Link>
-            </li>
+
             <li className={styles.active}>
               <Link to="/board-performance">공연 홍보</Link>
             </li>

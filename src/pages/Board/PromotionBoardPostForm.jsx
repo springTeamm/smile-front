@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
-const PerformanceBoardPostForm = () => {
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
+import styles from "../../styles/PerformanceBoard.module.css";
+import { useNavigate } from "react-router-dom";
+
+const PromotionBoardPostForm = () => {
+  const [title, setTitle] = useState(""); 
+  const [links, setLinks] = useState(""); 
+  const [text, setText] = useState(""); 
   const [images, setImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,68 +20,105 @@ const PerformanceBoardPostForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const community = {
-      title,
-      text,
-      location,
-      date,
-      categoryNum: 1,
-    };
-
     const formData = new FormData();
-    formData.append("community", JSON.stringify(community));
+    formData.append(
+      "community",
+      new Blob(
+        [
+          JSON.stringify({
+            title,
+            text,
+            links,
+            categoryNum: 3,
+            date: new Date().toISOString(),
+          }),
+        ],
+        { type: "application/json" }
+      )
+    );
+
     images.forEach((image) => formData.append("images", image));
 
     try {
-      setIsLoading(true);
       await axios.post("http://localhost:5000/community", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      alert("글 작성 성공!");
-      navigate("/board-performance");
+      alert("장소 홍보 글이 작성되었습니다!");
+      navigate("/board-promotion");
     } catch (error) {
       console.error("글 작성 실패:", error);
-      alert("글 작성 실패");
-    } finally {
-      setIsLoading(false);
+      alert("글 작성에 실패했습니다.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>공연 홍보 글 작성</h1>
-      <input
-        type="text"
-        placeholder="제목"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
-      <textarea
-        placeholder="내용"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="공연 장소"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        required
-      />
-      <input
-        type="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        required
-      />
-      <input type="file" multiple onChange={handleImageChange} />
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? "작성 중..." : "작성하기"}
-      </button>
-    </form>
+    <div className={styles.container}>
+      
+      <aside className={styles.sidebar}>
+        <div className={styles.profile}>
+          <img
+            src="https://via.placeholder.com/100"
+            alt="Profile"
+            className={styles.profileImage}
+          />
+          <p className={styles.username}>이재혁</p>
+        </div>
+        <nav className={styles.nav}>
+          <ul>
+
+            <li className={styles.active}>
+              <Link to="/board-performance">공연 홍보</Link>
+            </li>
+            <li>
+              <Link to="/board-recruit">모집 공고</Link>
+            </li>
+            <li>
+              <Link to="/board-promotion">장소 홍보</Link>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <h1>장소 홍보 글 작성</h1>
+        <div>
+          <label>제목</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>링크</label>
+          <input
+            type="url"
+            value={links}
+            onChange={(e) => setLinks(e.target.value)}
+            placeholder="http://example.com"
+          />
+        </div>
+        <div>
+          <label>내용</label>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label>이미지 첨부</label>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+        </div>
+        <button type="submit">작성하기</button>
+      </form>
+    </div>
   );
 };
 
-export default PerformanceBoardPostForm;
+export default PromotionBoardPostForm;

@@ -46,9 +46,6 @@ const PerformanceBoard = () => {
         {/* 네비게이션 메뉴 */}
         <nav className={styles.nav}>
           <ul>
-            <li>
-              <Link to="/community">전체 글</Link>
-            </li>
             <li className={styles.active}>
               <Link to="/board-performance">공연 홍보</Link>
             </li>
@@ -84,7 +81,7 @@ const PerformanceBoard = () => {
                 <tr key={post.cnum}>
                   <td>{indexOfFirstItem + index + 1}</td>
                   <td>
-                    <Link to={`/posts/${post.cnum}`}>{post.title}</Link>
+                    <Link to={`/perform-posts/${post.cnum}`}>{post.title}</Link>
                   </td>
                   <td>{post.userNum}</td>
                   <td>{new Date(post.date).toLocaleDateString()}</td>

@@ -1,31 +1,40 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import styles from "../../styles/PerformanceBoard.module.css";
-import { Link } from "react-router-dom";
 
 const PromotionBoard = () => {
-  const [posts, setPosts] = useState([]); // 게시글 데이터를 저장하는 상태
+  const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
-  // 장소 홍보 게시글 데이터를 가져오기 (categoryNum: 3)
   useEffect(() => {
-    const fetchPromotionPosts = async () => {
+    const fetchPosts = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/community/category/3" // 카테고리 3: 장소 홍보
-        );
+        const response = await axios.get('http://localhost:5000/community/category/3');
         setPosts(response.data);
       } catch (error) {
-        console.error("장소 홍보 게시글을 가져오는 중 에러 발생:", error);
+        console.error('게시글 데이터를 가져오는데 실패했습니다:', error);
       }
     };
 
-    fetchPromotionPosts();
+    fetchPosts();
   }, []);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPosts = posts.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(posts.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className={styles.container}>
       <aside className={styles.sidebar}>
-        <div className={styles.profile}>
+      <div className={styles.profile}>
           <img
             src="https://via.placeholder.com/100"
             alt="Profile"
@@ -35,9 +44,6 @@ const PromotionBoard = () => {
         </div>
         <nav className={styles.nav}>
           <ul>
-            <li>
-              <Link to="/community">전체 글</Link>
-            </li>
             <li>
               <Link to="/board-performance">공연 홍보</Link>
             </li>
@@ -65,23 +71,56 @@ const PromotionBoard = () => {
               <th>제목</th>
               <th>작성자</th>
               <th>등록일</th>
-              <th>좋아요</th>
             </tr>
           </thead>
           <tbody>
-            {posts.map((post) => (
-              <tr key={post.cNum}>
-                <td>{post.cNum}</td>
-                <td>
-                  <Link to={`/post/${post.cNum}`}>{post.title}</Link>
+            {currentPosts.length > 0 ? (
+              currentPosts.map((post, index) => (
+                <tr key={post.cnum}>
+                  <td>{indexOfFirstItem + index + 1}</td>
+                  <td>
+                    <Link to={`/promo-posts/${post.cnum}`}>{post.title}</Link>
+                  </td>
+                  <td>{post.userNum}</td>
+                  <td>{new Date(post.date).toLocaleDateString()}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className={styles.noData}>
+                  게시글이 없습니다.
                 </td>
-                <td>{post.userNum}</td>
-                <td>{new Date(post.date).toLocaleDateString()}</td>
-                <td>0</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
+        <div className={styles.pagination}>
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={styles.pageButton}
+          >
+            이전
+          </button>
+          {[...Array(totalPages).keys()].map((number) => (
+            <button
+              key={number}
+              onClick={() => handlePageChange(number + 1)}
+              className={`${styles.pageButton} ${
+                currentPage === number + 1 ? styles.activePage : ''
+              }`}
+            >
+              {number + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={styles.pageButton}
+          >
+            다음
+          </button>
+        </div>
       </main>
     </div>
   );
