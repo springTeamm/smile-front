@@ -73,7 +73,7 @@ function Main() {
         <Route path="/profile-edit" element={<ProfileEdit />} />{/* 개인정보수정 */}
       
           <Route path="HostPage/*" element={<HostPage />}>
-              <Route index element={<Dashboard />} />
+              <Route index element={<SpaceSelect  />} />
               <Route path="SpaceSelect" element={<SpaceSelect />} />
               <Route path="cancellmanagement" element={<Cancellmanagement />} />
               <Route path="Reservationinfo" element={<Reservationinfo />} />

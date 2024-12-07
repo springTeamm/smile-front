@@ -129,3 +129,13 @@
     font-size: 14px;
 
 }
+.closebutton{
+    background-color: #a8a4a4;
+    color: #000000;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+}

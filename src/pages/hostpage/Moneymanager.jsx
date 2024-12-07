@@ -3,10 +3,12 @@ import axios from 'axios';
 import styles from "../hostpagecss/Cancellmanagement.module.css";
 import Managertitle from "../../components/host/managertitle";
 import Searchcomponent from "../../components/host/Selectcomponent";
+import Selectcomponent from "../../components/host/Selectcomponent";
 
 const Moneymanager = () => {
     const [salesData, setSalesData] = useState([]); // 전체 매출 데이터
     const [filteredSales, setFilteredSales] = useState([]); // 필터링된 데이터
+    const [selectedSales, setSelectedSales] = useState([]); // 선택된 매출 항목
 
     useEffect(() => {
         const fetchSalesData = async () => {
@@ -20,50 +22,67 @@ const Moneymanager = () => {
         };
         fetchSalesData();
     }, []);
-
-    const searchFields = [
-        { name: 'salesItem', label: '매출 항목', type: 'text' },
-        { name: 'month', label: '월', type: 'text' },
-    ];
-
     const handleSearch = (searchData) => {
-        const filtered = salesData.filter(sale =>
-            (searchData.salesItem ? sale.salesItem.includes(searchData.salesItem) : true) &&
-            (searchData.month ? sale.month.includes(searchData.month) : true)
-        );
+        const { month, salesItem} = searchData;
+        let filtered = [...salesData];
+
+
+        if (salesItem) {
+            filtered = filtered.filter((sales) =>
+                sales.salesItem.toLowerCase().includes(salesItem.toLowerCase())
+            );
+        }
+
+        // 월
+        if (month) {
+            filtered = filtered.filter((sales) =>
+                sales.month.toString().includes(month)
+            );
+        }
+
+
+
         setFilteredSales(filtered);
     };
+
+
 
     const handleReset = () => {
         setFilteredSales(salesData);
     };
+
+
+
 
     const totalSales = filteredSales.length;
 
     return (
         <div className={styles.allcontain}>
             <div className={styles.title}>
-                <Managertitle title={"매출 관리"} />
+                <Managertitle title={"매출 관리"}/>
             </div>
 
             <div className={styles.search_section}>
-                <Searchcomponent
-                    fields={searchFields}
+                <Selectcomponent
+                    fields={[
+                        {name: "salesItem", label: "매출 항목", type: "text"},
+                        {name: "month", label: "월", type: "text"},
+                    ]}
                     onSearch={handleSearch}
                     onReset={handleReset}
-                />
-            </div>
+                /></div>
 
             <div className={styles.selecttotal}>
                 <h3>매출 목록 (총 <span className={styles.totaluserHighlight}>{totalSales}</span>개)</h3>
             </div>
 
             <div className={styles.table}>
+
                 <div className={styles.table_container}>
                     <table>
                         <thead>
                         <tr>
-                            <th>선택</th>
+
                             <th>월</th>
                             <th>매출 항목</th>
                             <th>매출액</th>
@@ -73,8 +92,8 @@ const Moneymanager = () => {
                         </thead>
                         <tbody>
                         {filteredSales.map((sale, index) => (
-                            <tr key={index}>
-                                <td><input type="checkbox" /></td>
+                            <tr key={sale.id}>
+
                                 <td>{sale.month}</td>
                                 <td>{sale.salesItem}</td>
                                 <td>{sale.salesAmount.toLocaleString()}원</td>

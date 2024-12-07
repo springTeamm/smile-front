@@ -90,26 +90,42 @@ const SpaceSelect = () => {
             [name]: value,
         }));
     };
-
-
-    // 방 정보 수정 요청
     const handleUpdateRoom = async () => {
-        if (!selectedRoom) return;
+        if (!selectedRoom) {
+            alert("수정할 방을 선택해주세요.");
+            return;
+        }
 
         try {
+            const currentDateTime = new Date().toISOString();
+
+            const params = new URLSearchParams({
+                prNum: selectedRoom.prNum, // 연습실 번호
+                roomName: selectedRoom.roomName, // 방 이름
+                prUseable: selectedRoom.prUseable, // 사용 가능 여부
+                locationName: selectedRoom.locationName, // 장소 이름
+                rentalPrice: selectedRoom.rentalPrice, // 대여 가격
+                discountPrice: selectedRoom.discountPrice, // 할인가
+                displayStatus: selectedRoom.displayStatus, // 전시 상태
+                lastModifiedDate: currentDateTime, // 수정일 추가
+            });
+
             const response = await axios.post(
-                `http://localhost:5000/api/hostpage/spacelist/updateRoom`,
-                selectedRoom
+                "http://localhost:5000/api/hostpage/spacelist/updateRoom",
+                null,
+                { params }
             );
 
             if (response.status === 200) {
-                alert("방 정보가 수정되었습니다.");
+                alert("방 정보가 성공적으로 수정되었습니다.");
                 const updatedRooms = roomList.map((room) =>
-                    room.roomNumber === selectedRoom.roomNumber ? selectedRoom : room
+                    room.prNum === selectedRoom.prNum
+                        ? { ...room, ...response.data }
+                        : room
                 );
                 setRoomList(updatedRooms);
                 setFilteredRoomList(updatedRooms);
-                closeModal();
+                closeModal(); // 모달 닫기
             } else {
                 alert("방 정보 수정에 실패했습니다.");
             }
@@ -257,6 +273,7 @@ const SpaceSelect = () => {
                                 <td>{room.displayStatus}</td>
                                 <td>{new Date(room.registeredDate).toLocaleString()}</td>
                                 <td>{new Date(room.lastModifiedDate).toLocaleString()}</td>
+
                             </tr>
                         ))}
                         </tbody>
@@ -268,8 +285,9 @@ const SpaceSelect = () => {
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
                         <h3>방 정보 수정</h3>
+
                         <div className={styles.inputContainer}>
-                            <label>방 이름:</label>
+                            <label>방 호수:</label>
                             <input
                                 type="text"
                                 name="roomName"
@@ -278,7 +296,25 @@ const SpaceSelect = () => {
                             />
                         </div>
                         <div className={styles.inputContainer}>
-                            <label>대여 가격:</label>
+                            <label>연습실 사용가능 여부:</label>
+                            <input
+                                type="text"
+                                name="prUseable"
+                                value={selectedRoom.prUseable}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className={styles.inputContainer}>
+                            <label>장소 이름:</label>
+                            <input
+                                type="text"
+                                name="locationName"
+                                value={selectedRoom.locationName}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className={styles.inputContainer}>
+                            <label>대여가격:</label>
                             <input
                                 type="number"
                                 name="rentalPrice"
@@ -295,8 +331,9 @@ const SpaceSelect = () => {
                                 onChange={handleInputChange}
                             />
                         </div>
+
                         <div className={styles.inputContainer}>
-                            <label>상태:</label>
+                            <label>전시 상태:</label>
                             <input
                                 type="text"
                                 name="displayStatus"

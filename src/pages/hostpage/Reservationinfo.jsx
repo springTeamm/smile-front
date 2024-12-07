@@ -59,21 +59,28 @@ const Reservationinfo = () => {
     };
 
     const handleAddReservations = async () => {
-        const { userNum, roomNum, ...bookingData } = reservationData;
+        const { userNum, prNum, bookingTotalPerson, bookingTotalPrice, bookingUsingTime, bookingPaymentMethod } = reservationData;
 
-        if (!userNum || !roomNum) {
+        if (!userNum || !prNum) {
             alert("사용자 번호와 방 번호를 입력해주세요.");
             return;
         }
 
         try {
             const response = await axios.post(
-                `http://localhost:5000/api/hostpage/users/${userNum}/rooms/${roomNum}/booking`,
-                bookingData
+                `http://localhost:5000/api/hostpage/users/${userNum}/rooms/${prNum}/booking`,
+                {
+                    bookingTotalPerson,
+                    bookingTotalPrice,
+                    bookingUsingTime,
+                    bookingPaymentMethod,
+                }
             );
+
             if (response.status === 201 || response.status === 200) {
                 alert("예약이 성공적으로 추가되었습니다.");
                 setIsModalOpen(false); // 모달 닫기
+                setRooms((prevRooms) => [...prevRooms, response.data]); // 새 예약 추가
             } else {
                 alert("예약 추가에 실패했습니다.");
             }
@@ -82,6 +89,7 @@ const Reservationinfo = () => {
             alert("예약 추가 중 오류가 발생했습니다.");
         }
     };
+
 
     const handleCheckboxChange = (bookingNum) => {
         setSelectedRooms((prevSelected) =>
@@ -201,7 +209,6 @@ const Reservationinfo = () => {
                 >
                     예약 추가
                 </button>
-                {/* 모달 */}
                 {isModalOpen && (
                     <div className={styles.modal}>
                         <div className={styles.modalContent}>
@@ -219,44 +226,17 @@ const Reservationinfo = () => {
                                 <label>방 번호:</label>
                                 <input
                                     type="number"
-                                    name="roomNum"
-                                    value={reservationData.roomNum}
+                                    name="prNum"
+                                    value={reservationData.prNum}
                                     onChange={handleInputChange}
                                 />
                             </div>
                             <div className={styles.inputContainer}>
-                                <label>시작 날짜:</label>
+                                <label>예약 총 인원:</label>
                                 <input
-                                    type="date"
-                                    name="startDate"
-                                    value={reservationData.startDate}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className={styles.inputContainer}>
-                                <label>종료 날짜:</label>
-                                <input
-                                    type="date"
-                                    name="endDate"
-                                    value={reservationData.endDate}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className={styles.inputContainer}>
-                                <label>사용자 이름:</label>
-                                <input
-                                    type="text"
-                                    name="userName"
-                                    value={reservationData.userName}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className={styles.inputContainer}>
-                                <label>사용자 전화번호:</label>
-                                <input
-                                    type="text"
-                                    name="userPhone"
-                                    value={reservationData.userPhone}
+                                    type="number"
+                                    name="bookingTotalPerson"
+                                    value={reservationData.bookingTotalPerson}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -264,8 +244,26 @@ const Reservationinfo = () => {
                                 <label>총 가격:</label>
                                 <input
                                     type="number"
-                                    name="totalPrice"
-                                    value={reservationData.totalPrice}
+                                    name="bookingTotalPrice"
+                                    value={reservationData.bookingTotalPrice}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <label>사용 시간:</label>
+                                <input
+                                    type="number"
+                                    name="bookingUsingTime"
+                                    value={reservationData.bookingUsingTime}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <label>결제 방법:</label>
+                                <input
+                                    type="text"
+                                    name="bookingPaymentMethod"
+                                    value={reservationData.bookingPaymentMethod}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -286,6 +284,7 @@ const Reservationinfo = () => {
                         </div>
                     </div>
                 )}
+
                 <div className={styles.table_container}>
                     <table>
                         <thead>
