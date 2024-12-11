@@ -1,12 +1,46 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../hostpagecss/Cancellmanagement.module.css';
-
+import axios from 'axios';
 import Managertitle from '../../components/host/managertitle';
 import Hostdetail from '../../components/host/Hostdetail';
 import roomstyles from '../hostpagecss/Roomstyle.module.css';
 
 const Hostinfo = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [hostInfo, setHostInfo] = useState({
+        hostBisAddress: "정보 없음",
+        hostRegistNum: "정보 없음",
+        hostBisType: "정보 없음",
+        hostCompanyName: "정보 없음",
+        hostCorpName: "정보 없음",
+        representativeName: "정보 없음",
+        userId: "정보 없음",
+        userEmail: "정보 없음",
+        userPhone: "정보 없음",
+    });
+
+    const [isLoading, setIsLoading] = useState(true);
+    // 임시 hostNum 값
+    const hostNum = 1; // 이후 세션 기반으로 변경 가능
+
+    useEffect(() => {
+        const fetchHostInfo = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/api/hostpage/hostinfo?hostNum=1`);
+                console.log(response); // 응답 확인
+                const data = await response.json();
+                console.log(data); // 데이터 확인
+                setHostInfo(data);
+            } catch (error) {
+                console.error("Error fetching host info:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchHostInfo();
+    }, []);
+
 
     const handlechangemoney = () => {
         // 정산 정보 입금계좌 바꾸는 로직 추가
@@ -35,43 +69,62 @@ const Hostinfo = () => {
                 <Managertitle title="호스트 정보" />
             </div>
             <div className={styles.hostdetailscroll}>
-                <div className={styles.titledetail}><Managertitle title="호스트 정보" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="호스트 유형" hostcontent="국내 사업자" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="상호" hostcontent="00 연습실" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="사업자 등록 번호1" hostcontent="000-00-00000" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="사업자 등록 번호2" hostcontent="000-00-00000" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="사업장 소재지1" hostcontent="(우:12345) 서울특별시 노원구 공릉동머시기" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="사업장 소재지2" hostcontent="(우:12345) 서울특별시 노원구 공릉동머시기" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="사업자 구분" hostcontent="개인 사업자" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="업종" hostcontent="각종 연습실 대여 외" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="통신 판매업 신고 번호" hostcontent="2020-노원공릉동-0000" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="대표자 이름" hostcontent="김김김" /></div>
-            </div>
-            <div className={styles.hostdetailscroll}>
-                <div className={styles.titledetail}><Managertitle title="담당자 정보" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="이름" hostcontent="김*이" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="로그인ID" hostcontent="asdf****" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="이메일 주소" hostcontent="asdf**@naver.com" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="휴대폰 번호" hostcontent="010-11**-11**" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="비밀번호" hostcontent={<input type="password" />} /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="비밀번호 확인" hostcontent={<input type="password" />} /></div>
-            </div>
-            <div className={styles.hostdetailscroll}>
-                <div className={styles.titledetail}><Managertitle title="정산 정보" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="정산대금 입금계좌" hostcontent="농협은행 654****321321" />
-                    <button className={styles.button} onClick={openModal}>변경</button>
+                <div className={styles.titledetail}><Managertitle title="호스트 정보"/></div>
+                <div className={styles.titledetail}><Hostdetail hosttitle="호스트 유형" hostcontent="국내 사업자"/></div>
+                <div className={styles.titledetail}><Hostdetail hosttitle="상호" hostcontent="00 연습실"/></div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="사업장 소재지" hostcontent={hostInfo.hostBisAddress || "정보 없음"}/>
                 </div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="사업자 등록 번호" hostcontent={hostInfo.hostRegistNum || "정보 없음"}/>
+                </div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="사업자 업종" hostcontent={hostInfo.hostBisType || "정보 없음"}/>
+                </div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="기업 이름" hostcontent={hostInfo.hostCompanyName || "정보 없음"}/>
+                </div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="법인 이름" hostcontent={hostInfo.hostCorpName || "정보 없음"}/>
+                </div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="과세 유형" hostcontent={hostInfo.hostTaxType || "정보 없음"}/>
+                </div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="대표자 이름" hostcontent={hostInfo.userName || "정보 없음"}/>
+                </div>
+
             </div>
             <div className={styles.hostdetailscroll}>
-                <div className={styles.titledetail}><Managertitle title="연습실 정보" /></div>
-                <div className={styles.titledetail}><Hostdetail hosttitle="연습실 주소" hostcontent={<input />} />
+                <div className={styles.titledetail}><Managertitle title="담당자 정보"/></div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="이름" hostcontent={hostInfo.representativeName || "정보 없음"}/>
+                </div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="로그인 ID" hostcontent={hostInfo.userId || "정보 없음"}/>
+                </div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="이메일" hostcontent={hostInfo.userEmail || "정보 없음"}/>
+                </div>
+                <div className={styles.titledetail}>
+                    <Hostdetail hosttitle="전화번호" hostcontent={hostInfo.userPhone || "정보 없음"}/>
+                </div>
+                <div className={styles.titledetail}><Hostdetail hosttitle="비밀번호"
+                                                                hostcontent={<input type="password"/>}/></div>
+                <div className={styles.titledetail}><Hostdetail hosttitle="비밀번호 확인"
+                                                                hostcontent={<input type="password"/>}/></div>
+            </div>
 
-                        <button className={styles.button} onClick={locationselect}>찾기</button>
-                        {isOpen && (
-                            <div className={roomstyles.modal}>
-                                <div className={roomstyles.modaltitle}><h2>정산 정보 변경</h2></div>
-                                <div className={roomstyles.banktable}>
-                                    <div className={roomstyles.bank_table_container}>
+            <div className={styles.hostdetailscroll}>
+                <div className={styles.titledetail}><Managertitle title="연습실 정보"/></div>
+                <div className={styles.titledetail}><Hostdetail hosttitle="연습실 주소" hostcontent={<input/>}/>
+
+                    <button className={styles.button} onClick={locationselect}>찾기</button>
+                    {isOpen && (
+                        <div className={roomstyles.modal}>
+                            <div className={roomstyles.modaltitle}><h2>정산 정보 변경</h2></div>
+                            <div className={roomstyles.banktable}>
+                                <div className={roomstyles.bank_table_container}>
                                         <label htmlFor="bank-select">은행 선택</label>
                                         <select id="bank-select" className={styles.select}>
                                             <option value="">은행 선택</option>

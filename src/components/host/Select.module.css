@@ -6,8 +6,9 @@
     background-color: #FAFAFA;
     margin: 15px 15px;
     padding: 0px 20px;
-    gap: 20px;
+    gap: 40px;
     padding-left: 20px;
+
 }
 
 .input_group {
@@ -18,32 +19,22 @@
     width: 100%;
     flex-wrap: wrap;
 
+
 }
 
 .room_info {
     display: flex;
-    flex-direction: column; /* 세로로 배열 */
     justify-content: center;
     gap:10px;
 
 
 }
 
-.input_container {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-
-
-}
 
 
 label {
     display: flex;
     align-items: center;
-
 
 
 }
@@ -66,6 +57,7 @@ label {
 .search_component {
     padding: 20px;
     padding-left: 20px;
+
 }
 
 .input_group {
@@ -78,20 +70,22 @@ label {
 .room_info {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* 2개씩 가로 배열 */
-    gap: 20px; /* 필드 간격 */
+    gap: 50px; /* 필드 간격 */
 
 
 }
-.checkbox_group{
-    display: flex;
-    flex-direction: column;
-}
-
 .checkbox_group, .select_box {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-wrap: wrap; /* 여러 줄로 감싸기 허용 */
+    gap: 10px; /* 체크박스 간격 설정 */
+    align-items: center; /* 체크박스와 라벨 수직 정렬 */
+}
 
+.select_box label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* 체크박스와 텍스트 간격 */
+    white-space: nowrap; /* 줄바꿈 방지 */
 }
 .button_group {
     display: flex;
@@ -118,3 +112,5 @@ label {
     color: navy;
     border: 1px solid navy;
 }
+
+

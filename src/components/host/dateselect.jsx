@@ -1,21 +1,51 @@
 import React, { useState } from 'react';
-import styles from './dateselect.module.css'; 
+import styles from './dateselect.module.css';
 
-const Dateselect = ({ text, totalnum }) => {
+const Dateselect = ({ text, totalnum, onDateFilter }) => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [selectedRange, setSelectedRange] = useState('');
 
     const handleRangeClick = (range) => {
         setSelectedRange(range);
+        const now = new Date();
+        let start, end;
+
+        if (range === 'today') {
+            start = end = now;
+        } else if (range === '1week') {
+            start = new Date();
+            start.setDate(now.getDate() - 7);
+            end = now;
+        } else if (range === '1month') {
+            start = new Date();
+            start.setMonth(now.getMonth() - 1);
+            end = now;
+        } else if (range === '3months') {
+            start = new Date();
+            start.setMonth(now.getMonth() - 3);
+            end = now;
+        }
+
+        if (start && end) {
+            setStartDate(start.toISOString().split('T')[0]);
+            setEndDate(end.toISOString().split('T')[0]);
+            onDateFilter(start, end); // 부모로 전달
+        }
     };
 
     const handleStartDateChange = (e) => {
         setStartDate(e.target.value);
+        if (endDate) {
+            onDateFilter(new Date(e.target.value), new Date(endDate)); // 부모로 전달
+        }
     };
 
     const handleEndDateChange = (e) => {
         setEndDate(e.target.value);
+        if (startDate) {
+            onDateFilter(new Date(startDate), new Date(e.target.value)); // 부모로 전달
+        }
     };
 
     return (

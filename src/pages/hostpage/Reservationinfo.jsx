@@ -1,54 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import styles from "../hostpagecss/Cancellmanagement.module.css";
 import Managertitle from "../../components/host/managertitle";
 import Dateselect from "../../components/host/dateselect";
 import Searchcomponent from "../../components/host/Selectcomponent";
 import textmodalStyles from "../hostpagecss/textmodal.module.css";
+import axios from "axios";
+import Selectcomponent from "../../components/host/Selectcomponent";
 
 const Reservationinfo = () => {
     const [rooms, setRooms] = useState([]);
     const [selectedRoom, setSelectedRoom] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalType, setModalType] = useState("");
-
+   const [modalType, setModalType] = useState("");
+    const [selectedRooms, setSelectedRooms] = useState([]); // 체크된 항목 관리
+    const [filteredRoomList, setFilteredRoomList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+    const [reservationData, setReservationData] = useState({
+        userNum: "",
+        roomNum: "",
+        startDate: "",
+        endDate: "",
+        userName: "",
+        userPhone: "",
+        totalPrice: "",
+    });
     useEffect(() => {
         const fetchRooms = async () => {
-            const rooms = [
-                {
-                    id: 1,
-                    roomNumber: "101호",
-                    paymentNumber: "20241234567",
-                    renterName: "김현수",
-                    reservationTime: "11:00-15:00",
-                    accumulatedReservations: 0,
-                    numberOfRenters: 0,
-                    roomName: "연습실A",
-                    paymentDate: "2024-10-15",
-                    rentalPrice: "100,000원",
-                    discountPrice: "90,000원",
-                    claimStatus: "없음",
-                },
-                {
-                    id: 2,
-                    roomNumber: "102호",
-                    paymentNumber: "20241234568",
-                    renterName: "박지민",
-                    reservationTime: "14:00-16:00",
-                    accumulatedReservations: 2,
-                    numberOfRenters: 1,
-                    roomName: "연습실B",
-                    paymentDate: "2024-10-20",
-                    rentalPrice: "80,000원",
-                    discountPrice: "75,000원",
-                    claimStatus: "있음",
-                },
-            ];
-            setRooms(rooms);
+            try {
+                const response = await axios.get("http://localhost:5000/api/hostpage/rooms/my-rooms/bookings");
+                console.log("API Response:", response.data);
+                setRooms(response.data);
+                setFilteredRoomList(response.data);
+            } catch (error) {
+                console.error("Failed to fetch reservations", error);
+            }
         };
-
         fetchRooms();
     }, []);
-
     const closeModal = () => {
         setIsModalOpen(false);
         setModalType("");
@@ -62,32 +50,132 @@ const Reservationinfo = () => {
         setModalType(type);
         setIsModalOpen(true);
     };
-
-    const handleConfirmAction = () => {
-        alert(`${modalType === "confirm" ? "예약 확인" : "예약 취소"} 처리가 완료되었습니다.`);
-        closeModal();
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setReservationData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
-    const handleSelectRoom = (room) => {
-        setSelectedRoom(room);
+    const handleAddReservations = async () => {
+        const {
+            userNum,
+            prNum,
+            bookingTotalPerson,
+            bookingTotalPrice,
+            bookingUsingTime,
+            bookingPaymentMethod,
+        } = reservationData;
+
+        // 필수 값 확인
+        if (!userNum || !prNum) {
+            alert("사용자 번호와 방 번호를 입력해주세요.");
+            return;
+        }
+
+        try {
+            // API 호출
+            const response = await axios.post(
+                `http://localhost:5000/api/hostpage/users/${userNum}/rooms/${prNum}/booking`,
+                {
+                    bookingTotalPerson,
+                    bookingTotalPrice,
+                    bookingUsingTime,
+                    bookingPaymentMethod,
+                }
+            );
+
+            // 응답 상태 처리
+            if (response.status === 201 || response.status === 200) {
+                alert("예약이 성공적으로 추가되었습니다.");
+
+                // 예약 데이터 갱신
+                setRooms((prevRooms) => [...prevRooms, response.data]);
+                setFilteredRoomList((prevList) => [...prevList, response.data]);
+
+                // 모달 닫기
+                setIsModalOpen(false);
+            } else {
+                alert("예약 추가에 실패했습니다.");
+            }
+        } catch (error) {
+            console.error("예약 추가 중 오류 발생:", error.response?.data || error.message);
+            alert("예약 추가 중 오류가 발생했습니다.");
+        }
     };
 
-    const searchFields = [
-        { name: 'customerName', label: '고객명', type: 'text' },
-        { name: 'phoneNumber', label: '전화번호', type: 'text' },
-        {
-            name: 'reservationStatus',
-            label: '상태',
-            type: 'checkbox',
-            options: [
-                { value: '전체', label: '전체' },
-                { value: '예약 중', label: '예약 중' },
-                { value: '사용 종료', label: '사용 종료' },
-                { value: '취소', label: '취소' },
-                { value: '결제 대기', label: '결제 대기' },
-            ],
-        },
-    ];
+
+    const handleCheckboxChange = (bookingNum) => {
+        setSelectedRooms((prevSelected) =>
+            prevSelected.includes(bookingNum)
+                ? prevSelected.filter((id) => id !== bookingNum) // 선택 해제
+                : [...prevSelected, bookingNum] // 선택 추가
+        );
+    };
+
+    const handleCancelReservations = async () => {
+        if (selectedRooms.length === 0) {
+            alert("취소할 항목을 선택해주세요.");
+            return;
+        }
+        try {
+            const response = await axios.post("http://localhost:5000/api/hostpage/rooms/my-rooms/bookings/cancel", {
+                bookingNums: selectedRooms, // bookingNum 리스트 전달
+            });
+
+            if (response.status === 200) {
+                alert("선택된 예약이 취소되었습니다.");
+                setRooms((prevRooms) => prevRooms.filter((room) => !selectedRooms.includes(room.bookingNum)));
+                setSelectedRooms([]); // 선택 초기화
+            }
+        } catch (error) {
+            console.error("Failed to cancel reservations", error);
+            alert("예약 취소 중 오류가 발생했습니다.");
+        }
+    };
+    const handleSearch = (searchData) => {
+        const { userName, userPhone, prUseable } = searchData;
+        let filtered = [...rooms];
+
+        // 고객명 필터링
+        if (userName) {
+            filtered = filtered.filter((room) =>
+                room.userName.toLowerCase().includes(userName.toLowerCase())
+            );
+        }
+
+        // 전화번호 필터링
+        if (userPhone) {
+            filtered = filtered.filter((room) =>
+                room.userPhone.toString().includes(userPhone)
+            );
+        }
+
+        // 상태 필터링
+        if (prUseable && prUseable.length > 0) {
+            filtered = filtered.filter((room) =>
+                prUseable.includes(room.prUseable)
+            );
+
+        }
+
+        setFilteredRoomList(filtered); // 필터링된 결과 업데이트
+    };
+
+
+    const handleReset = () => {
+        setFilteredRoomList(rooms); // 초기 목록으로 복원
+    };
+
+    const handleDateFilter = (startDate, endDate) => {
+        const filtered = rooms.filter((room) => {
+            const bookingDate = new Date(room.bookingDate);
+            return bookingDate >= startDate && bookingDate <= endDate;
+        });
+        setFilteredRoomList(filtered);
+    };
+
 
     return (
         <div className={styles.allcontain}>
@@ -96,26 +184,122 @@ const Reservationinfo = () => {
             </div>
 
             <div className={styles.search_section}>
-                <Searchcomponent fields={searchFields} onSearch={() => {}} onReset={() => {}} />
-            </div>
+                <Selectcomponent
+                    fields={[
+                        { name: "userName", label: "고객명", type: "text" },
+                        { name: "userPhone", label: "전화번호", type: "text" },
+                        {
+                            name: "prUseable",
+                            label: "상태",
+                            type: "checkbox",
+                            options: [
+                                { value: "전체", label: "전체" },
+                                { value: "예약 중", label: "예약 중" },
+                                { value: "사용 종료", label: "사용 종료" },
+                                { value: "결제 완료", label: "결제 완료" },
+                                { value: "결제 대기", label: "결제 대기" },
+                            ],
+                        },
+                    ]}
+                    onSearch={handleSearch}
+                    onReset={handleReset}
+                /> </div>
 
             <div className={styles.selecttotal}>
-                <Dateselect text={"목록"} totalnum={rooms.length} />
+                <Dateselect
+                    text={"목록"}
+                    totalnum={filteredRoomList.length}
+                    onDateFilter={handleDateFilter}
+                />
             </div>
 
             <div className={styles.table}>
-                <button
-                    onClick={() => handleAction("confirm")}
-                    className={styles.savebutton}
-                >
-                    예약 확인 처리
+
+                <button onClick={handleCancelReservations} className={styles.savebutton}>
+                    예약 취소
                 </button>
                 <button
-                    onClick={() => handleAction("cancel")}
+                    onClick={() => setIsModalOpen(true)}
                     className={styles.savebutton}
                 >
-                    예약 취소 처리
+                    예약 추가
                 </button>
+                {isModalOpen && (
+                    <div className={styles.modal}>
+                        <div className={styles.modalContent}>
+                            <h3>예약 추가</h3>
+                            <div className={styles.inputContainer}>
+                                <label>사용자 번호:</label>
+                                <input
+                                    type="number"
+                                    name="userNum"
+                                    value={reservationData.userNum}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <label>방 번호:</label>
+                                <input
+                                    type="number"
+                                    name="prNum"
+                                    value={reservationData.prNum}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <label>예약 총 인원:</label>
+                                <input
+                                    type="number"
+                                    name="bookingTotalPerson"
+                                    value={reservationData.bookingTotalPerson}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <label>총 가격:</label>
+                                <input
+                                    type="number"
+                                    name="bookingTotalPrice"
+                                    value={reservationData.bookingTotalPrice}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <label>사용 시간:</label>
+                                <input
+                                    type="number"
+                                    name="bookingUsingTime"
+                                    value={reservationData.bookingUsingTime}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <label>결제 방법:</label>
+                                <input
+                                    type="text"
+                                    name="bookingPaymentMethod"
+                                    value={reservationData.bookingPaymentMethod}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className={styles.buttonContainer}>
+                                <button
+                                    onClick={handleAddReservations}
+                                    className={styles.savebutton}
+                                >
+                                    추가
+                                </button>
+                                <button
+                                    onClick={() => setIsModalOpen(false)}
+                                    className={styles.cancelbutton}
+                                >
+                                    취소
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <div className={styles.table_container}>
                     <table>
                         <thead>
@@ -123,87 +307,45 @@ const Reservationinfo = () => {
                             <th>선택</th>
                             <th>방번호</th>
                             <th>결제 번호</th>
-                            <th>대여자 명</th>
+                            <th>고객 명</th>
                             <th>예약 시간</th>
+                            <th>예약자 수</th>
                             <th>방 이름</th>
                             <th>결제 일시</th>
                             <th>대여 가격</th>
-                            <th>할인가</th>
+
+                            <th>전화 번호</th>
+                            <th>상태</th>
+
                         </tr>
                         </thead>
                         <tbody>
-                        {rooms.map((room) => (
-                            <tr key={room.id}>
+                        {filteredRoomList.map((room) => (
+                            <tr key={room.bookingNum}>
                                 <td>
                                     <input
-                                        type="radio"
-                                        name="selectedRoom"
-                                        onChange={() => handleSelectRoom(room)}
+                                        type="checkbox"
+                                        checked={selectedRooms.includes(room.bookingNum)}
+                                        onChange={() => handleCheckboxChange(room.bookingNum)}
                                     />
                                 </td>
-                                <td>{room.roomNumber}</td>
-                                <td>{room.paymentNumber}</td>
-                                <td>{room.renterName}</td>
-                                <td>{room.reservationTime}</td>
-                                <td>{room.roomName}</td>
-                                <td>{room.paymentDate}</td>
-                                <td>{room.rentalPrice}</td>
-                                <td>{room.discountPrice}</td>
+                                <td>{room.prName}</td>
+                                <td>{room.payNum}</td>
+                                <td>{room.userName}</td>
+                                <td>{room.bookingDate}</td>
+                                <td>{room.bookingTotalPerson}</td>
+                                <td>{room.locationName}</td>
+                                <td>{room.payDate}</td>
+                                <td>{room.payPrice}</td>
+                                <td>{room.userPhone}</td>
+                                <td>{room.prUseable}</td>
                             </tr>
                         ))}
                         </tbody>
+
                     </table>
                 </div>
             </div>
-
-            {isModalOpen && (
-                <div className={textmodalStyles.modal}>
-                    <div className={textmodalStyles.modaltotal}>
-                        <div className={textmodalStyles.modalTitle}>
-                            <h3 style={{whiteSpace: "pre-line"}}>
-                                {modalType === "confirm"
-                                    ? "예약 확인 처리를 하시겠습니까? \n  거부시 패널티가 부과될 수 있습니다."
-                                    : "호스트 직권 취소 처리를 하시겠습니까? \n패널티가 부과될 수 있습니다."}
-                            </h3>
-                            <p style={{whiteSpace: "pre-line"}}>
-                                {modalType === "confirm"
-                                    ? "(거부 처리는 예약 직접 취소 처리를 통해 가능하며 \n대여자와 합의가 된 상태에서 하지 않을 시 \n패널티가 부과될 수 있습니다.) "
-                                    : "(호스트 직권 취소는 대여자와 합의가 된 상태에서 하지 않을 시 \n패널티가 부과될 수 있습니다.)"}
-                            </p>
-                        </div>
-
-                        <div className={textmodalStyles.modalContent}>
-                            {modalType === "cancel" && (
-
-                                <>
-
-
-                                    <select>
-                                        <option value="default">사유</option>
-                                        <option value="중복">예약 중복</option>
-                                    <option value="개인사정">개인 사정</option>
-                                    <option value="예약불가">예약 불가</option>
-                                    <option value="기타">기타</option>
-                                </select>
-                                <textarea placeholder="사유를 작성해주세요"/>
-                                <p>
-                                    환불 금액: <strong>{selectedRoom?.rentalPrice}</strong>
-                                </p>
-                            </>
-                        )}
-
-                        <div className={textmodalStyles.buttonGroup}>
-                            <button onClick={handleConfirmAction} className={textmodalStyles.savebutton}>
-                                확인
-                            </button>
-                            <button onClick={closeModal} className={textmodalStyles.cancelbutton}>
-                                취소
-                            </button>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
