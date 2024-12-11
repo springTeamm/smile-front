@@ -58,81 +58,81 @@ function Search() {
   };
 
   return (
-    <div className={styles.mainContainer}>
-      <div className={styles.pageContainer}>
-        <div className={styles.filterContainer}>
-          {/* Region Filter */}
-          <div className={styles.filterItem}>
-            <label>위치</label>
-            <div className={styles.searchBar}>
-              <span className={styles.searchIcon}>🔍</span>
-              <input
-                type="text"
-                placeholder="주변 지하철 역이나 지역을 검색해보세요"
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-              />
+      <div className={styles.mainContainer}>
+        <div className={styles.pageContainer}>
+          <div className={styles.filterContainer}>
+            {/* Region Filter */}
+            <div className={styles.filterItem}>
+              <label>위치</label>
+              <div className={styles.searchBar}>
+                <span className={styles.searchIcon}>🔍</span>
+                <input
+                    type="text"
+                    placeholder="주변 지하철 역이나 지역을 검색해보세요"
+                    value={region}
+                    onChange={(e) => setRegion(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Price Filter */}
-          <div className={styles.filterItem}>
-            <label>비용</label>
-            <div className={styles.priceRange}>
-              <input
-                type="range"
-                min="1000"
-                max="200000"
-                step="1000"
-                value={minPrice}
-                name="min"
-                onChange={handlePriceChange}
-              />
-              <input
-                type="range"
-                min="1000"
-                max="200000"
-                step="1000"
-                value={maxPrice}
-                name="max"
-                onChange={handlePriceChange}
-              />
-              <div
-                className={styles.rangeBar}
-                style={{
-                  left: `${((minPrice - 1000) / (200000 - 1000)) * 100}%`,
-                  width: `${((maxPrice - minPrice) / (200000 - 1000)) * 100}%`,
-                }}
-              />
+            {/* Price Filter */}
+            <div className={styles.filterItem}>
+              <label>비용</label>
+              <div className={styles.priceRange}>
+                <input
+                    type="range"
+                    min="1000"
+                    max="200000"
+                    step="1000"
+                    value={minPrice}
+                    name="min"
+                    onChange={handlePriceChange}
+                />
+                <input
+                    type="range"
+                    min="1000"
+                    max="200000"
+                    step="1000"
+                    value={maxPrice}
+                    name="max"
+                    onChange={handlePriceChange}
+                />
+                <div
+                    className={styles.rangeBar}
+                    style={{
+                      left: `${((minPrice - 1000) / (200000 - 1000)) * 100}%`,
+                      width: `${((maxPrice - minPrice) / (200000 - 1000)) * 100}%`,
+                    }}
+                />
+              </div>
+              <div className={styles.priceLabels}>
+                <span>{minPrice.toLocaleString()}원</span>
+                <span>~</span>
+                <span>{maxPrice.toLocaleString()}원</span>
+              </div>
             </div>
-            <div className={styles.priceLabels}>
-              <span>{minPrice.toLocaleString()}원</span>
-              <span>~</span>
-              <span>{maxPrice.toLocaleString()}원</span>
-            </div>
-          </div>
 
-          {/* Space Type Filter */}
-          <div className={styles.filterItem}>
-            <label>공간 별</label>
-            <select
-              value={spaceType || ''}
-              onChange={(e) => setSpaceType(e.target.value ? parseInt(e.target.value, 10) : null)}
-              className={styles.dropdown}
-            >
-              <option value="">전체</option>
-              <option value="1">연습실</option>
-              <option value="2">밴드 연습실</option>
-              <option value="3">댄스 연습실</option>
-              <option value="4">음악 연습실</option>
-            </select>
+            {/* Space Type Filter */}
+            <div className={styles.filterItem}>
+              <label>공간 별</label>
+              <select
+                  value={spaceType || ''}
+                  onChange={(e) => setSpaceType(e.target.value ? parseInt(e.target.value, 10) : null)}
+                  className={styles.dropdown}
+              >
+                <option value="">전체</option>
+                <option value="1">연습실</option>
+                <option value="2">밴드 연습실</option>
+                <option value="3">댄스 연습실</option>
+                <option value="4">음악 연습실</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
 
-      {error && <p className={styles.error}>{error}</p>}
-      <Card prDetails={prDetails} />
-    </div>
+        {error && <p className={styles.error}>{error}</p>}
+        <Card prDetails={prDetails} />
+      </div>
   );
 }
 
