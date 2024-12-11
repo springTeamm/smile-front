@@ -33,11 +33,9 @@ const Searchcomponent = ({ fields = [], onSearch, onReset }) => {
         <div className={styles.search_component}>
             <div className={styles.input_group}>
                 <h3>검색어</h3>
-
                 <div className={styles.room_info}>
                     {fields.map((field) => {
                         if (field.type === "text") {
-                            // 텍스트 입력 필드
                             return (
                                 <div key={field.name} className={styles.input_lable}>
                                     <label>{field.label}</label>
@@ -49,7 +47,6 @@ const Searchcomponent = ({ fields = [], onSearch, onReset }) => {
                                 </div>
                             );
                         } else if (field.type === "checkbox") {
-                            // 체크박스 그룹
                             return (
                                 <div key={field.name} className={styles.checkbox_group}>
                                     <label>{field.label}</label>
@@ -68,25 +65,12 @@ const Searchcomponent = ({ fields = [], onSearch, onReset }) => {
                                     </div>
                                 </div>
                             );
-                        } else if (field.type === "date") {
-                            // 날짜 입력 필드
-                            return (
-                                <div key={field.name}>
-                                    <label>{field.label}</label>
-                                    <input
-                                        type="date"
-                                        value={inputValues[field.name] || ''}
-                                        onChange={(e) => handleInputChange(field.name, e.target.value)}
-                                    />
-                                </div>
-                            );
                         }
                         return null;
                     })}
                 </div>
             </div>
 
-            {/* 검색 및 초기화 버튼 */}
             <div className={styles.button_group}>
                 <button onClick={handleSearch} className={styles.search_button}>검색</button>
                 <button onClick={handleReset} className={styles.reset_button}>초기화</button>
