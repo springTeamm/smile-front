@@ -33,7 +33,7 @@ const ChattingRoom = ({ roomNum, onBack }) => {
 
         // STOMP 클라이언트 설정
         console.log("url 확인")
-        const socket = new SockJS('http://192.168.123.106:5000/chatrooms');
+        const socket = new SockJS('http://localhost:5000/chatrooms');
         const client = Stomp.over(socket);
 
         client.connect({}, (frame) => {
