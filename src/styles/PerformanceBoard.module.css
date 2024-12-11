@@ -9,20 +9,50 @@
       font-weight: 400; 
       font-style: normal;
   }
+  .pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pageButton {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+}
+
+.pageButton:disabled {
+  background-color: #f9f9f9;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.activePage {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
   .container {
     display: flex;
+    width: 100%;
     min-height: 100vh;
   }
 
-  .sidebar {
-  width: 200px;
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-right: 1px solid #ddd;
-  position: relative;
-  height: auto;
+  .mainContent {
+margin: auto;
+margin-top: 30px;
+    min-height: 100vh;
+  }
+th{
+  margin:auto;
 }
-
+td{
+  margin:auto;
+}
 .profile {
   text-align: center;
   margin-bottom: 30px;
@@ -71,14 +101,31 @@
   border-radius: 5px;
 }
 
-  .mainContent {
-    flex-grow: 1;
-    margin-left: 20px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-  }
-  
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  position: relative;
+  height: auto;
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column; 
+  width: 100%;
+  padding: 20px;
+  background-color: white;
+}
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -112,7 +159,7 @@
   .table th,
   .table td {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 10px 50px;
     text-align: center;
   }
   
@@ -133,21 +180,25 @@
   body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden; 
   }
   
 .postContent {
   flex-grow: 1;
   padding: 40px;
 }
-
 .title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+  text-align: left;
 }
+
 
 .form {
   display: flex;
+  margin-left: 30%;
+  margin-top: 20px;
   flex-direction: column;
 }
 
@@ -160,11 +211,26 @@ label {
   margin-bottom: 8px; 
   font-weight: bold;
 }
+.form input{
+  margin-bottom: 20px;
+}
+.form button{
+  border-radius: 6px;
+  padding: 10px 14px;
+  background-color: #000080;
+  cursor: pointer;
+  color: white;
+  
+}
+.form button:hover{
+ 
+  background-color: #000060;
 
-
+}
 .input {
   width: 100%;
   padding: 10px;
+  margin-bottom: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
@@ -196,7 +262,10 @@ label {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  resize: none;
+  resize: none; /* 크기 조정 불가 */
+  word-wrap: break-word; /* 긴 단어 줄바꿈 */
+  white-space: normal; /* 공백 처리 */
+  overflow-y: auto; 
 }
 
 .submitButton {
@@ -214,3 +283,75 @@ label {
   background-color: #000060;
 }
 
+.postMeta {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.mainImage {
+  width: 500px; /* 메인 이미지 고정 크기 */
+  height: 300px; /* 메인 이미지 고정 크기 */
+  object-fit: cover; /* 비율을 유지하며 잘림 */
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.smallImages {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.thumbnail {
+  width: 100px; /* 썸네일 고정 크기 */
+  height: 100px; /* 썸네일 고정 크기 */
+  object-fit: cover; /* 비율을 유지하며 잘림 */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.thumbnail:hover {
+  transform: scale(1.1);
+  border-color: #007bff;
+}
+.textSection {
+  width: 100%;
+  text-align: left; 
+  max-width: 100%; /* 화면을 넘지 않도록 제한 */
+  overflow-wrap: break-word; 
+  margin-bottom: 30px;
+  margin-left: 30px;
+}
+.textSection p {
+  word-wrap: break-word; /* 긴 단어를 줄바꿈 */
+  word-break: break-word; /* 단어를 강제로 줄바꿈 */
+  white-space: pre-wrap; /* 공백과 줄바꿈을 유지 */
+}
+.imageSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.placeholderSection {
+  height: 300px; /* 이미지 영역 유지 */
+  background-color: #f9f9f9; /* 연한 배경 */
+  border: 1px dashed #ddd; /* 플레이스홀더 스타일 */
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderText {
+  color: #aaa;
+  font-style: italic;
+}

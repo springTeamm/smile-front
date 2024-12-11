@@ -1,27 +1,55 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styles from '../../styles/PerformanceDetails.module.css';
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
+import styles from "../../styles/PerformanceBoard.module.css";
 
 const PerformanceDetails = () => {
-  const [mainImage, setMainImage] = useState('https://via.placeholder.com/800x400');
+  const { id } = useParams();
+  const [post, setPost] = useState(null);
+  const [images, setImages] = useState([]);
+  const [mainImage, setMainImage] = useState(""); // 현재 메인 이미지
 
-  const smallImages = [
-    'https://via.placeholder.com/150',
-    'https://via.placeholder.com/150',
-    'https://via.placeholder.com/150',
-    'https://via.placeholder.com/150',
-  ];
+  useEffect(() => {
+    const fetchPostDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/community/${id}`);
+        setPost(response.data);
+      } catch (err) {
+        console.error("게시글 데이터를 가져오는 데 실패했습니다:", err.message);
+      }
+    };
 
-  const handleImageClick = (src) => {
-    setMainImage(src);
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/community/${id}/images`);
+        setImages(response.data);
+
+        if (response.data.length > 0) {
+          setMainImage(`http://localhost:5000${response.data[0].cJpgPath}`);
+        }
+      } catch (err) {
+        console.error("이미지 데이터를 가져오는 데 실패했습니다:", err.message);
+      }
+    };
+
+    fetchPostDetails();
+    fetchImages();
+  }, [id]);
+
+  const handleThumbnailClick = (imagePath) => {
+    setMainImage(`http://localhost:5000${imagePath}`);
   };
+
+  if (!post) {
+    return <div className={styles.loading}>Loading...</div>;
+  }
 
   return (
     <div className={styles.container}>
       <aside className={styles.sidebar}>
         <div className={styles.profile}>
           <img
-            src="https://via.placeholder.com/80"
+            src="https://via.placeholder.com/100"
             alt="Profile"
             className={styles.profileImage}
           />
@@ -29,74 +57,76 @@ const PerformanceDetails = () => {
         </div>
         <nav className={styles.nav}>
           <ul>
-            <li>
-              <Link to="/board-all">전체 글</Link>
-            </li>
-            <li>
+            <li className={styles.active}>
               <Link to="/board-performance">공연 홍보</Link>
             </li>
             <li>
-              <Link to="/board-promotion">모집 공고</Link>
+              <Link to="/board-recruit">모집 공고</Link>
             </li>
             <li>
-              <Link to="/board-recruit">장소 홍보</Link>
+              <Link to="/board-promotion">장소 홍보</Link>
             </li>
           </ul>
         </nav>
       </aside>
-
       <main className={styles.content}>
-      <div className="board-header">
-    <span>박박박</span> | <span>예시 제목</span> | <span>2024.10.16</span> | <span>ㅁㅁ</span>
-  </div>
-          <div className={styles.imageSection}>
-          <img src={mainImage} alt="Main" className={styles.mainImage} />
-          <div className={styles.smallImages}>
-            {smallImages.map((src, index) => (
-              <img
-                key={index}
-                src={src}
-                alt={`Thumbnail ${index + 1}`}
-                onClick={() => handleImageClick(src)}
-                className={styles.thumbnail}
-              />
-            ))}
-          </div>
+        <div className={styles.postMeta}>
+          <p>
+            작성자: {post.userNum || "익명"} | 게시 날짜: {new Date(post.date).toLocaleDateString()}
+          </p>
         </div>
+        <h1>{post.title || "제목 없음"}</h1>
+        {images.length > 0 ? (
+          <div className={styles.imageSection}>
+            <img src={mainImage} alt="Main" className={styles.mainImage} />
+            <div className={styles.smallImages}>
+              {images.map((image, index) => (
+                <img
+                  key={index}
+                  src={`http://localhost:5000${image.cJpgPath}`}
+                  alt={image.cJpgOriginName || `image-${index}`}
+                  className={styles.thumbnail}
+                  onClick={() => handleThumbnailClick(image.cJpgPath)}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className={`${styles.imageSection} ${styles.placeholderSection}`}>
+            <p className={styles.placeholderText}>이미지가 없습니다.</p>
+          </div>
+        )}
 
         <div className={styles.textSection}>
-          <p>텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 </p>
+          <h2>내용</h2>
+          <p>{post.text}</p>
+          {post.schedule && (
+            <>
+              <h2>일정</h2>
+              <p>{new Date(post.schedule).toLocaleString()}</p>
+            </>
+          )}
+          {post.location && (
+            <>
+              <h2>위치</h2>
+              <p>{post.location}</p>
+            </>
+          )}
+          {post.members && (
+            <>
+              <h2>멤버</h2>
+              <p>{post.members}</p>
+            </>
+          )}
+          {post.links && (
+            <>
+              <h2>그룹 링크</h2>
+              <a href={post.links} target="_blank" rel="noopener noreferrer">
+                {post.links}
+              </a>
+            </>
+          )}
         </div>
-        <br />
-        <div className={styles.when}>
-        <h2>일정</h2>
-        <p>2024.12.12(일)</p>
-        <p>15:00</p>
-        </div>
-        <br></br>
-        <div className={styles.member}>
-        <h2>멤버</h2>
-        <p>ㅇㅇㅇ,ㅇㅇㅇ,ㅇㅇㅇ,ㅇㅇㅇ</p>
-        </div>
-        <div className={styles.groupLink}>
-          <Link to="/group-set-list">그룹 셋 리스트</Link>
-        </div>
-
-        <div className={styles.footer}>
-        <div className={styles.authorSection}>
-          <img
-            src="https://via.placeholder.com/80"
-            alt="작성자 프로필"
-            className={styles.profileImage}
-          />
-          <span className={styles.username}>작성자 닉네임</span>
-          <div className={styles.iconButtons}>
-            <button className={styles.chatButton} title="채팅">💬</button>
-          </div>
-        </div>
-        <button className={styles.likeButton}>👍 좋아요</button>
-      </div>
-
       </main>
     </div>
   );

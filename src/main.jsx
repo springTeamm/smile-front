@@ -27,18 +27,19 @@ import HostSignup from './pages/signup/HostSignup';
 import SignupComplete from './pages/signup/SignupComplete';
 import Search from './pages/userpage/Search';
 import Booking from './pages/userpage/BookingPage';
-import BookingForm from './pages/userpage/BookingForm';
-import PerformanceBoard from './pages/Board/PerformanceBoard';
-import AllBoard from './pages/Board/AllBoard';
-import PromotionBoard from './pages/Board/PromotionBoard';
-import RecruitBoard from './pages/Board/RecruitBoard';
-import PostForm from './pages/Board/PostForm';
-import PromotionDetails from './pages/Board/PromotionDetails';
-import PerformanceDetails from './pages/Board/PerformanceDetails';
+import PerformanceBoard from "./pages/Board/PerformanceBoard";
+import PromotionBoard from "./pages/Board/PromotionBoard";
+import RecruitBoard from "./pages/Board/RecruitBoard";
+import PerformanceDetails from "./pages/Board/PerformanceDetails";
+import RecruitDetails from "./pages/Board/RecruitDetails";
+import PromotionDetails from "./pages/Board/PromotionDetails";
+import PerformancePostForm from "./pages/Board/PerformanceBoardPostForm";
+import PromotionPostForm from "./pages/Board/PromotionBoardPostForm";
+import RecruitPostForm from "./pages/Board/RecruitBoardPostForm";
 import ReservationList from './pages/mypage/ReservationList';
 import ChatRoom from './pages/mypage/ChatRoom';
 import ProfileEdit from './pages/mypage/ProfileEdit';
-import RecruitDetails from './pages/Board/RecruitDetails';
+
 
 import LoginPage from './pages/mainpage/LoginPage';
 
@@ -55,19 +56,21 @@ function Main() {
           <Route path="/UserSignup" element={<UserSignup />} /> {/* 유저 회원가입 */}
           <Route path="/HostSignup" element={<HostSignup />} /> {/* 유저 회원가입 */}
           <Route path="/login" element={<LoginPage />} />
-
           <Route path="/signup-complete" element={<SignupComplete />} /> {/* 회원가입 완료 */}
           <Route path="/search" element={<Search />} /> {/* 장소 검색 */}
-          <Route path="/booking" element={<Booking />} /> {/* 장소 예약 */}
-          <Route path="/bookingform" element={<BookingForm />} /> {/* 예약 폼 */}
-          <Route path="/board-performance" element={<PerformanceBoard />} /> {/* 공연 홍보 게시판 */}
-          <Route path="/board-all" element={<AllBoard />} /> {/* 전체 글 */}
-          <Route path="/board-promotion" element={<PromotionBoard />} /> {/* 장소 홍보 게시판 */}
-          <Route path="/board-recruit" element={<RecruitBoard />} /> {/* 모집 게시판 */}
-          <Route path="/board-post" element={<PostForm />} /> {/* 게시글작성 */}
-          <Route path="/performance-detail" element={<PerformanceDetails />} /> {/* 공연 홍보 상세내용 */}
-          <Route path="/promotion-detail" element={<PromotionDetails />} /> {/* 장소 홍보 상세내용 */} 
-          <Route path="/recruit-detail" element={<RecruitDetails />} />{/* 모집 상세내용 */}
+          <Route path="/" element={<Search />} />
+          <Route path="/booking/:id" element={<Booking />} />
+      
+        <Route path="/board-performance" element={<PerformanceBoard />} />
+        <Route path="/board-promotion" element={<PromotionBoard />} />
+        <Route path="/board-recruit" element={<RecruitBoard />} />
+        <Route path="/perform-posts/:id" element={<PerformanceDetails />} /> {/* 라우팅 확인 */}
+        <Route path="/promo-posts/:id" element={<PromotionDetails />} /> {/* 라우팅 확인 */}
+        <Route path="/recruit-posts/:id" element={<RecruitDetails />} /> {/* 라우팅 확인 */}
+
+        <Route path="/create-post/performance" element={<PerformancePostForm />} />
+        <Route path="/create-post/promotion" element={<PromotionPostForm />} />
+        <Route path="/create-post/recruit" element={<RecruitPostForm />} />
           <Route path="/reservationList" element={<ReservationList />} />{/*예약정보 */}
           <Route path="/chatroom" element={<ChatRoom />} />{/* 채팅방 */}
         <Route path="/profile-edit" element={<ProfileEdit />} />{/* 개인정보수정 */}

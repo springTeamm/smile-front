@@ -1,31 +1,57 @@
-import React from 'react';
-import styles from '../../styles/PerformanceBoard.module.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
+import styles from "../../styles/PerformanceBoard.module.css";
+
 const RecruitBoard = () => {
+  const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/community/category/2');
+        setPosts(response.data);
+      } catch (error) {
+        console.error('게시글 데이터를 가져오는데 실패했습니다:', error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPosts = posts.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(posts.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className={styles.container}>
-      <aside className={styles.sidebar}>
+   <aside className={styles.sidebar}>
         <div className={styles.profile}>
           <img
             src="https://via.placeholder.com/100"
             alt="Profile"
             className={styles.profileImage}
-          />
+          /> 
           <p className={styles.username}>이재혁</p>
         </div>
         <nav className={styles.nav}>
           <ul>
-          <li>
-              <Link to="/board-all">전체 글</Link>
-            </li>
             <li>
               <Link to="/board-performance">공연 홍보</Link>
             </li>
             <li className={styles.active}>
-              <Link to="/board-promotion">모집 공고</Link>
+              <Link to="/board-recruit">모집 공고</Link>
             </li>
             <li>
-              <Link to="/board-recruit">장소 홍보</Link>
+              <Link to="/board-promotion">장소 홍보</Link>
             </li>
           </ul>
         </nav>
@@ -34,7 +60,9 @@ const RecruitBoard = () => {
       <main className={styles.mainContent}>
         <header className={styles.header}>
           <h1>모집 공고</h1>
-          <button className={styles.createButton}>글 작성</button>
+          <Link to="/create-post/recruit">
+            <button className={styles.createButton}>글 작성</button>
+          </Link>
         </header>
         <table className={styles.table}>
           <thead>
@@ -43,33 +71,56 @@ const RecruitBoard = () => {
               <th>제목</th>
               <th>작성자</th>
               <th>등록일</th>
-              <th>좋아요</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>3</td>
-              <td>(예시 제목)</td>
-              <td>작성자 이름3</td>
-              <td>24/10/23</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>(예시 제목)</td>
-              <td>작성자 이름2</td>
-              <td>24/10/23</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>(예시 제목)</td>
-              <td>작성자 이름1</td>
-              <td>24/10/23</td>
-              <td>0</td>
-            </tr>
+            {currentPosts.length > 0 ? (
+              currentPosts.map((post, index) => (
+                <tr key={post.cnum}>
+                  <td>{indexOfFirstItem + index + 1}</td>
+                  <td>
+                    <Link to={`/recruit-posts/${post.cnum}`}>{post.title}</Link>
+                  </td>
+                  <td>{post.userNum}</td>
+                  <td>{new Date(post.date).toLocaleDateString()}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className={styles.noData}>
+                  게시글이 없습니다.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
+        <div className={styles.pagination}>
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={styles.pageButton}
+          >
+            이전
+          </button>
+          {[...Array(totalPages).keys()].map((number) => (
+            <button
+              key={number}
+              onClick={() => handlePageChange(number + 1)}
+              className={`${styles.pageButton} ${
+                currentPage === number + 1 ? styles.activePage : ''
+              }`}
+            >
+              {number + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={styles.pageButton}
+          >
+            다음
+          </button>
+        </div>
       </main>
     </div>
   );

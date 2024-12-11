@@ -74,7 +74,7 @@
 .categoryList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-between; /* Keep the original button layout */
   margin-top: 40px;
   margin-bottom: 50px;
   padding: 0 10px;
@@ -95,11 +95,14 @@
   border: none;
   border-radius: 25px;
   width: 100px;
+  align-items: center;
   height: 100px;
   display: flex;
-  flex-direction: column;
+  margin-right: auto;
+  margin-left: auto;
+  flex-direction: column; /* Stack image and text */
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* Center both vertically and horizontally */
   filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.25));
   font-size: 12px;
   cursor: pointer;
@@ -115,6 +118,20 @@
   object-fit: cover;
 }
 
+.categoryText {
+  text-align: center; /* Ensures the text is centered */
+  color: #000000;
+  margin-left: auto;
+  margin-top:5px;
+  margin-right: auto;
+}
+.categoryText p{
+  text-align: center; /* Ensures the text is centered */
+  color: #000000;
+  margin-left: auto;
+  margin-top:5px;
+  margin-right: auto;
+}
 .categoryItem:hover {
   background-color: #fff9f9;
 }
@@ -127,8 +144,11 @@
   width: 100px;
   height: 100px;
   display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column; /* Stack image and text */
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* Center both vertically and horizontally */
   filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.25));
   cursor: pointer;
   overflow: hidden;
@@ -146,16 +166,10 @@
   z-index: 1;
 }
 
-.categoryText {
-  text-align: center;
-  color: #000000;
-}
-
-.categoryIcon {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 5px;
-  object-fit: cover;
+.regionItem  {
+  z-index: 2;
+  margin-top: 5px; /* Space between icon and text */
+  text-align: center; /* Ensures the text is centered */
 }
 
 .sectionHeadingButton {

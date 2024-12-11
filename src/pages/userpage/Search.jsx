@@ -1,16 +1,55 @@
-import styles from '../../styles/Search.module.css'; 
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
+import styles from '../../styles/Search.module.css';
 import Card from './Card';
-import imagee from './images/공간 사진.jpg';
 
-function Category() {
-  const [minPrice, setMinPrice] = useState(20000);
-  const [maxPrice, setMaxPrice] = useState(120000);
-  const [category, setCategory] = useState('연습실');
-  const [region, setRegion] = useState('서울');
+function Search() {
+  const [prDetails, setPrDetails] = useState([]);
+  const [minPrice, setMinPrice] = useState(1000);
+  const [maxPrice, setMaxPrice] = useState(200000);
+  const [region, setRegion] = useState('');
+  const [spaceType, setSpaceType] = useState(null);
+  const [error, setError] = useState(null);
+
+  // Get initial filters from URL query parameters
+  const [searchParams] = useSearchParams();
+  const initialRegion = searchParams.get('region');
+  const initialSpaceType = searchParams.get('spaceType');
+
+  useEffect(() => {
+    if (initialRegion) setRegion(initialRegion);
+    if (initialSpaceType) setSpaceType(parseInt(initialSpaceType, 10));
+  }, [initialRegion, initialSpaceType]);
+
+  // Fetch filtered data
+  const fetchFilteredData = useCallback(async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/prdetails', {
+        params: {
+          minPrice,
+          maxPrice,
+          region,
+          spaceType,
+        },
+        withCredentials: true,
+      });
+
+      console.log('응답 데이터:', response.data);
+      setPrDetails(response.data);
+      setError(null);
+    } catch (err) {
+      console.error('API 요청 오류:', err);
+      setError('데이터를 가져오는 중 오류가 발생했습니다.');
+    }
+  }, [minPrice, maxPrice, region, spaceType]);
+
+  useEffect(() => {
+    fetchFilteredData();
+  }, [fetchFilteredData]);
 
   const handlePriceChange = (e) => {
-    const value = +e.target.value;
+    const value = Number(e.target.value);
     if (e.target.name === 'min') {
       setMinPrice(Math.min(value, maxPrice - 1000));
     } else {
@@ -19,28 +58,31 @@ function Category() {
   };
 
   return (
-    <div className={styles.mainContainer}> 
-      <div className={styles.pageContainer}> 
-        <div className={styles.imageContainer}>
-          <img src={imagee} alt="Placeholder" />
-        </div>
- 
+    <div className={styles.mainContainer}>
+      <div className={styles.pageContainer}>
         <div className={styles.filterContainer}>
+          {/* Region Filter */}
           <div className={styles.filterItem}>
             <label>위치</label>
             <div className={styles.searchBar}>
               <span className={styles.searchIcon}>🔍</span>
-              <input type="text" placeholder="주변 지하철 역이나 지역을 검색해보세요" />
+              <input
+                type="text"
+                placeholder="주변 지하철 역이나 지역을 검색해보세요"
+                value={region}
+                onChange={(e) => setRegion(e.target.value)}
+              />
             </div>
           </div>
 
+          {/* Price Filter */}
           <div className={styles.filterItem}>
             <label>비용</label>
             <div className={styles.priceRange}>
               <input
                 type="range"
-                min="20000"
-                max="120000"
+                min="1000"
+                max="200000"
                 step="1000"
                 value={minPrice}
                 name="min"
@@ -48,8 +90,8 @@ function Category() {
               />
               <input
                 type="range"
-                min="20000"
-                max="120000"
+                min="1000"
+                max="200000"
                 step="1000"
                 value={maxPrice}
                 name="max"
@@ -58,8 +100,8 @@ function Category() {
               <div
                 className={styles.rangeBar}
                 style={{
-                  left: `${((minPrice - 20000) / (120000 - 20000)) * 100}%`,
-                  width: `${((maxPrice - minPrice) / (120000 - 20000)) * 100}%`,
+                  left: `${((minPrice - 1000) / (200000 - 1000)) * 100}%`,
+                  width: `${((maxPrice - minPrice) / (200000 - 1000)) * 100}%`,
                 }}
               />
             </div>
@@ -70,44 +112,28 @@ function Category() {
             </div>
           </div>
 
+          {/* Space Type Filter */}
           <div className={styles.filterItem}>
             <label>공간 별</label>
             <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              value={spaceType || ''}
+              onChange={(e) => setSpaceType(e.target.value ? parseInt(e.target.value, 10) : null)}
               className={styles.dropdown}
             >
-              <option value="연습실">연습실</option>
-              <option value="밴드 연습실">밴드 연습실</option>
-              <option value="댄스 연습실">댄스 연습실</option>
-              <option value="음악 연습실">음악 연습실</option>
-            </select>
-          </div>
-
-          <div className={styles.filterItem}>
-            <label>지역 별</label>
-            <select
-              value={region}
-              onChange={(e) => setRegion(e.target.value)}
-              className={styles.dropdown}
-            >
-              <option value="서울">서울</option>
-              <option value="경기">경기</option>
-              <option value="인천">인천</option>
-              <option value="부산">부산</option>
-              <option value="강원">강원</option>
-              <option value="충청">충청</option>
-              <option value="전라">전라</option>
-              <option value="경상">경상</option>
-              <option value="제주">제주</option>
+              <option value="">전체</option>
+              <option value="1">연습실</option>
+              <option value="2">밴드 연습실</option>
+              <option value="3">댄스 연습실</option>
+              <option value="4">음악 연습실</option>
             </select>
           </div>
         </div>
       </div>
 
-      <Card />
+      {error && <p className={styles.error}>{error}</p>}
+      <Card prDetails={prDetails} />
     </div>
   );
 }
 
-export default Category;
+export default Search;
