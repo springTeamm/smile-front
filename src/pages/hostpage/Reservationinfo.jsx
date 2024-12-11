@@ -28,9 +28,9 @@ const Reservationinfo = () => {
         const fetchRooms = async () => {
             try {
                 const response = await axios.get("http://localhost:5000/api/hostpage/rooms/my-rooms/bookings");
-                console.log("API Response:", response.data); // 데이터 구조 확인
+                console.log("API Response:", response.data);
                 setRooms(response.data);
-                setFilteredRoomList(response.data); // 필터링 데이터 초기화
+                setFilteredRoomList(response.data);
             } catch (error) {
                 console.error("Failed to fetch reservations", error);
             }
@@ -59,14 +59,23 @@ const Reservationinfo = () => {
     };
 
     const handleAddReservations = async () => {
-        const { userNum, prNum, bookingTotalPerson, bookingTotalPrice, bookingUsingTime, bookingPaymentMethod } = reservationData;
+        const {
+            userNum,
+            prNum,
+            bookingTotalPerson,
+            bookingTotalPrice,
+            bookingUsingTime,
+            bookingPaymentMethod,
+        } = reservationData;
 
+        // 필수 값 확인
         if (!userNum || !prNum) {
             alert("사용자 번호와 방 번호를 입력해주세요.");
             return;
         }
 
         try {
+            // API 호출
             const response = await axios.post(
                 `http://localhost:5000/api/hostpage/users/${userNum}/rooms/${prNum}/booking`,
                 {
@@ -77,15 +86,21 @@ const Reservationinfo = () => {
                 }
             );
 
+            // 응답 상태 처리
             if (response.status === 201 || response.status === 200) {
                 alert("예약이 성공적으로 추가되었습니다.");
-                setIsModalOpen(false); // 모달 닫기
-                setRooms((prevRooms) => [...prevRooms, response.data]); // 새 예약 추가
+
+                // 예약 데이터 갱신
+                setRooms((prevRooms) => [...prevRooms, response.data]);
+                setFilteredRoomList((prevList) => [...prevList, response.data]);
+
+                // 모달 닫기
+                setIsModalOpen(false);
             } else {
                 alert("예약 추가에 실패했습니다.");
             }
         } catch (error) {
-            console.error("예약 추가 중 오류 발생:", error);
+            console.error("예약 추가 중 오류 발생:", error.response?.data || error.message);
             alert("예약 추가 중 오류가 발생했습니다.");
         }
     };
