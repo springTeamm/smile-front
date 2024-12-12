@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import '../styles/Header.css';
 
 function Header() {
+    const navigate = useNavigate();
 
     // 로그인 상태를 관리하는 state
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,10 +17,16 @@ function Header() {
     }, []);
 
     const handleLogout = () => {
-        // 로그아웃 시 localStorage에서 사용자 정보 제거
-        localStorage.removeItem('UserInfo');
-        setIsLoggedIn(false); // 로그인 상태 false로 설정
+        try {
+            localStorage.removeItem('UserInfo');
+            setIsLoggedIn(false);
+            navigate('/login');  // 로그인 페이지로 리다이렉트
+        } catch (error) {
+            console.error('로그아웃 중 오류 발생:', error);
+        }
     };
+
+
 
     return (
         <header className="header">
@@ -44,7 +51,7 @@ function Header() {
                     <>
                         <a href="/profile" className="header__link">마이 페이지</a>
                         <span className="header__separator">|</span>
-                        <a href="/logout" className="header__link">로그아웃</a>
+                        <button onClick={handleLogout} className="header__link">로그아웃</button>
                     </>
                 )}
             </div>
