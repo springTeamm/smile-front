@@ -1,0 +1,70 @@
+/* ChattingRoom.module.css */
+
+.chatRoomDetailContainer {
+    position: relative; /* 화면에 고정 */
+    bottom: 0; /* MessageButton 바로 위에 위치 */
+    right: 0; /* 우측 간격 */
+    width: 270px; /* .chatBoxContainer보다 작은 크기 */
+    max-height: 250px; 
+    background-color: #f9f9f9; /* 배경색 */
+    border-radius: 8px; /* 둥근 모서리 */
+    padding: 16px; /* 내부 여백 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 */
+    z-index: 1000; /* 다른 요소보다 위에 표시 */
+    overflow-y:hidden; /* 스크롤 */
+    height: 270px; /* 자동 높이 */
+    max-height: 400px; /* 최대 높이 */
+    
+  }
+  
+  h3 {
+    text-align: center;
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .chatTextList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    height: 230px;
+  }
+  
+  .chatTextItem {
+    background-color: #e9f7ff;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+    word-wrap: break-word;
+  }
+  
+  .chatTextItem strong {
+    color: #0066cc;
+  }
+  
+  .noChats {
+    text-align: center;
+    color: #888;
+    font-size: 18px;
+    padding: 20px;
+  }
+  
+  .loading {
+    text-align: center;
+    color: #007bff;
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  
+  .error {
+    text-align: center;
+    color: red;
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  
