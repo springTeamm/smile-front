@@ -16,9 +16,9 @@ function Header() {
     }, []);
 
     const handleLogout = () => {
-        // 로그아웃 시 localStorage에서 로그인 정보를 제거하고 상태를 false로 설정합니다.
+        // 로그아웃 시 localStorage에서 사용자 정보 제거
         localStorage.removeItem('UserInfo');
-        setIsLoggedIn(false);
+        setIsLoggedIn(false); // 로그인 상태 false로 설정
     };
 
     return (
