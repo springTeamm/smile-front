@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
 import styles from '../../styles/UserSignup.module.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const HostSignup = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
-    name: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
+    userName: '',
+    userId: '',
     emailLocal: '',
     emailDomain: '',
-    phone: '',
+    userEmail: '',
+    userPhone: '',
+    userPassword: '',
+    confirmUserPassword: '',
+    termsAgree: false,
+    privacyAgree: false,
+    allAgree: false,
     hostType: '국내 사업자',
-    businessNumber: '',
+    businessRegistrationNumber: '',
     businessAddress: '',
     businessName: '',
-    address: '',
-    phoneNumber: '',
-    ceoName: '',
-    roomType: '',
+    representativeName: '',
+    roomType: '호텔',
     roomName: '',
   });
 
@@ -25,20 +30,20 @@ const HostSignup = () => {
 
   const validate = () => {
     const newErrors = {};
-    if (!form.name.trim()) {
-      newErrors.name = '이름을 입력해주세요.';
+    if (!form.userName.trim()) {
+      newErrors.userName = '이름을 입력해주세요.';
     }
 
-    if (!form.username.trim()) {
-      newErrors.username = '로그인 ID를 입력해주세요.';
+    if (!form.userId.trim()) {
+      newErrors.userId = '로그인 ID를 입력해주세요.';
     }
 
-    if (!form.password.trim()) {
-      newErrors.password = '비밀번호를 입력해주세요.';
+    if (!form.userPassword.trim()) {
+      newErrors.userPassword = '비밀번호를 입력해주세요.';
     }
 
-    if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
+    if (form.userPassword !== form.confirmUserPassword) {
+      newErrors.confirmUserPassword = '비밀번호가 일치하지 않습니다.';
     }
 
     setErrors(newErrors);
@@ -53,27 +58,38 @@ const HostSignup = () => {
     }));
   };
 
-  const checkBusinessNumber = () => {
-    if (!form.businessNumber.trim()) {
+  const checkbusinessRegistrationNumber = () => {
+    if (!form.businessRegistrationNumber.trim()) {
       setErrors((prev) => ({
         ...prev,
-        businessNumber: '사업자등록번호를 입력해주세요.',
+        businessRegistrationNumber: '사업자등록번호를 입력해주세요.',
       }));
       return;
     }
 
-    console.log('사업자등록번호 확인:', form.businessNumber);
+    console.log('사업자등록번호 확인:', form.businessRegistrationNumber);
 
     setErrors((prev) => {
-      const { businessNumber, ...rest } = prev;
+      const { businessRegistrationNumber, ...rest } = prev;
       return rest;
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
       console.log('Form Submitted:', form);
+      form.userEmail = form.emailLocal + '@' + form.emailDomain;
+      await axios.post('http://localhost:5000/signup/host', form,
+          {
+            header:{ 'Content-Type': 'application/json'}
+          }
+      ).then(res => {
+        //navigate("/signup-complete")
+      }).catch(err => {
+        console.log(err);
+      });
+
     }
   };
 
@@ -90,38 +106,38 @@ const HostSignup = () => {
           <label>이름</label>
           <input
               type="text"
-              name="name"
-              value={form.name}
+              name="userName"
+              value={form.userName}
               onChange={handleChange}
           />
-          {errors.name && <span className={styles.error}>{errors.name}</span>}
+          {errors.userName && <span className={styles.error}>{errors.userName}</span>}
 
           <label>로그인 ID</label>
           <input
               type="text"
-              name="username"
-              value={form.username}
+              name="userId"
+              value={form.userId}
               onChange={handleChange}
           />
-          {errors.username && <span className={styles.error}>{errors.username}</span>}
+          {errors.userId && <span className={styles.error}>{errors.userId}</span>}
 
           <label>비밀번호</label>
           <input
               type="password"
-              name="password"
-              value={form.password}
+              name="userPassword"
+              value={form.userPassword}
               onChange={handleChange}
           />
-          {errors.password && <span className={styles.error}>{errors.password}</span>}
+          {errors.userPassword && <span className={styles.error}>{errors.userPassword}</span>}
 
           <label>비밀번호 확인</label>
           <input
               type="password"
-              name="confirmPassword"
-              value={form.confirmPassword}
+              name="confirmUserPassword"
+              value={form.confirmUserPassword}
               onChange={handleChange}
           />
-          {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword}</span>}
+          {errors.confirmUserPassword && <span className={styles.error}>{errors.confirmUserPassword}</span>}
 
           <label>이메일 주소</label>
           <div className={styles.emailInput}>
@@ -143,8 +159,8 @@ const HostSignup = () => {
           <label>휴대폰 번호</label>
           <input
               type="tel"
-              name="phone"
-              value={form.phone}
+              name="userPhone"
+              value={form.userPhone}
               onChange={handleChange}
           />
 
@@ -159,22 +175,22 @@ const HostSignup = () => {
           </select>
 
           <label>사업자등록번호</label>
-          <div className={styles.businessNumberContainer}>
+          <div className={styles.businessRegistrationNumberContainer}>
             <input
                 type="text"
-                name="businessNumber"
-                value={form.businessNumber}
+                name="businessRegistrationNumber"
+                value={form.businessRegistrationNumber}
                 onChange={handleChange}
             />
             <button
                 type="button"
-                onClick={checkBusinessNumber}
+                onClick={checkbusinessRegistrationNumber}
                 className={styles.checkButton}
             >
               확인
             </button>
           </div>
-          {errors.businessNumber && <span className={styles.error}>{errors.businessNumber}</span>}
+          {errors.businessRegistrationNumber && <span className={styles.error}>{errors.businessRegistrationNumber}</span>}
 
           <label>사업장 주소</label>
           <input
@@ -195,8 +211,8 @@ const HostSignup = () => {
           <label>대표자명</label>
           <input
               type="text"
-              name="ceoName"
-              value={form.ceoName}
+              name="representativeName"
+              value={form.representativeName}
               onChange={handleChange}
           />
 
