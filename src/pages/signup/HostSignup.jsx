@@ -85,7 +85,7 @@ const HostSignup = () => {
             header:{ 'Content-Type': 'application/json'}
           }
       ).then(res => {
-        //navigate("/signup-complete")
+        navigate("/signup-complete")
       }).catch(err => {
         console.log(err);
       });
