@@ -33,9 +33,9 @@ const LoginPage = () => {
       if (res.status === 200) {
         console.log('로그인 성공:', res);
         localStorage.setItem('UserInfo', username);
+        navigate("/");
       }
       console.log(res);
-      // navigate("/");
     }).catch(err => {
       console.log(err);
     });

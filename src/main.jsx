@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header'; 
+import Header from './components/Header';
 import Footer from './components/Footer';
 import HostPage from "./pages/hostpage/HostPage";
 import SpaceSelect from "./pages/hostpage/SpaceSelect";
@@ -50,7 +50,7 @@ function Main() {
     <Router>
       <Header />
       <Routes>
-      
+
         <Route path="/" element={<MainPage />} /> {/* 메인 */}
           <Route path="/signup" element={<SignupPage />} />{/* 회원가입 */}
           <Route path="/UserSignup" element={<UserSignup />} /> {/* 유저 회원가입 */}
@@ -58,9 +58,8 @@ function Main() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup-complete" element={<SignupComplete />} /> {/* 회원가입 완료 */}
           <Route path="/search" element={<Search />} /> {/* 장소 검색 */}
-          <Route path="/" element={<Search />} />
           <Route path="/booking/:id" element={<Booking />} />
-      
+
         <Route path="/board-performance" element={<PerformanceBoard />} />
         <Route path="/board-promotion" element={<PromotionBoard />} />
         <Route path="/board-recruit" element={<RecruitBoard />} />
@@ -74,7 +73,7 @@ function Main() {
           <Route path="/reservationList" element={<ReservationList />} />{/*예약정보 */}
           <Route path="/chatroom" element={<ChatRoom />} />{/* 채팅방 */}
         <Route path="/profile-edit" element={<ProfileEdit />} />{/* 개인정보수정 */}
-      
+
           <Route path="HostPage/*" element={<HostPage />}>
               <Route index element={<SpaceSelect  />} />
               <Route path="SpaceSelect" element={<SpaceSelect />} />
