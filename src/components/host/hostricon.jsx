@@ -19,7 +19,7 @@ const Hostricon = ({
             <div className={styles.status_summary}>
                 {totalRooms > 0 && (
                     <div className={styles.status_item}>
-                        <span className={styles.icon}>ㅁ</span>&nbsp;&nbsp; {labels.total}: {totalRooms}개
+                        <span className={styles.icon}>🌐</span>&nbsp;&nbsp; {labels.total}: {totalRooms}개
                     </div>
                 )}
                 {waitingApproval > 0 && (

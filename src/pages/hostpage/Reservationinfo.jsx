@@ -16,14 +16,16 @@ const Reservationinfo = () => {
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
     const [reservationData, setReservationData] = useState({
-        userNum: "",
-        roomNum: "",
-        startDate: "",
-        endDate: "",
-        userName: "",
-        userPhone: "",
-        totalPrice: "",
+        userNum: 0, // 사용자 번호 (정수로 초기화)
+        prNum: 0, // 방 번호 (정수로 초기화)
+        bookingTotalPerson: 0, // 예약 총 인원 (정수로 초기화)
+        bookingTotalPrice: 0, // 예약 총 가격 (정수로 초기화)
+        bookingUsingTime: 0, // 사용 시간 (정수로 초기화)
+        bookingPaymentMethod: "", // 결제 방법 (문자열로 초기화)
+        payPrice: 0, // 결제 금액 (정수로 초기화)
+        payStatus: "결제 대기", // 결제 상태 (문자열로 초기화)
     });
+
     useEffect(() => {
         const fetchRooms = async () => {
             try {
@@ -51,12 +53,14 @@ const Reservationinfo = () => {
         setIsModalOpen(true);
     };
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type } = e.target;
+
         setReservationData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: type === "number" ? parseInt(value, 10) || 0 : value, // 숫자 입력 처리
         }));
     };
+
 
     const handleAddReservations = async () => {
         const {
@@ -66,16 +70,16 @@ const Reservationinfo = () => {
             bookingTotalPrice,
             bookingUsingTime,
             bookingPaymentMethod,
+            payPrice,
+            payStatus,
         } = reservationData;
 
-        // 필수 값 확인
         if (!userNum || !prNum) {
             alert("사용자 번호와 방 번호를 입력해주세요.");
             return;
         }
 
         try {
-            // API 호출
             const response = await axios.post(
                 `http://localhost:5000/api/hostpage/users/${userNum}/rooms/${prNum}/booking`,
                 {
@@ -83,27 +87,28 @@ const Reservationinfo = () => {
                     bookingTotalPrice,
                     bookingUsingTime,
                     bookingPaymentMethod,
+                    payPrice,
+                    payStatus,
                 }
             );
 
-            // 응답 상태 처리
             if (response.status === 201 || response.status === 200) {
                 alert("예약이 성공적으로 추가되었습니다.");
-
-                // 예약 데이터 갱신
-                setRooms((prevRooms) => [...prevRooms, response.data]);
-                setFilteredRoomList((prevList) => [...prevList, response.data]);
-
-                // 모달 닫기
-                setIsModalOpen(false);
+                const updatedRooms = [...rooms, response.data];
+                setRooms(updatedRooms);
+                setFilteredRoomList(updatedRooms);
+                setSelectedRooms([]);
+                setIsModalOpen(false); // 모달 닫기
             } else {
                 alert("예약 추가에 실패했습니다.");
             }
         } catch (error) {
-            console.error("예약 추가 중 오류 발생:", error.response?.data || error.message);
-            alert("예약 추가 중 오류가 발생했습니다.");
+            const errorMessage = error.response?.data?.message || "예약 추가 중 오류가 발생했습니다.";
+            console.error("예약 추가 중 오류 발생:", errorMessage);
+            alert(errorMessage);
         }
     };
+
 
 
     const handleCheckboxChange = (bookingNum) => {
@@ -282,6 +287,28 @@ const Reservationinfo = () => {
                                     onChange={handleInputChange}
                                 />
                             </div>
+                            <div className={styles.inputContainer}>
+                                <label>결제 금액:</label>
+                                <input
+                                    type="number"
+                                    name="payPrice"
+                                    value={reservationData.payPrice}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <label>결제 상태:</label>
+                                <select
+                                    name="payStatus"
+                                    value={reservationData.payStatus}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="결제 대기">결제 대기</option>
+                                    <option value="결제 완료">결제 완료</option>
+                                    <option value="결제 취소">결제 취소</option>
+                                </select>
+                            </div>
+
                             <div className={styles.buttonContainer}>
                                 <button
                                     onClick={handleAddReservations}

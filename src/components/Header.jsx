@@ -38,6 +38,8 @@ function Header() {
                 <a href="/search" className="header__link">방 찾기</a>
                 <a href="/board-performance" className="header__link">커뮤니티</a>
                 <a href="/list" className="header__link">셋 리스트</a>
+                <a href="/HostPage" className="header__link">호스트</a>
+
             </nav>
 
             <div className="header__right">

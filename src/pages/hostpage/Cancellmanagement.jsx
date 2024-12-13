@@ -64,11 +64,24 @@ const Cancellmanagement = () => {
     };
 
     const handleModalConfirm = async () => {
+        const refundDate = prompt("환불 날짜를 입력하세요 (YYYY-MM-DD):"); // 사용자 입력받기
+        if (!refundDate) {
+            alert("환불 날짜를 입력하세요.");
+            return;
+        }
+
         try {
-            await axios.post('/api/cancellations/approve', { ids: selectedIds });
+            const response = await axios.post('http://localhost:5000/api/hostpage/approve', {
+                payNums: selectedIds,
+                refundDate: new Date(refundDate).toISOString(), // 날짜 전달
+            });
+
+            alert(response.data); // 서버에서 반환된 메시지 표시
+
+            // UI 업데이트
             const updatedRooms = filteredData.map(item =>
                 selectedIds.includes(item.payNum)
-                    ? { ...item, bookingCancel: '취소 승인' }
+                    ? { ...item, bookingCancel: new Date().toISOString() } // 현재 날짜로 변경
                     : item
             );
             setFilteredData(updatedRooms); // 업데이트된 데이터 반영
@@ -76,8 +89,10 @@ const Cancellmanagement = () => {
             setIsModalOpen(false); // 모달 닫기
         } catch (error) {
             console.error('Error approving cancellations:', error);
+            alert("취소 승인 중 오류가 발생했습니다.");
         }
     };
+
 
     const handleModalClose = () => {
         setIsModalOpen(false);
