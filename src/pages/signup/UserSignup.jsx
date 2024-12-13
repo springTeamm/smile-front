@@ -28,7 +28,7 @@ const UserSignup = () => {
       newErrors.allAgree = '이용약관 및 개인정보 수집 동의는 필수입니다.';
     }
 
-    if (!form.userName.trim()) {
+    if (!form.userName) {
       newErrors.userName = '이름을 입력해주세요.';
     }
 
